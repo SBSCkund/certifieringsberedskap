@@ -1,0 +1,1749 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Kartlägg er beredskap inför SBSC-certifiering inom brandlarm, inbrottslarm, kamerabevakning och ISO-standarder.">
+<meta property="og:title" content="SBSC Certifieringsberedskap">
+<meta property="og:description" content="Självutvärdering för anläggarfirmor — kostnadsfri och anonym.">
+<title>SBSC — Certifieringsberedskap</title>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --amber:#FFA300;--black:#101820;--white:#fff;--page:#F8F9FA;
+  --border:#E8E9EC;--muted:#6B6C74;--faint:#F2F3F5;
+  --green:#1B6B3F;--red:#C03535;--blue:#2A5A8C;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.07);--r:8px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{font-family:"Open Sans",system-ui,sans-serif;background:var(--page);color:var(--black);line-height:1.6;-webkit-font-smoothing:antialiased;}
+a{color:inherit;text-decoration:none;}
+button{font-family:inherit;cursor:pointer;border:none;background:none;}
+button:disabled{opacity:.38;cursor:not-allowed;}
+img{display:block;}
+
+.site-header{background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;}
+.site-header::after{content:"";display:block;height:3px;background:var(--amber);}
+.hdr-inner{max-width:960px;margin:0 auto;padding:0 32px;height:96px;display:flex;align-items:center;justify-content:space-between;}
+.hdr-logo{height:80px;width:auto;}
+.hdr-label{font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.8px;text-transform:uppercase;}
+
+.shell{max-width:860px;margin:0 auto;padding:48px 24px 80px;}
+.card{background:var(--white);border-radius:var(--r);border:1px solid var(--border);padding:28px;margin-bottom:14px;box-shadow:var(--shadow-sm);}
+
+.page-intro{text-align:center;padding:0 0 40px;}
+.chip{display:inline-block;background:var(--amber);color:var(--black);font-size:11px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;padding:5px 14px;border-radius:2px;margin-bottom:20px;}
+.page-intro h1{font-size:32px;font-weight:800;line-height:1.15;letter-spacing:-.5px;margin-bottom:12px;}
+.page-intro p{font-size:16px;color:var(--muted);max-width:480px;margin:0 auto;}
+
+.field-label{font-size:13px;font-weight:700;color:var(--black);margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.req-star{color:var(--red);font-size:16px;line-height:1;}
+.text-input{width:100%;padding:13px 16px;font-size:15px;font-weight:600;font-family:inherit;border:1.5px solid var(--border);border-radius:6px;outline:none;transition:border-color .15s,box-shadow .15s;}
+.text-input:focus{border-color:var(--amber);box-shadow:0 0 0 3px rgba(255,163,0,.14);}
+.text-input.invalid{border-color:var(--red);}
+.field-error{font-size:12px;color:var(--red);font-weight:600;margin-top:6px;}
+.privacy-note{display:flex;align-items:flex-start;gap:10px;background:#EEF4FB;border:1px solid #C8DCF0;border-radius:6px;padding:12px 14px;margin-top:14px;}
+.privacy-note svg{flex-shrink:0;color:var(--blue);margin-top:1px;}
+.privacy-note p{font-size:12px;color:var(--blue);font-weight:500;line-height:1.55;}
+
+.cert-list{display:flex;flex-direction:column;gap:8px;margin:16px 0;}
+.cert-row{display:flex;align-items:flex-start;gap:14px;padding:14px 16px;border:1.5px solid var(--border);border-radius:6px;cursor:pointer;transition:border-color .12s,background .12s;}
+.cert-row:hover{border-color:var(--amber);}
+.cert-row.active{border-color:var(--amber);background:#FFFBF0;}
+.cert-check{width:22px;height:22px;flex-shrink:0;margin-top:1px;border:1.5px solid var(--border);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;transition:all .12s;}
+.cert-row.active .cert-check{background:var(--amber);border-color:var(--amber);color:var(--black);}
+.cert-name{font-weight:700;font-size:14px;margin-bottom:2px;}
+.cert-badge{font-size:10px;font-weight:700;background:var(--faint);color:var(--muted);padding:2px 7px;border-radius:2px;margin-left:6px;}
+.cert-desc{font-size:12px;color:var(--muted);}
+
+.disc-check-wrap{display:flex;align-items:flex-start;gap:12px;padding:16px;background:var(--faint);border:1.5px solid var(--border);border-radius:6px;margin-top:14px;cursor:pointer;transition:border-color .12s,background .12s;}
+.disc-check-wrap:hover{border-color:var(--amber);}
+.disc-checkbox{width:22px;height:22px;flex-shrink:0;margin-top:1px;border:1.5px solid var(--border);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;transition:all .12s;background:var(--white);}
+.disc-checked{background:var(--amber)!important;border-color:var(--amber)!important;color:var(--black)!important;}
+.disc-check-text{font-size:12px;color:var(--black);line-height:1.6;}
+.disc-check-text strong{display:block;font-size:13px;font-weight:800;margin-bottom:4px;}
+
+.validation-box{margin-top:14px;padding:14px 16px;background:#FEF3E2;border:1px solid #FFD580;border-radius:6px;}
+.validation-title{font-size:13px;font-weight:800;margin-bottom:8px;}
+.validation-item{display:flex;align-items:center;gap:8px;font-size:13px;color:#7A4800;margin-bottom:4px;}
+.validation-item:last-child{margin-bottom:0;}
+.v-num{width:20px;height:20px;border-radius:50%;background:var(--amber);color:var(--black);font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+
+.stat-row{display:flex;gap:10px;margin-top:18px;}
+.stat{flex:1;background:var(--faint);border-radius:6px;padding:12px 14px;text-align:center;}
+.stat-n{font-size:18px;font-weight:800;}
+.stat-l{font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-top:2px;}
+
+.btn-row{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:22px;}
+.btn{padding:11px 24px;font-size:13px;font-weight:700;border-radius:4px;cursor:pointer;font-family:inherit;transition:all .12s;border:2px solid transparent;}
+.btn-primary{background:var(--amber);color:var(--black);border-color:var(--amber);}
+.btn-primary:hover:not(:disabled){background:#E89300;border-color:#E89300;}
+.btn-secondary{background:var(--white);color:var(--black);border-color:var(--black);}
+.btn-secondary:hover:not(:disabled){background:var(--faint);}
+.btn-ghost{font-size:13px;font-weight:600;color:var(--muted);background:none;border:none;cursor:pointer;font-family:inherit;}
+.btn-ghost:hover:not(:disabled){color:var(--black);}
+
+.progress-bar{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:14px 20px;margin-bottom:18px;position:sticky;top:0;z-index:10;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+.progress-top{display:flex;justify-content:space-between;font-size:13px;margin-bottom:8px;}
+.progress-label{font-weight:700;}
+.progress-count{color:var(--muted);}
+.progress-track{height:4px;background:var(--faint);border-radius:2px;overflow:hidden;}
+.progress-fill{height:100%;background:var(--amber);border-radius:2px;transition:width .3s ease;}
+.section-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px;}
+.section-tab{padding:5px 12px;background:var(--white);border:1.5px solid var(--border);border-radius:20px;font-size:11px;font-weight:700;color:var(--muted);display:flex;align-items:center;gap:5px;cursor:pointer;transition:all .1s;}
+.section-tab.active{background:var(--black);color:var(--white);border-color:var(--black);}
+.section-tab.done{border-color:var(--green);color:var(--green);}
+.tab-dot{width:5px;height:5px;border-radius:50%;background:var(--border);}
+.section-tab.active .tab-dot{background:var(--amber);}
+.section-tab.done .tab-dot{background:var(--green);}
+.q-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:20px 22px;margin-bottom:10px;}
+.q-text{font-size:14px;font-weight:700;line-height:1.45;margin-bottom:6px;}
+.q-help{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:14px;}
+.q-help-toggle{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:11px;font-weight:700;color:var(--muted);
+  cursor:pointer;margin-bottom:10px;
+  background:none;border:none;padding:0;font-family:inherit;
+  transition:color .12s;
+}
+.q-help-toggle:hover{color:var(--black);}
+.q-help-toggle svg{transition:transform .2s;}
+.q-help-toggle.open svg{transform:rotate(180deg);}
+.q-help-expanded{
+  font-size:12px;color:var(--muted);line-height:1.6;
+  margin-bottom:14px;padding:10px 12px;
+  background:var(--faint);border-radius:4px;
+  border-left:2px solid var(--border);
+}
+.ans-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+.ans-btn{padding:9px 4px;border:1.5px solid var(--border);border-radius:4px;font-size:11px;font-weight:700;text-align:center;background:var(--white);color:var(--muted);cursor:pointer;transition:all .1s;line-height:1.3;font-family:inherit;}
+.ans-btn:hover{border-color:var(--black);color:var(--black);}
+.ans-green{background:var(--green)!important;color:#fff!important;border-color:var(--green)!important;}
+.ans-amber{background:var(--amber)!important;color:var(--black)!important;border-color:var(--amber)!important;}
+.ans-red{background:var(--red)!important;color:#fff!important;border-color:var(--red)!important;}
+.ans-blue{background:var(--blue)!important;color:#fff!important;border-color:var(--blue)!important;}
+.q-hint{font-size:11px;color:var(--muted);text-align:right;margin-top:8px;}
+.cert-switcher{
+  display:flex;gap:0;margin-bottom:16px;
+  background:var(--faint);border:1px solid var(--border);
+  border-radius:6px;padding:3px;
+}
+.cert-switch-btn{
+  flex:1;padding:7px 12px;font-size:12px;font-weight:700;
+  border-radius:4px;cursor:pointer;font-family:inherit;
+  background:none;border:none;color:var(--muted);
+  transition:all .15s;text-align:center;
+}
+.cert-switch-btn.active{
+  background:var(--white);color:var(--black);
+  box-shadow:0 1px 3px rgba(0,0,0,.1);
+}
+.cert-switch-btn.done{color:var(--green);}
+.cert-switch-btn.active.done{color:var(--green);}
+
+
+.report-banner{border-radius:var(--r);padding:26px 30px;margin-bottom:14px;background:var(--black);color:var(--white);border-left:5px solid var(--amber);display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px;}
+.banner-label{font-size:10px;color:var(--amber);font-weight:800;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;}
+.banner-company{font-size:24px;font-weight:800;letter-spacing:-.5px;margin-bottom:4px;}
+.banner-meta{font-size:12px;color:#8A8B91;display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-top:6px;}
+.report-confirm{display:flex;align-items:flex-start;gap:8px;font-size:11px;color:#8A8B91;margin-top:10px;}
+.report-confirm-dot{width:14px;height:14px;border-radius:50%;background:var(--amber);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:800;color:var(--black);margin-top:1px;}
+.banner-score-label{font-size:10px;color:#8A8B91;text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px;text-align:right;}
+.banner-score{font-size:54px;font-weight:800;line-height:1;letter-spacing:-2px;}
+.banner-score em{color:var(--amber);font-style:normal;}
+.banner-date{font-size:11px;color:#8A8B91;margin-top:4px;text-align:right;}
+
+.kpi-row{display:flex;background:var(--white);border:1px solid var(--border);border-radius:var(--r);margin-bottom:14px;overflow:hidden;}
+.kpi-cell{flex:1;padding:16px 20px;border-right:1px solid var(--faint);}
+.kpi-cell:last-child{border-right:none;}
+.kpi-label{font-size:10px;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);font-weight:700;margin-bottom:5px;}
+.kpi-value{font-size:15px;font-weight:700;line-height:1.3;}
+.kpi-amber{color:var(--amber);}
+
+.summary-box{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:20px 24px;margin-bottom:14px;border-left:4px solid var(--amber);}
+.summary-box-label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--amber);margin-bottom:8px;}
+.summary-box-text{font-size:14px;line-height:1.75;color:var(--black);}
+
+.cert-section{background:var(--white);border:1px solid var(--border);border-radius:var(--r);margin-bottom:18px;overflow:hidden;}
+.cert-head{padding:15px 22px;display:flex;align-items:center;justify-content:space-between;border-left:4px solid var(--amber);background:#FFFBF0;}
+.cert-head h3{font-size:16px;font-weight:800;margin-bottom:2px;}
+.cert-head-reg{font-size:11px;color:var(--muted);}
+.cert-head-score{font-size:30px;font-weight:800;letter-spacing:-1px;}
+.cert-body{padding:22px;}
+.spider-wrap{display:flex;justify-content:center;margin-bottom:18px;padding-bottom:16px;border-bottom:1px solid var(--faint);}
+.bar-section{margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--faint);}
+.bar-row{display:flex;align-items:center;gap:10px;padding:5px 0;}
+.bar-label{width:185px;font-size:12px;font-weight:600;flex-shrink:0;}
+.bar-track{flex:1;height:7px;background:var(--faint);border-radius:3px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:3px;}
+.bar-pct{width:38px;text-align:right;font-size:12px;font-weight:700;}
+.gap-section h4{font-size:13px;font-weight:800;margin-bottom:12px;}
+.gap-row{display:flex;align-items:flex-start;gap:10px;padding:11px 0;border-top:1px solid var(--faint);}
+.gap-row:first-of-type{border-top:none;padding-top:0;}
+.gap-badge{flex-shrink:0;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;padding:3px 8px;border-radius:2px;margin-top:2px;}
+.badge-hi{background:#FAEAEA;color:var(--red);}
+.badge-mi{background:#FFF3DC;color:#7A4800;}
+.badge-uk{background:#EEF4FB;color:var(--blue);}
+.gap-body{flex:1;}
+.gap-title{font-weight:700;font-size:13px;margin-bottom:2px;}
+.gap-meta{font-size:11px;color:var(--muted);margin-bottom:6px;}
+.gap-action-label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:3px;}
+.gap-action{font-size:12px;color:var(--muted);line-height:1.6;padding:8px 12px;background:var(--faint);border-radius:4px;border-left:3px solid var(--amber);}
+.gap-none{text-align:center;padding:12px;font-size:13px;font-weight:700;color:var(--green);}
+
+.disclaimer{font-size:11px;color:var(--muted);line-height:1.7;margin-top:20px;padding:16px 18px;background:var(--white);border:1px solid var(--border);border-radius:var(--r);border-left:3px solid var(--amber);}
+.disclaimer strong{display:block;font-size:10px;color:var(--black);text-transform:uppercase;letter-spacing:.8px;font-weight:800;margin-bottom:6px;}
+
+.cta-block{margin-top:20px;padding:26px 30px;background:var(--white);border:1px solid var(--border);border-radius:var(--r);display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;}
+.modal-overlay{
+  position:fixed;inset:0;
+  background:rgba(16,24,32,.55);
+  display:flex;align-items:center;justify-content:center;
+  z-index:1000;padding:24px;
+}
+.modal-box{
+  background:var(--white);border-radius:var(--r);
+  padding:32px;max-width:420px;width:100%;
+  box-shadow:0 8px 40px rgba(0,0,0,.18);
+}
+.modal-icon{
+  width:48px;height:48px;border-radius:50%;
+  background:#FEF3E2;display:flex;align-items:center;
+  justify-content:center;margin-bottom:16px;
+}
+.modal-box h3{font-size:18px;font-weight:800;margin-bottom:8px;}
+.modal-box p{font-size:13px;color:var(--muted);margin-bottom:24px;line-height:1.6;}
+.modal-btns{display:flex;gap:10px;justify-content:flex-end;}
+.cta-block h3{font-size:18px;font-weight:800;margin-bottom:4px;}
+.cta-block p{font-size:13px;color:var(--muted);}
+.cta-link{display:inline-flex;align-items:center;gap:8px;background:var(--amber);color:var(--black);padding:13px 26px;font-size:13px;font-weight:800;border-radius:4px;white-space:nowrap;border:2px solid var(--amber);font-family:inherit;transition:all .12s;}
+.cta-link:hover{background:#E89300;border-color:#E89300;}
+
+
+.toc-block{display:none;
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--r);padding:20px 24px;margin-bottom:14px;
+}
+.toc-title{font-size:11px;font-weight:800;text-transform:uppercase;
+  letter-spacing:.8px;color:var(--muted);margin-bottom:12px;}
+.toc-item{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:5px 0;border-bottom:1px solid var(--faint);font-size:13px;
+}
+.toc-item:last-child{border-bottom:none;}
+.toc-item-name{font-weight:600;}
+.toc-item-pct{
+  font-weight:800;font-size:13px;
+  min-width:42px;text-align:right;
+}
+.toc-dots{
+  flex:1;border-bottom:1.5px dotted var(--border);
+  margin:0 10px;margin-bottom:2px;
+}
+
+.print-header{
+  display:none;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:24px;
+  padding-bottom:14px;
+  border-bottom:3px solid var(--black);
+}
+.print-header-logo{height:72px;width:auto;display:block;}
+.print-header-right{text-align:right;}
+.print-header-title{font-size:15px;font-weight:800;color:var(--black);display:block;margin-bottom:3px;}
+.print-header-sub{font-size:11px;color:var(--muted);}
+
+
+
+/* ── FORMSPREE GATE ── */
+.gate-wrap{
+  min-height:100vh;background:var(--page);
+  display:flex;align-items:center;justify-content:center;
+  padding:32px 16px;
+}
+.gate-box{
+  background:var(--white);border-radius:var(--r);
+  border:1px solid var(--border);
+  box-shadow:var(--shadow);
+  padding:40px 36px;max-width:480px;width:100%;
+}
+.gate-logo{height:52px;width:auto;margin-bottom:28px;}
+.gate-title{font-size:22px;font-weight:800;letter-spacing:-.3px;margin-bottom:8px;}
+.gate-sub{font-size:14px;color:var(--muted);margin-bottom:28px;line-height:1.6;}
+.gate-form{display:flex;flex-direction:column;gap:14px;}
+.gate-field{display:flex;flex-direction:column;gap:6px;}
+.gate-label{font-size:13px;font-weight:700;color:var(--black);}
+.gate-input{
+  padding:11px 14px;font-size:14px;font-family:inherit;
+  border:1.5px solid var(--border);border-radius:6px;
+  outline:none;transition:border-color .15s,box-shadow .15s;
+}
+.gate-input:focus{border-color:var(--amber);box-shadow:0 0 0 3px rgba(255,163,0,.14);}
+.gate-btn{
+  background:var(--amber);color:var(--black);
+  border:none;border-radius:4px;padding:13px;
+  font-size:14px;font-weight:800;font-family:inherit;
+  cursor:pointer;margin-top:4px;transition:background .12s;
+}
+.gate-btn:hover{background:#E89300;}
+.gate-privacy{
+  font-size:11px;color:var(--muted);line-height:1.6;
+  margin-top:10px;padding-top:14px;
+  border-top:1px solid var(--faint);
+}
+.gate-facts{
+  display:flex;gap:8px;margin-bottom:24px;
+}
+.gate-fact{
+  flex:1;background:var(--faint);border-radius:6px;
+  padding:10px 12px;text-align:center;
+}
+.gate-fact-n{font-size:16px;font-weight:800;}
+.gate-fact-l{font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-top:2px;}
+.gate-success{
+  text-align:center;padding:32px 0;
+}
+.gate-success-icon{
+  width:56px;height:56px;border-radius:50%;
+  background:var(--amber);display:flex;align-items:center;
+  justify-content:center;margin:0 auto 16px;font-size:24px;
+}
+.gate-success h2{font-size:20px;font-weight:800;margin-bottom:8px;}
+.gate-success p{font-size:14px;color:var(--muted);margin-bottom:24px;line-height:1.6;}
+
+/* ── TILLGÄNGLIGHET & TANGENTBORD ── */
+.ans-btn:focus-visible{outline:2.5px solid var(--amber);outline-offset:2px;border-color:var(--amber);}
+.btn:focus-visible,.btn-secondary:focus-visible,.btn-ghost:focus-visible,
+.section-tab:focus-visible,.cert-switch-btn:focus-visible,
+.cert-row:focus-visible,.disc-check-wrap:focus-visible{outline:2.5px solid var(--amber);outline-offset:2px;}
+.q-help-toggle:focus-visible{outline:2px solid var(--amber);outline-offset:2px;border-radius:3px;}
+.skip-link{position:absolute;top:-100px;left:16px;background:var(--black);color:var(--white);padding:8px 16px;border-radius:4px;font-size:13px;font-weight:700;z-index:9999;transition:top .15s;}
+.skip-link:focus{top:16px;}
+
+@page{size:A4 portrait;margin:14mm 18mm;}
+@media print{
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;box-sizing:border-box!important;}
+  .no-print{display:none!important;}
+  html{width:210mm!important;}
+  body{background:#fff!important;width:100%!important;margin:0!important;padding:0!important;font-size:11px!important;}
+  .site-header{display:none!important;}
+  .shell{padding:0!important;margin:0!important;width:100%!important;max-width:100%!important;}
+  
+.toc-block{display:none;
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--r);padding:20px 24px;margin-bottom:14px;
+}
+.toc-title{font-size:11px;font-weight:800;text-transform:uppercase;
+  letter-spacing:.8px;color:var(--muted);margin-bottom:12px;}
+.toc-item{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:5px 0;border-bottom:1px solid var(--faint);font-size:13px;
+}
+.toc-item:last-child{border-bottom:none;}
+.toc-item-name{font-weight:600;}
+.toc-item-pct{
+  font-weight:800;font-size:13px;
+  min-width:42px;text-align:right;
+}
+.toc-dots{
+  flex:1;border-bottom:1.5px dotted var(--border);
+  margin:0 10px;margin-bottom:2px;
+}
+
+.print-header{display:flex!important;}
+  .report-banner{padding:16px 18px!important;border-left-width:4px!important;}
+  .banner-company{font-size:18px!important;}
+  .banner-score{font-size:38px!important;}
+  .toc-block{display:block!important;break-inside:avoid;margin-bottom:12px!important;}
+  .cert-section,.kpi-row,.summary-box,.cta-block,.report-banner{break-inside:avoid;page-break-inside:avoid;width:100%!important;}
+  .gap-row{break-inside:avoid;page-break-inside:avoid;}
+  .summary-box-text,.gap-action,.disclaimer{word-wrap:break-word!important;overflow-wrap:break-word!important;hyphens:auto!important;}
+  .bar-label{width:140px!important;}
+  .cert-body{padding:14px!important;}
+  .kpi-cell{padding:12px 14px!important;}
+}
+@media(max-width:640px){
+  .shell{padding:24px 14px 60px;}
+  .page-intro h1{font-size:26px;}
+  .ans-grid{grid-template-columns:repeat(2,1fr);}
+  .report-banner{flex-direction:column;}
+  .banner-score-label,.banner-date{text-align:left;}
+  .kpi-row{flex-direction:column;}
+  .kpi-cell{border-right:none;border-bottom:1px solid var(--faint);}
+  .kpi-cell:last-child{border-bottom:none;}
+  .cta-block{flex-direction:column;text-align:center;}
+  .bar-label{width:130px;font-size:11px;}
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const LOGO="data:image/jpeg;base64,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";
+const STANDARDS = {
+  brandlarm: {
+    id:"brandlarm",name:"Brandlarm",reg:"SBF 1008:3",
+    desc:"Anläggarfirma brandlarm enligt SBF 1008:3",
+    sections:[
+      {id:"br_org",name:"Organisation & ekonomi",questions:[
+        {id:"br_org_1",text:"Är företaget registrerat som juridisk person (t.ex. aktiebolag) inom EU/EES?",
+         help:"SBF 1008:3 §4.2.1: anläggarfirman måste vara en juridisk person med organisationsnummer registrerat hos Bolagsverket eller motsvarande myndighet inom EU/EES.",
+         action:"Registrera verksamheten som juridisk person hos Bolagsverket. Kontakta en redovisningskonsult om ni är osäkra på lämplig företagsform.",
+         actionPartial:"Kontrollera att registreringen är aktuell och att bolaget är i god ståndning hos Bolagsverket."},
+        {id:"br_org_2",text:"Är företaget fritt från betalningsanmärkningar, restförd moms och kvarstående skatteskulder?",
+         help:"SBF 1008:3 §4.2.2: SBSC kontrollerar detta hos Kronofogden och Skatteverket. Betalningsanmärkningar i väsentlig omfattning kan hindra certifiering.",
+         action:"Kontrollera er status hos Kronofogden och Skatteverket. Åtgärda eventuella skulder och anmärkningar innan ansökan lämnas in.",
+         actionPartial:"Håll en löpande koll via Skatteverkets e-tjänster och säkerställ att inga nya skulder tillkommit."},
+        {id:"br_org_3",text:"Har företaget en giltig ansvarsförsäkring som uppfyller kraven i AB eller ABT?",
+         help:"SBF 1008:3 §4.2.3: försäkringen ska täcka skador ni orsakar i ert uppdragsarbete och minst motsvara AB (Allmänna bestämmelser för byggnads-, anläggnings- och installationsentreprenader). Ni behöver ett skriftligt intyg vid certifieringen.",
+         action:"Kontakta ert försäkringsbolag och begär en ansvarsförsäkring anpassad till installatörsverksamhet. Be om ett intyg som specificerar att försäkringen täcker AB- eller ABT-krav.",
+         actionPartial:"Kontrollera att befintlig försäkring är giltig och att täckningen uppfyller AB/ABT-kraven. Be försäkringsbolaget bekräfta detta skriftligt."},
+      ]},
+      {id:"br_personal",name:"Personal & behörigheter",questions:[
+        {id:"br_pers_1",text:"Finns en sakkunnig person med giltigt certifikat som behörig ingenjör brandlarm (BIB, SBF 1007:5) och minst 2 års allsidig erfarenhet inom brandlarm?",
+         help:"SBF 1008:3 §4.3.1a: den sakkunniga personen är kärnan i certifieringen. Personen måste ha ett giltigt BIB-certifikat och minst 2 års dokumenterad erfarenhet inom projektering, installation eller besiktning. Personen ansvarar för att verksamheten bedrivs enligt SBF 110 och undertecknar anläggarintyg.",
+         action:"Identifiera en lämplig person och stötta dem att genomgå BIB-certifieringen. Kraven enligt SBF 1007:5: gymnasieutbildning (eller 5 år dokumenterad yrkeserfarenhet), grundläggande brandskyddsutbildning (minst 24 timmar), entreprenadjuridik (minst 1 dag, inom senaste 5 åren), och minst 2 års praktisk erfarenhet. Certifiering sker via SBSC eller annat ackrediterat organ.",
+         actionPartial:"Kontrollera att BIB-certifikatet är giltigt (omprövas vart 5:e år) och att personen har minst 2 års dokumenterad allsidig erfarenhet. Kontrollera att grundläggande brandskyddsutbildning uppfyller nuvarande krav (minst 24 timmar effektiv utbildningstid, revideringsblad feb 2025)."},
+        {id:"br_pers_2",text:"Har den sakkunniga personen dokumenterade befogenheter att styra brandlarmverksamheten — t.ex. att kräva kompletterande handlingar eller stoppa en installation som inte håller måttet?",
+         help:"SBF 1008:3 §4.3.1a: den sakkunniga ska av anläggarfirman erhålla erforderliga befogenheter. Det ska tydligt framgå att personen har mandat att fatta nödvändiga beslut — inte bara i teorin.",
+         action:"Upprätta en befattningsbeskrivning eller ett beslutsdokument från ledningen som anger den sakkunniges roll och befogenheter. En sida räcker — det viktiga är att det är undertecknat av ledningen.",
+         actionPartial:"Kontrollera att dokumentationen är aktuell och stämmer med hur befogenheterna ser ut i praktiken. Uppdatera vid organisationsförändringar."},
+        {id:"br_pers_3",text:"Finns minst en projektör och minst en driftsättare med minst 2 års dokumenterad erfarenhet från brandlarmområdet?",
+         help:"SBF 1008:3 §4.3.1c–d: projektören projekterar och granskar brandlarmanläggningar (inkl. externa konsulters handlingar). Driftsättaren utför färdigställandekontroll och driftsättning. Båda kräver minst 2 år dokumenterad erfarenhet. En person kan ha båda rollerna.",
+         action:"Identifiera vem i organisationen som tar respektive roll och dokumentera erfarenheten per person — t.ex. via ett CV med referensuppdrag.",
+         actionPartial:"Kontrollera att erfarenheten är tillräcklig och dokumenterad. Uppdatera vid personalförändringar."},
+        {id:"br_pers_4",text:"Är minst 3 personer tillsvidareanställda och täcker gemensamt alla funktioner: sakkunnig, projektör, driftsättare och servicetekniker?",
+         help:"SBF 1008:3 §4.3.1: anläggarfirman ska vara huvudarbetsgivare för kompetent tillsvidareanställd personal. En person kan ha flera roller, men minst 3 fysiska personer ska sköta funktionerna.",
+         action:"Kartlägg personalsituationen: minst 3 tillsvidareanställda, ni ska vara huvudarbetsgivare, och alla fyra funktionerna ska täckas. Dokumentera tydligt vem som har vilken roll.",
+         actionPartial:"Om ni är nära gränsen — dokumentera noggrant hur rollerna är fördelade. Vid oförutsägbar förlust av sakkunnig person gäller en övergångsregel på max 12 månader, men SBSC ska underrättas omedelbart."},
+      ]},
+      {id:"br_materiel",name:"Materiel & dokumentation",questions:[
+        {id:"br_mat_1",text:"Finns en förteckning över den materiel ni använder, med information om att komponenterna uppfyller kraven i SBF 110?",
+         help:"SBF 1008:3 §4.5.2: förteckningen ska visa att era standardkomponenter (centralapparater, detektorer, larmdon, kablage m.m.) är godkända för brandlarmanläggningar enligt SBF 110 — t.ex. via typgodkännande eller certifikat enligt SBF 1400-serien. Ska kunna visas upp för anläggningsägare och besiktningsmän.",
+         action:"Lista de komponenter ni normalt använder med tillhörande certifieringsinformation (t.ex. typgodkännandenummer eller hänvisning till SBF 1400-serieintyg). En strukturerad produktlista räcker som utgångspunkt.",
+         actionPartial:"Uppdatera förteckningen om ni börjat använda nya produkter. Kontrollera att samtliga listade produkters certifiering fortfarande är giltig."},
+        {id:"br_mat_2",text:"Finns alla styrande dokument i SBF 1008:3 Bilaga 1 tillgängliga i senaste utgåva, inklusive revideringsblad?",
+         help:"Bilaga 1 listar dokument som måste finnas tillgängliga: bl.a. SBF 110:8 (inkl. revideringsblad maj 2024), SBF 1007:5 (inkl. revideringsblad februari 2025), SBF 126, SBF 141, SBF 1013, SBF 1021, SBF 502, Boverkets byggregler och ELSÄK-FS 2022:1. Ska vara tillgängliga för de som arbetar med brandlarm.",
+         action:"Skaffa och samla alla dokument i listan i senaste utgåva. De flesta finns på sbf.se. Skapa en digital mapp eller ett dokumentregister tillgängligt för berörda personer.",
+         actionPartial:"Gå igenom samlingen och kontrollera att ni har senaste utgåvorna inklusive revideringsblad. SBF 110:8 fick revideringsblad maj 2024 och SBF 1007:5 fick revideringsblad februari 2025 — kontrollera att dessa ingår."},
+        {id:"br_mat_3",text:"Finns dokumenterade rutiner för utfärdande av anläggarintyg — inklusive kontroll att anläggningen uppfyller SBF 110 och att färdigställandekontroll är genomförd innan intyget undertecknas?",
+         help:"SBF 1008:3 §4.6.1: anläggarintyg får bara utfärdas om anläggningen är utförd enligt SBF 110, dokumentationen granskats och godkänts av sakkunnig eller delegerad person, och färdigställandekontroll genomförts. En steg-för-steg-checklista är det vanligaste sättet att uppfylla kravet.",
+         action:"Ta fram en rutin och checklista för anläggarintygsprocessen. Stegen: projekteringsgranskning → installationskontroll → färdigställandekontroll → dokumentationsgranskning → underskrift. Rutinen ska göra det omöjligt att hoppa över ett steg.",
+         actionPartial:"Gå igenom er befintliga rutin mot kraven i §4.6.1. Kontrollera att den täcker alla obligatoriska steg och att den faktiskt följs i praktiken."},
+      ]},
+      {id:"br_underhall",name:"Underhåll & serviceberedskap",questions:[
+        {id:"br_und_1",text:"Kan ni påbörja felavhjälpning i en kundanläggning inom 2 arbetsdagar efter beställning?",
+         help:"SBF 1008:3 §4.4.1: åtgärdande av fel ska kunna påbörjas inom 2 arbetsdagar (vardagar, ej lördagar och helgdagsaftnar) och slutföras utan dröjsmål. Ni behöver organiserade resurser och rutiner för inkommande felanmälningar.",
+         action:"Kartlägg er serviceberedskap och inför en rutin för felanmälningar med garanterad responstid. Dokumentera vem som tar emot felanmälningar, hur de prioriteras och vem som åker ut.",
+         actionPartial:"Kontrollera att beredskapen håller 2-dagarskravet i alla lägen — inklusive semester, sjukdom och hög belastning. Dokumentera hur ni hanterar sådana situationer."},
+        {id:"br_und_2",text:"Har ni ett reservdelsförråd tillräckligt för att hålla responstiderna — antingen eget förråd eller avtal med leverantör som garanterar leveranstid?",
+         help:"SBF 1008:3 §4.4.2: reservdelsförrådet ska vara av sådan omfattning att 2-dagarskravet kan hållas. Förrådet kan finnas hos er eller hos en leverantör, men i så fall krävs ett avtal som garanterar leveranstider.",
+         action:"Gå igenom vilka reservdelar ni behöver för era vanligaste kundanläggningar och ta fram ett minimumförråd. Om ni förlitar er på leverantörslager — upprätta ett avtal med garanterade leveranstider.",
+         actionPartial:"Uppdatera förrådet om era produkter har förändrats. Dokumentera eventuella leverantörsavtal som ersätter eget förråd."},
+        {id:"br_und_3a",text:"Finns rutiner för att aktivt erbjuda kunden underhållsavtal senast vid garantitidens utgång?",
+         help:"SBF 1008:3 §4.4.3: ni ska erbjuda kunden underhållsavtal innan garantitiden löper ut. Det kräver att ni håller koll på garantitidens utgångsdatum per anläggning och har en rutin för att skicka erbjudandet i god tid.",
+         action:"Skapa en rutin: (1) Notera garantitidens utgångsdatum vid varje installation i ert kundregister. (2) Sätt en påminnelse 2–3 månader innan garantin löper ut. (3) Skicka ett skriftligt erbjudande om underhållsavtal till kunden.",
+         actionPartial:"Kontrollera att rutinen tillämpas konsekvent. Se till att inga kunder vars garanti löpt ut saknar ett erbjudet underhållsavtal."},
+        {id:"br_und_3b",text:"Lämnas alltid en skriftlig servicerapport till kunden efter varje utfört underhålls- eller reparationsarbete?",
+         help:"SBF 1008:3 §4.4.4: efter varje service- eller reparationsarbete ska en skriftlig rapport överlämnas till kunden. Rapporten ska tydligt skilja sig från revisionsbesiktningsdokument och dokumentera vad som utförts.",
+         action:"Ta fram en servicerapportmall som täcker: datum, utfört arbete, använda reservdelar, ansvarig tekniker och eventuella observationer. Se till att rapporten alltid överlämnas till kunden och att en kopia sparas i er kundmapp.",
+         actionPartial:"Kontrollera att servicerapporten används konsekvent vid alla typer av servicearbeten — inte bara vid planerat underhåll. Säkerställ att mallen är tydligt skild från revisionsbesiktningsdokument."},
+      ]},
+      {id:"br_kvalitet",name:"Kvalitetssystem & egenkontroll",questions:[
+        {id:"br_kval_1",text:"Finns dokumenterade rutiner för de arbetsmoment SBF 1008:3 §4.7.1 kräver — t.ex. projektering, kontraktsgenomgång, driftsättning, anläggarintyg, överlämning till kund och vidareutbildning?",
+         help:"§4.7.1 listar 13 rutiner (punkterna a–m) som ska finnas, bl.a. för projektering, kontroll av installationsförutsättningar, färdigställandekontroll, anläggarintyg, överlämning, vidareutbildning, underhåll, onödiga larm och avvikelsejournal. Rutinerna ska vara skriftliga och kända av personalen.",
+         action:"Gå igenom listan i §4.7.1 punkt för punkt och identifiera vilka rutiner som saknas. Skriv enkla kortfattade rutiner — en A4-sida per moment är ofta tillräckligt. Samla dem i ett kvalitetshandbok.",
+         actionPartial:"Kontrollera att befintliga rutiner är uppdaterade och faktiskt kända av personalen. Det är vanligt att rutiner finns på papper men inte används i praktiken — det är just det SBSC:s revisorer kontrollerar."},
+        {id:"br_kval_2",text:"Har ni ett system för dokumentstyrning — att rätt utgåva av era egna dokument används och att ogiltiga versioner avlägsnas?",
+         help:"SBF 1008:3 §4.7.2: ni ska ha ett system som säkerställer att rätt version av era interna dokument (mallar, checklistor, rutiner) används och att gamla versioner inte finns tillgängliga.",
+         action:"Inför ett enkelt versionssystem: märk varje internt dokument med versionsnummer och datum. Skapa en central plats där personalen hämtar dokument och se till att gamla versioner tas bort eller märks som ogiltiga.",
+         actionPartial:"Gå igenom era aktuella dokument och kontrollera att inga gamla versioner är tillgängliga. Säkerställ att uppdateringar kommuniceras till all berörd personal."},
+        {id:"br_kval_3",text:"Finns rutiner för att säkerställa att inköpt materiel och underleverantörer uppfyller era krav, inklusive bedömning av underleverantörer innan de anlitas?",
+         help:"SBF 1008:3 §4.7.3: inköpsrutiner ska säkerställa att materiel uppfyller specificerade krav (t.ex. SBF 110-godkännande) och ni ska ha rutiner för att bedöma underleverantörer.",
+         action:"Ta fram en lista på godkända leverantörer och produkter. Inför en enkel rutin för att bedöma nya underleverantörer — t.ex. ett formulär med frågor om kompetens, certifieringar, referenser och försäkring.",
+         actionPartial:"Uppdatera leverantörslistan och kontrollera att bedömningskriterierna är relevanta. Se till att rutinen faktiskt används när nya leverantörer tillkommer."},
+        {id:"br_kval_4",text:"Har ni ett spårbarhetssystem — att kunna identifiera kundernas anläggningar och koppla anläggarintyg till tillhörande handlingar utan risk för sammanblandning?",
+         help:"SBF 1008:3 §4.7.5: ni ska kunna identifiera varje kundanläggning och dess ingående komponenter, och kopplingen mellan anläggarintyg och tillhörande handlingar ska vara gjord så att sammanblandning inte sker.",
+         action:"Skapa ett kundregister med en mapp per anläggning där alla handlingar samlas med ett unikt anläggnings-ID. Märk anläggarintyget med referens till tillhörande handlingar.",
+         actionPartial:"Gå igenom befintliga kundmappar och kontrollera att kopplingen är tydlig. Se till att inga handlingar kan förväxlas mellan olika anläggningar."},
+        {id:"br_kval_5",text:"Arkiveras kopior av anläggarintyg, ritningar och annan väsentlig dokumentation i minst 10 år?",
+         help:"SBF 1008:3 §4.7.6: dokumentationen för aktiva installationer ska arkiveras i minst 10 år och kunna rekonstrueras vid behov. Ni ska också ha rutiner för att skydda och säkerhetskopiera arkivet.",
+         action:"Inför en arkivrutin: definiera vilka dokument som sparas, hur länge och var. Säkerställ att digitala arkiv har backup — t.ex. via molnlagring eller extern lagring.",
+         actionPartial:"Kontrollera att alla installationer från de senaste 10 åren finns arkiverade och att arkivet är komplett och åtkomligt. Säkerställ att ni har en fungerande backup-rutin."},
+        {id:"br_kval_6",text:"Finns rutiner för avvikelsehantering och korrigerande åtgärder, inklusive uppföljning att åtgärderna faktiskt har fungerat?",
+         help:"SBF 1008:3 §4.7.7: vid avvikelser ska ni utreda orsaken, genomföra korrigerande åtgärder, dokumentera ändringar i rutiner och följa upp effekten. Allvarliga fel ska rapporteras till certifieringsorganet.",
+         action:"Inför ett enkelt avvikelseregister — t.ex. ett Excelark med: datum, beskrivning, orsak, åtgärd, ansvarig, uppföljningsdatum, status. Definiera vad som räknas som allvarligt fel som ska rapporteras till SBSC.",
+         actionPartial:"Kontrollera att avvikelsehanteringen täcker alla tre stegen: orsaksutredning, åtgärd och uppföljning. Se till att registret används konsekvent."},
+        {id:"br_kval_7a",text:"Genomförs internrevision av kvalitetssystemet regelbundet — med dokumenterade fynd och beslutade korrigerande åtgärder?",
+         help:"SBF 1008:3 §4.7.8: internrevision ska genomföras regelbundet för att kontrollera att rutiner följs och att kvalitetssystemet fungerar som avsett. Revisionen bör genomföras av någon som inte är direkt ansvarig för det granskade området. Fynd och åtgärder ska dokumenteras.",
+         action:"Planera en internrevision minst en gång per år. Gå igenom att era rutiner faktiskt följs — projektrutin, anläggarintygsprocessen, dokumentstyrning, avvikelsehantering. Dokumentera fynd och besluta korrigerande åtgärder med ansvarig och datum.",
+         actionPartial:"Kontrollera att revisionen genomförs och att protokollen innehåller konkreta uppföljningsbeslut — inte bara en lista med observationer. Säkerställ att åtgärderna faktiskt genomförs och stängs."},
+        {id:"br_kval_7b",text:"Genomför ledningen en formell genomgång av kvalitetssystemet minst en gång per år — med dokumenterat protokoll och uppföljningsbeslut?",
+         help:"SBF 1008:3 §4.7.1: ledningens genomgång ska ske minst en gång per år och täcka: kundklagomål, anläggarintygens kvalitet, avvikelser och korrigerande åtgärder, kompetensstatus, regelverksändringar och resursbehov. Genomgången ska dokumenteras med protokoll.",
+         action:"Schemalägg ledningens genomgång med en fast agenda som täcker alla §4.7.1-punkter: avvikelser och reklamationer, anläggarintygskvalitet, kundklagomål, kompetensstatus, regelverksändringar och resursbehov. Protokollför alltid med uppföljningsbeslut och ansvariga.",
+         actionPartial:"Kontrollera att protokollet täcker alla obligatoriska punkter och att beslutade åtgärder följs upp till nästa genomgång. En genomgång utan protokoll räknas inte som uppfyllt krav."},
+      ]},
+    ]
+  },
+  inbrottslarm:{
+    id:"inbrottslarm",name:"Inbrottslarm",reg:"SSF 1015:3",
+    desc:"Anläggarfirma inbrottslarm larmklass 1–2 enligt SSF 1015:3",
+    sections:[
+      {id:"inb_org",name:"Organisation, ekonomi & tillstånd",questions:[
+        {id:"inb_org_1",
+         text:"Har företaget polismyndighetens tillstånd enligt larmlagen (SFS 1983:1097) att yrkesmässigt bedriva verksamhet med installation av centralanslutna inbrottslarmanläggningar?",
+         help:"SSF 1015:3 §4.1.1: tillståndet är ett absolut grundkrav och måste finnas innan ansökan om certifiering lämnas in. Tillståndet söks hos Polismyndigheten och krävs för all yrkesmässig installation av centralanslutna inbrottslarm.",
+         action:"Ansök om tillstånd hos Polismyndigheten enligt larmlagen. Processen kräver bl.a. att ansvariga personer är ostraffade och att verksamheten uppfyller lagens krav. Kontakta er lokala polismyndighet för ansökningsblanketter och krav.",
+         actionPartial:"Kontrollera att tillståndet är giltigt och avser rätt verksamhet och adress. Uppdatera vid byte av lokal — SBSC ska underrättas utan dröjsmål vid lokalbyte."},
+        {id:"inb_org_2",
+         text:"Är företaget en i Sverige registrerad juridisk person med ekonomisk bärighet klassad som minst 'Kreditvärdig' och fritt från restförd moms och kvarstående skatteskulder?",
+         help:"SSF 1015:3 §4.1.1 och tolkningsdokument 2017: anläggarfirman ska vara registrerad i Sverige och uppvisa ekonomisk bärighet motsvarande lägst 'Kreditvärdig' i kreditupplysningsföretagens värderingssystem (t.ex. UC eller Creditsafe). Inga restförda skatteskulder eller moms får finnas.",
+         action:"Kontrollera er kreditvärdighet hos UC eller annan kreditupplysning. Åtgärda eventuella skatteskulder och restförda avgifter. Registrera bolaget hos Bolagsverket om det inte redan är gjort.",
+         actionPartial:"Gör en aktuell kreditupplysning för att bekräfta att ni är klassade som Kreditvärdig. Kontrollera hos Skatteverket att inga restförda skulder finns."},
+        {id:"inb_org_3",
+         text:"Har företaget en giltig ansvarsförsäkring relevant för inbrottslarmsverksamheten, med en täckning som kan tillgodose en eventuell ersättningsskyldighet?",
+         help:"SSF 1015:3 §4.3.1 och tolkningsdokument 2017: försäkringen ska täcka skador som uppstår i ert installations- och servicearbete. Enligt tolkningsdokumentet ska försäkringsomfattningen bedömts kunna täcka eventuell ersättningsskyldighet — inte specifikt AB/ABT som för brandlarm utan snarare verksamhetsanpassad.",
+         action:"Kontakta ert försäkringsbolag och teckna en ansvarsförsäkring anpassad till inbrottslarmsverksamhet. Be om ett intyg som bekräftar täckning.",
+         actionPartial:"Gå igenom att befintlig försäkring verkligen täcker inbrottslarmsarbete specifikt — inte bara allmän ansvarsförsäkring. Be försäkringsbolaget bekräfta skriftligt."},
+        {id:"inb_org_4a",
+         text:"Finns en dokumenterad rutin för att kontrollera att all personal med tillgång till anläggningsdokumentation är ostraffad — och täcker rutinen samtliga berörda, inte bara den behörige ingenjören?",
+         help:"SSF 1015:3 §4.4.1 och SSF 1016: ostraffad definieras som att inte ha påförts annan påföljd än penningbot. Rutinen ska omfatta all personal som hanterar anläggningsdokumentation — inte bara den behörige ingenjören. Kontrollen sker via utdrag ur Polismyndighetens belastningsregister.",
+         action:"Ta fram en skriftlig rutin för personalkontroll som: (1) definierar vilka roller som omfattas, (2) specificerar att kontroll ska ske vid anställning och minst vartannat år, (3) anger vem som ansvarar för att initiera kontrollen. Utdrag begärs via Polismyndigheten.",
+         actionPartial:"Gå igenom att rutinen faktiskt täcker alla berörda roller — inte bara nyanställda eller den behörige ingenjören. Är rutinen dokumenterad och känd av ansvarig person?"},
+        {id:"inb_org_4b",
+         text:"Genomförs personalkontroll med utdrag ur belastningsregistret för all berörd personal minst vartannat år — och dokumenteras kontrollerna med datum och vilka som kontrollerats?",
+         help:"SSF 1015:3 §4.4.1: kontrollen ska genomföras minst vartannat år och gäller löpande under anställningens gång — inte bara vid nyanställning. Dokumentation av genomförda kontroller är ett krav som revisorer specifikt efterfrågar.",
+         action:"Schemalägg en kontrollcykel för befintlig personal: gå igenom listan över berörda och kontrollera när senaste utdrag togs för var och en. Begär nya utdrag för de som passerat tvåårsgränsen. Dokumentera datum och resultat.",
+         actionPartial:"Kontrollera att kontrollintervallet vartannat år faktiskt hålls — inte bara vid nyanställning. Finns det personal där senaste kontroll är äldre än 2 år?"},
+      ]},
+      {id:"inb_personal",name:"Personal & behörig ingenjör",questions:[
+        {id:"inb_pers_1",
+         text:"Finns minst en certifierad behörig ingenjör inbrottslarm (SSF 1016) med giltigt certifikat som är ostraffad och bedriver sitt huvudsakliga arbete inom ramen för anläggarfirmans verksamhet?",
+         help:"SSF 1015:3 §4.6.1 och §4.6.3.1 med tolkningsdokument: den behörige ingenjören är kärnan i certifieringen. Personen ska ha ett giltigt SSF 1016-certifikat, vara ostraffad (kontrollerat med belastningsregisterutdrag), och ha anläggarfirman som sin huvudarbetsgivare (minst 50% anställning). Antal BIs skalas med personalstyrkan: upp till 25 anst. = min 1, 26–50 = min 2, över 50 = min 3.",
+         action:"Identifiera en lämplig person och ansök om SSF 1016-certifiering. Krav: el/teleteknisk gymnasieutbildning (eller motsv.), 2 år praktisk erfarenhet av projektering/installation/service (kontroll och besiktning räknas enligt tolkning), kunskaper i SSF 130, SSF 1015 och larmlagen. Certifiering via SBSC.",
+         actionPartial:"Kontrollera att BIB-certifikatet är giltigt och att personen uppfyller alla krav i SSF 1016. Kontrollera att skalningskravet (antal BIs/antal anställda) är uppfyllt. Verifiera att ostraffadkontrollen är genomförd."},
+        {id:"inb_pers_2",
+         text:"Har den behörige ingenjören el/teleteknisk gymnasieutbildning (eller minst 2 år dokumenterad yrkeserfarenhet som ersättning) och minst 2 års praktisk erfarenhet av inbrottslarmsarbete de senaste 2 åren?",
+         help:"SSF 1016 §4.1–4.2: grundutbildning = el/teleteknisk linje, tvårigt gymnasium, eller motsvarande. Praktisk erfarenhet = projektering, installation, service och underhåll som väsentligaste del av arbetet under senaste 2-årsperioden. Enligt tolkningsdokument räknas även kontroll- och besiktningsverksamhet inom inbrottslarmområdet.",
+         action:"Dokumentera den behörige ingenjörens utbildning och erfarenhet: samla utbildningsintyg, anställningsbevis och en beskrivning av arbetsuppgifterna de senaste 2 åren. Skicka in som underlag vid ansökan om SSF 1016-certifikat.",
+         actionPartial:"Gå igenom om erfarenheten är tillräckligt dokumenterad och bredd. Om erfarenheten är snäv (t.ex. bara service, inte projektering) — se om kontroll/besiktning kan tillgodoräknas enligt tolkningsdokumentet."},
+        {id:"inb_pers_3",
+         text:"Har den behörige ingenjören dokumenterade befogenheter att granska och godkänna alla handlingar för anläggningar, underteckna anläggarintyg, samt ansvara för att projektering och installation sker enligt SSF 130?",
+         help:"SSF 1015:3 §4.6.3 med tolkningsdokument: ansvar och befogenheter ska vara dokumenterade — t.ex. i en kompetensförteckning, befattningsbeskrivning eller liknande. Den behörige ingenjören ska ha reellt mandat att stoppa eller kräva komplettering av ett uppdrag.",
+         action:"Upprätta ett undertecknat dokument från ledningen som specificerar den behörige ingenjörens ansvar och befogenheter. Inkludera: granskning av handlingar, godkännande av installation, rätt att underteckna anläggarintyg, och ansvar för SSF 130-efterlevnad.",
+         actionPartial:"Kontrollera att befintlig dokumentation är aktuell och verkligen speglar de befogenheter personen har i praktiken. Uppdatera vid organisationsförändringar."},
+        {id:"inb_pers_4",
+         text:"Finns minst en servicetekniker och, vid larmklass 2, minst 2 servicetekniker med nödvändig kompetens?",
+         help:"SSF 1015:3 §4.6.1, §5.4 och §6.4: larmklass 1 kräver minst 1 servicetekniker (kan vara samma person som den behörige ingenjören). Larmklass 2 kräver minst 2 servicetekniker. Serviceteknikern installerar och utför service på inbrottslarmanläggningar.",
+         action:"Kartlägg er personalsituation: finns tillräckligt antal kompetenta servicetekniker för den larmklass ni söker? Dokumentera deras kompetens och erfarenhet.",
+         actionPartial:"Om ni siktar på larmklass 2 — kontrollera att ni har minst 2 servicetekniker. Dokumentera kompetensen tydligt."},
+      ]},
+      {id:"inb_kvalitet",name:"Kvalitetssystem",questions:[
+        {id:"inb_kval_1",
+         text:"Har företaget ett implementerat kvalitetssystem för inbrottslarmsverksamheten — minst SSF 1044 SweQ Nivå 1 (larmklass 1) eller Nivå 2 (larmklass 2), alternativt tillämpliga delar av ISO 9001?",
+         help:"SSF 1015:3 §5.2 och §6.2: larmklass 1 kräver kvalitetssystem enligt SSF 1044 SweQ Nivå 1 (alternativt delar av ISO 9001 eller FR 2000). Larmklass 2 kräver SweQ Nivå 2. Implementerat innebär: upprättat, dokumenterat, infört och underhållet. Kvalitetsansvarig ska ha kompetens inom kvalitetsledning (t.ex. genomgången internrevisionskurs).",
+         action:"Ta reda på vilken larmklass ni siktar på och välj rätt kvalitetssystemnivå. För larmklass 1: implementera SweQ Nivå 1 (eller relevanta ISO 9001-delar). Starta med att dokumentera de rutiner som SSF 1044 kräver. Utse en kvalitetsansvarig och säkerställ att den personen har utbildning inom kvalitetsledning.",
+         actionPartial:"Gå igenom att kvalitetssystemet verkligen är implementerat — inte bara dokumenterat. Kontrollera att den kvalitetsansvariges kompetens är styrkt (t.ex. internrevisionskurs). Se till att systemet är anpassat specifikt för inbrottslarmsverksamheten."},
+        {id:"inb_kval_2",
+         text:"Genomförs ledningens genomgång av kvalitetssystemet minst en gång per kalenderår? (Obligatoriskt från larmklass 2.)",
+         help:"SSF 1015:3 §6.2.2: för larmklass 2 och uppåt är ledningens genomgång ett explicit krav, dokumenterat minst en gång per kalenderår. Genomgången ska täcka systemets funktion och resultat. För larmklass 1 är det inte ett explicit krav men rekommenderas starkt.",
+         action:"Schemalägg ett årligt möte med ledningen där ni går igenom kvalitetssystemets funktion och resultat. Dokumentera mötet med ett protokoll som innehåller datum, deltagare, fynd och beslutade åtgärder.",
+         actionPartial:"Kontrollera att protokollet från senaste genomgången är komplett och att beslutade åtgärder har följts upp. Säkerställ att nästa genomgång är schemalagd."},
+      ]},
+      {id:"inb_verksamhet",name:"Verksamhet, service & materiel",questions:[
+        {id:"inb_verk_1",
+         text:"Kan företaget redovisa installerade inbrottslarmanläggningar med anläggarintyg (SSF 1058) överlämnade direkt till kund vid avprovning under senaste 12 månader — minst 5 st larmklass 1 (och ytterligare minst 2 st larmklass 2 om ni söker larmklass 2)?",
+         help:"SSF 1015:3 §4.5.1 och SSF 130 §8.2: anläggarintyget ska utfärdas på SSF 1058-mallen (senaste utgåva) och överlämnas till anläggningsinnehavaren direkt i anslutning till att anläggningen är avprovad och dokumenterad. LK1: minst 5 anläggningar med utfärdade intyg senaste 12 månader. LK2: ytterligare minst 2 st LK2-anläggningar (totalt 5+2).",
+         action:"Gå igenom projekthistoriken senaste 12 månader och lista alla installerade anläggningar med anläggarintyg utfärdade på SSF 1058-mallen. Säkerställ att anläggarintyg utfärdas konsekvent vid varje avprovning.",
+         actionPartial:"Kontrollera att ni använder senaste utgåvan av SSF 1058 och att intygen överlämnas vid avprovning — inte i efterhand. Säkerställ att alla intyg finns arkiverade."},
+        {id:"inb_verk_5a",
+         text:"Finns rutiner för att ge kunden utbildning om anläggningens uppbyggnad, funktion, drift och underhåll vid varje överlämnande — och täcker utbildningen minimiinnehållet i SSF 130 Bilaga F?",
+         help:"SSF 130 §7 och Bilaga F: anläggarfirman ska ge utbildning till kunden vid överlämnande av varje anläggning. Minimiinnehåll: till- och frånkoppling, återställning efter larm, bortkoppling av adress, larmlagen och kontrolljournal. Det räcker inte att hänvisa till manualen — en aktiv utbildning ska genomföras.",
+         action:"Ta fram en rutin och checklista för kundutbildning vid överlämnande baserad på SSF 130 Bilaga F. Definiera vem som ansvarar för utbildningen och vad som alltid ska gås igenom.",
+         actionPartial:"Kontrollera att utbildningen genomförs konsekvent vid varje överlämnande. Täcker utbildningen alla punkter i SSF 130 Bilaga F? Har alla tekniker samma bild av vad som ska ingå?"},
+        {id:"inb_verk_5b",
+         text:"Dokumenteras kundutbildningen med uppgift om vem som deltog och vem som genomförde den — och arkiveras dokumentationen tillsammans med anläggningsdokumentationen?",
+         help:"SSF 130 §7 och Bilaga F: utbildningen ska dokumenteras med uppgift om innehåll, vem som fått utbildningen och vem som givit den. SSF 130 Bilaga F är den blankett som ska användas och arkiveras med anläggningsdokumentationen. Dokumentationen är ett separat krav från anläggarintyget.",
+         action:"Använd SSF 130 Bilaga F som utbildningsblankett. Fyll i den vid varje överlämning, låt kunden bekräfta med signatur och arkivera blanketten tillsammans med anläggarintyget i kundmappen.",
+         actionPartial:"Kontrollera att blanketten faktiskt fylls i och arkiveras — inte bara att utbildningen sker muntligt utan dokumentation. Finns äldre anläggningar som saknar utbildningsdokumentation?"},
+        {id:"inb_verk_2a",
+         text:"Kan företaget ta emot och bekräfta felanmälan alla dagar dygnet runt — inom 24 timmar för larmklass 1 och inom 12 timmar för larmklass 2 — och dokumenteras bekräftelserna?",
+         help:"SSF 1015:3 §5.5.1/§6.5.1: felanmälan ska kunna tas emot och bekräftas dygnet runt, 7 dagar i veckan. LK1: bekräftelse inom 24 timmar. LK2: bekräftelse inom 12 timmar. Bekräftelsen ska dokumenteras — en muntlig bekräftelse utan spårbarhet uppfyller inte kravet.",
+         action:"Säkerställ att ni har en bemannad eller automatiserad mottagningsfunktion dygnet runt. Inför ett system för att dokumentera felanmälan och bekräftelse med tidsstämpel — t.ex. ärendehanteringssystem eller loggad SMS/mejl-bekräftelse.",
+         actionPartial:"Kontrollera att bekräftelserna faktiskt sker inom rätt tidsgräns och dokumenteras. Hur hanteras felanmälningar som kommer in nattetid eller helger — finns det en tydlig rutin?"},
+        {id:"inb_verk_2b",
+         text:"Finns rutiner för att planera och genomföra regelbunden anläggningskontroll hos kund — vart tredje kalenderår för LK1 och minst en gång per kalenderår för LK2?",
+         help:"SSF 130 §8.11: anläggningskontroll ska utföras av anläggarfirman som utfärdat anläggarintyget. LK1: minst vart 3:e kalenderår. LK2/3/4: minst en gång per kalenderår med högst 15 månaders mellanrum. Kontrollen dokumenteras i kontrolljournalen. Anläggningskontrollen är ett proaktivt åtagande som ska planeras — inte ett reaktivt servicebesök.",
+         action:"Upprätta ett schema för anläggningskontroller per kund baserat på larmklass. Gå igenom kundlistan och sätt datum för kommande kontroller. Dokumentera genomförda kontroller i kontrolljournalen per anläggning.",
+         actionPartial:"Kontrollera att inga kunder med LK2-anläggningar missar den årliga kontrollen. Finns ett system som signalerar när en kontroll är aktuell, eller sker det reaktivt baserat på kundkontakt?"},
+        {id:"inb_verk_3",
+         text:"Kan service påbörjas på plats och reservdelar levereras inom 2 helgfria dygn från bekräftad felanmälan (larmklass 1), eller inom 1 helgfritt dygn för larmklass 2-anläggningar?",
+         help:"SSF 1015:3 §5.5.2 och §6.5.2–6.5.3: servicetiden räknas från att felanmälan bekräftats. Larmklass 1: 2 helgfria dygn. Larmklass 2: 1 helgfritt dygn för LK2-anläggningar, 2 dygn för LK1-anläggningar. Reservdelar ska finnas tillgängliga för att hålla tiderna.",
+         action:"Kartlägg er serviceberedskap och reservdelssituation. Dokumentera hur ni säkerställer att rätt personal och delar finns tillgängliga inom krävd tid. Inför en rutin för serviceeskalering om ordinarie tekniker inte är tillgänglig.",
+         actionPartial:"Testa om er nuvarande beredskap faktiskt håller tidskravet i alla lägen — inklusive vid semestertider och hög belastning. Dokumentera hur undantag hanteras."},
+        {id:"inb_verk_4",
+         text:"Installerar ni materiel som uppfyller kraven i SSF 1014 (Norm för materiel till inbrottslarmanläggning)?",
+         help:"SSF 1015:3 §5.7.1 och §6.7.1: all materiel som används i inbrottslarmanläggningar enligt SSF 130 ska uppfylla SSF 1014. Det innebär i praktiken att komponenter ska vara testade och klassificerade enligt tillämpliga standarder (t.ex. EN 50131-serien). Anläggarfirman ska kunna visa upp dokumentation på att den använda materielen uppfyller kraven.",
+         action:"Gå igenom er standardsortiment och säkerställ att ni använder SSF 1014-godkänd materiel. Ta fram en produktlista med produktinformation som visar att komponenterna uppfyller kraven. SSF publicerar förteckningar över godkänd materiel.",
+         actionPartial:"Uppdatera produktlistan om ni börjat använda nya produkter. Kontrollera att samtliga komponenters klassificering fortfarande är giltig och att produkterna finns i SSFs förteckningar."},
+      ]},
+      {id:"inb_lokaler",name:"Lokaler & dokumentationshantering",questions:[
+        {id:"inb_lok_1",
+         text:"Har firmans lokaler mekaniskt inbrottsskydd i skyddsklass 1 (SSF 200) och inbrottslarm i larmklass 2 (SSF 130) — och är lokalen avsedd enbart för egen verksamhet?",
+         help:"SSF 1015:3 §5.6 och §6.6: lokalerna där inbrottslarmsverksamheten bedrivs ska ha mekaniskt skydd (dörrenhet SK1) och inbrottslarm i minst larmklass 2. Larmklass 2 kräver dessutom att larmöverföringen är i larmklass 3 (SSF 114), och att all personal som arbetar med inbrottslarm har sin arbetsplats i lokalen. Lokalen får inte delas med annan verksamhet.",
+         action:"Låt en behörig ingenjör göra en genomgång av era lokaler mot kraven i SSF 200 (mekaniskt skydd SK1) och SSF 130 (larmklass 2). Ta fram en plan för vilka åtgärder som behövs och genomför dem innan ansökan.",
+         actionPartial:"Gå igenom att larmöverföringen uppfyller rätt klass och att lokalen lever upp till kraven. Kontrollera att inga obehöriga (utomstående företag, besökare utan registrering) rör sig fritt i lokalen."},
+        {id:"inb_lok_2",
+         text:"Förvaras anläggningsdokumentation (anläggarintyg, orienteringsritningar, skötselinstruktioner m.m.) i godkänt säkerhetsskåp enligt SS 3492 med punktskydd, och är skåpet förankrat om vikten understiger 150 kg?",
+         help:"SSF 1015:3 §4.9.1: minimikraven för anläggningsdokumentation är anläggarintyg, orienteringsritning, skötselinstruktion, anvisningar vid utlöst larm och kontrolljournal. All sådan dokumentation ska förvaras i säkerhetsskåp klassificerat enligt SS 3492 med punktskydd. Skåp under 150 kg ska vara förankrat enligt tillverkarens anvisningar.",
+         action:"Skaffa ett godkänt säkerhetsskåp som uppfyller SS 3492 med punktskydd. Förankra det om vikten understiger 150 kg. Samla all relevant anläggningsdokumentation i skåpet.",
+         actionPartial:"Kontrollera att befintligt skåp verkligen uppfyller SS 3492 med punktskydd — inte alla säkerhetsskåp gör det. Kontrollera att förankring finns om skåpet väger under 150 kg."},
+        {id:"inb_lok_3a",
+         text:"Finns rutiner för att registrera och kontrollera alla besökande i det rum där anläggningsdokumentation förvaras — och lämnas besökare aldrig ensamma i rummet?",
+         help:"SSF 1015:3 §4.8.1: tillträdet till dokumentationsrummet ska kontrolleras. Alla besökare ska registreras med namn, syfte och tid. Besökare ska eskorteras och får aldrig lämnas ensamma med anläggningsdokumentationen — handlingarna kan användas för att planera inbrott mot kundernas fastigheter.",
+         action:"Inför en besöksrutin för dokumentationsrummet: (1) Alla besökare registreras med namn, datum, syfte och tid. (2) Besökare eskorteras alltid och lämnas aldrig ensamma. (3) Besöksloggen arkiveras.",
+         actionPartial:"Kontrollera att besöksrutinen tillämpas konsekvent — även för städpersonal, hantverkare och externa IT-tekniker. Förs besöksloggen faktiskt vid varje besök?"},
+        {id:"inb_lok_3b",
+         text:"Är tillträdet till dokumentationsrummet tekniskt begränsat — t.ex. via kodlås, passerkort eller låst dörr med begränsad nyckeltillgång?",
+         help:"SSF 1015:3 §4.8.1: utöver rutiner för besökskontroll ska tillträdet vara tekniskt begränsat. En policy om att bara behöriga ska ha tillträde uppfyller inte kravet — det krävs en teknisk mekanism som faktiskt begränsar åtkomsten. Obehöriga ska inte fysiskt kunna ta sig in utan eskortering.",
+         action:"Inför teknisk tillträdeskontroll: t.ex. ett kodlås, passersystem eller låst dörr där nycklar/koder bara innehas av behörig personal. Dokumentera vilka som har tillträde och gå igenom listan regelbundet.",
+         actionPartial:"Kontrollera att den tekniska lösningen faktiskt begränsar tillträdet i praktiken. Hur många har tillgång till nyckeln eller koden? Ses listan över behöriga över regelbundet — t.ex. vid personalförändringar?"},
+        {id:"inb_lok_4",
+         text:"Finns rutiner för att förvara, skydda och rekonstruera kundregister, anläggningshandlingar och programvara till datorbaserade system?",
+         help:"SSF 1015:3 §4.10.1: ni ska ha dokumenterade rutiner för hur kundregister och anläggningsdokumentation skyddas och kan rekonstrueras vid behov — t.ex. vid brand, inbrott eller it-haveri. Detta inkluderar digitalt lagrad dokumentation och programvara till larmsystem.",
+         action:"Ta fram en rutin för dokumenthantering och backup: (1) Definiera vilka dokument och data som ska skyddas. (2) Inför regelbunden backup av digitala system. (3) Beskriv hur rekonstruktion sker vid förlust. Se till att digital backup förvaras på annan plats än originalet.",
+         actionPartial:"Gå igenom om backup-rutinen faktiskt testas regelbundet och om rekonstruktionsproceduren är känd av berörda. Kontrollera att digitalt lagrad anläggningsdokumentation uppfyller kraven i Bilaga A om servern finns på annan plats (outsourcad)."},
+      ]},
+    ]
+  },
+
+  kamerabevakning:{
+    id:"kamerabevakning",
+    name:"Kamerabevakning",
+    reg:"SSF 1061:3",
+    desc:"Anläggarfirma kamerabevakningssystem CCTV enligt SSF 1061:3",
+    sections:[
+
+      {id:"kam_org",name:"Organisation & ekonomi",questions:[
+        {id:"kam_org_1",
+         text:"Är företaget en i Sverige registrerad juridisk person med ekonomisk bärighet klassad som minst 'Kreditvärdig' och fritt från restförd moms och kvarstående skatteskulder?",
+         help:"SSF 1061:3 §4.1.1: anläggarfirman ska vara registrerad i Sverige och uppvisa ekonomisk bärighet motsvarande lägst 'Kreditvärdig' i kreditupplysningsföretagens värderingssystem (t.ex. UC eller Creditsafe). Inga restförda skatteskulder eller moms får finnas.",
+         action:"Kontrollera er kreditvärdighet hos UC eller annan kreditupplysning. Åtgärda eventuella skatteskulder och restförda avgifter. Registrera bolaget hos Bolagsverket om det inte redan är gjort.",
+         actionPartial:"Gör en aktuell kreditupplysning för att bekräfta att ni är klassade som Kreditvärdig. Kontrollera hos Skatteverket att inga restförda skulder finns."},
+        {id:"kam_org_2",
+         text:"Har företaget en giltig ansvarsförsäkring som minst motsvarar kraven i AB 04 eller ABT 06?",
+         help:"SSF 1061:3 §4.1.2: anläggarfirman ska ha en giltig ansvarsförsäkring som minst motsvarar kraven i AB 04 (Allmänna bestämmelser för byggnads-, anläggnings- och installationsentreprenader) eller ABT 06 (Allmänna bestämmelser för totalentreprenader). Be försäkringsbolaget bekräfta att täckningen uppfyller dessa krav.",
+         action:"Kontakta ert försäkringsbolag och teckna eller uppdatera er ansvarsförsäkring så att den täcker installationsarbete enligt AB 04/ABT 06. Be om ett skriftligt intyg som bekräftar täckningen.",
+         actionPartial:"Gå igenom att befintlig försäkring verkligen täcker kamerabevakningsinstallationer och uppfyller AB 04/ABT 06-kraven. Be försäkringsbolaget bekräfta detta skriftligt."},
+      ]},
+
+      {id:"kam_verksamhet",name:"Verksamhet & dokumentation",questions:[
+        {id:"kam_verk_1",
+         text:"Kan företaget redovisa att det under de senaste 12 månaderna projekterat och/eller installerat minst 2 kamerabevakningsanläggningar enligt SSF 1060?",
+         help:"SSF 1061:3 §4.2.1: anläggarfirman ska under den senaste 12-månadersperioden ha projekterat och/eller installerat minst 2 kamerabevakningsanläggningar enligt SSF 1060. Verksamheten verifieras med systemintyg. Kravet säkerställer att firman har aktiv och aktuell erfarenhet.",
+         action:"Gå igenom era uppdrag från de senaste 12 månaderna och identifiera de kamerabevakningsinstallationer ni utfört. Säkerställ att systemintyg utfärdats för dessa och att de kan uppvisas vid revision.",
+         actionPartial:"Kontrollera att era systemintyg är korrekt utfärdade enligt SSF 1060. Om ni ännu inte nått 2 installationer — planera för att nå kravet innan ansökan lämnas in."},
+        {id:"kam_verk_2",
+         text:"Har ni tillgång till alla referensdokument som SSF 1061:3 §2 kräver — inklusive SSF 1060, SSF 1062, SSF 1044, GDPR och Kamerabevakningslagen?",
+         help:"SSF 1061:3 §4.2.3: anläggarfirman ska ha tillgång till de dokument som anges i normens avsnitt 2. Det inkluderar SSF 1060, SSF 1062, SSF 1044, SSF 114, SSF 130, SSF 200, AB 04, ABT 06, Kamerabevakningslagen och GDPR. Dokumenten ska vara tillgängliga för den personal som arbetar med kamerabevakningsanläggningar.",
+         action:"Samla alla referensdokument i senaste utgåva — fysiskt eller digitalt — och gör dem tillgängliga för berörd personal. Skapa ett dokumentregister som visar vilka versioner ni har.",
+         actionPartial:"Gå igenom dokumentsamlingen och kontrollera att ni har senaste utgåvorna. Kamerabevakningslagen och GDPR är löpande lagstiftning — säkerställ att ni alltid har aktuell version."},
+        {id:"kam_verk_3",
+         text:"Finns dokumenterade rutiner för att hjälpa kunden ta fram en korrekt kravbild — inklusive säkerhetsanalys, behovsanalys och kravspecifikation enligt SSF 1060?",
+         help:"SSF 1061:3 §4.2.4: anläggarfirman ska ha dokumenterade rutiner för att kunna vara kunden behjälplig med att framställa en korrekt kravbild. Det ska utföras en säkerhetsanalys, behovsanalys och kravspecifikation enligt SSF 1060. Detta är ett aktivt åtagande — inte bara att installera vad kunden beställer.",
+         action:"Ta fram en rutin för kundbehovsanalys som täcker: (1) säkerhetsanalys av objektet, (2) behovsanalys baserad på kundens skyddsbehov, (3) kravspecifikation enligt SSF 1060. Dokumentera att processen genomförs vid varje nytt uppdrag.",
+         actionPartial:"Kontrollera att rutinen faktiskt tillämpas vid varje nytt kunduppdrag — inte bara för större installationer. Kan ni visa att en säkerhets- och behovsanalys genomförts för era senaste projekt?"},
+      ]},
+
+      {id:"kam_kvalitet",name:"Kvalitetsledningssystem",questions:[
+        {id:"kam_kval_1",
+         text:"Har företaget ett dokumenterat och implementerat kvalitetsledningssystem som minst uppfyller kraven i SSF 1044 SweQ Nivå 2 — alternativt SS-EN ISO 9001 eller FR 2000?",
+         help:"SSF 1061:3 §4.3.1–4.3.2: anläggarfirman ska ha ett dokumenterat och implementerat kvalitetsledningssystem integrerat i företagets ledningssystem. Nivåkravet är SSF 1044 SweQ Nivå 2 (högre än för inbrottslarm), alternativt ISO 9001 eller FR 2000. Implementerad innebär upprättad, dokumenterad, införd och underhållen.",
+         action:"Utvärdera om ert befintliga kvalitetssystem uppfyller SSF 1044 SweQ Nivå 2 eller ISO 9001. Om inte — identifiera gapen och ta fram en plan för att uppfylla kraven. SSF 1044 kan laddas ned från stoldskyddsforeningen.se.",
+         actionPartial:"Kontrollera att kvalitetssystemet faktiskt är implementerat i kamerabevakningsverksamheten — inte bara dokumenterat. Revisorerna kommer att kontrollera om rutinerna efterlevs i praktiken."},
+        {id:"kam_kval_2",
+         text:"Har den kvalitetsansvarige på anläggarfirman erforderlig kompetens inom kvalitetsledningssystem — t.ex. genomgången internrevisionskurs eller motsvarande?",
+         help:"SSF 1061:3 §4.3.3: kvalitetsansvarig på anläggarfirman ska ha erforderlig kompetens inom kvalitetsledningssystem. Det kan visas genom genomgången internrevisionskurs, annan kurs för kvalitet, eller på annat sätt visa att nödvändig kompetens finns. Kompetensen ska kunna dokumenteras.",
+         action:"Identifiera vem som är kvalitetsansvarig och dokumentera dennes kompetens. Om kompetensen saknas — planera för en internrevisionskurs eller liknande utbildning. Spara utbildningsintyg.",
+         actionPartial:"Kontrollera att kompetensbeviset är aktuellt och relevant. Är det en kurs eller ett intyg som kan uppvisas för en revisor?"},
+        {id:"kam_kval_3",
+         text:"Finns en utarbetad, dokumenterad och implementerad miljöpolicy för verksamheten?",
+         help:"SSF 1061:3 §4.3.4: anläggarfirman ska ha en miljöpolicy som finns och efterlevs. Kravet är unikt för SSF 1061 och saknar direkt motsvarighet i SSF 1015:3. Policyn behöver inte vara omfattande men ska vara dokumenterad och faktiskt tillämpas i verksamheten.",
+         action:"Ta fram en kort men tydlig miljöpolicy: definiera er inställning till miljöpåverkan, vilka konkreta åtgärder ni vidtar (t.ex. hantering av kablar/elektronikskrot, resepolicy, återvinning) och hur ni följer upp efterlevnaden.",
+         actionPartial:"Kontrollera att policyn faktiskt efterlevs i verksamheten — inte bara finns på papper. Kan personalen redogöra för vad policyn innebär i deras dagliga arbete?"},
+      ]},
+
+      {id:"kam_personal",name:"Personal & behörig ingenjör",questions:[
+        {id:"kam_pers_1",
+         text:"Finns minst en certifierad behörig ingenjör kamerabevakning (SSF 1062) med giltigt certifikat som bedriver sitt huvudsakliga arbete inom ramen för anläggarfirmans verksamhet?",
+         help:"SSF 1061:3 §4.4.1–4.4.2.1: anläggarfirman ska ha minst en person — ägare eller anställd — som är certifierad enligt SSF 1062 Behörig ingenjör kamerabevakning. Den behörige ingenjören ska bedriva sitt huvudsakliga arbete inom ramen för anläggarfirmans verksamhet. Ansvar och befogenheter ska vara dokumenterade.",
+         action:"Kontrollera att minst en person har giltigt SSF 1062-certifikat och att detta är korrekt dokumenterat i er organisation. Säkerställ att ansvar och befogenheter för den behörige ingenjören finns skriftligen dokumenterade.",
+         actionPartial:"Kontrollera att certifikatet är giltigt och inte snart löper ut. Är ansvar och befogenheter dokumenterade och kända i organisationen?"},
+        {id:"kam_pers_2",
+         text:"Har den behörige ingenjören dokumenterade befogenheter att granska och godkänna alla handlingar för anläggningar samt skriva under systemintyget?",
+         help:"SSF 1061:3 §4.4.2.2: den behörige ingenjören ansvarar för att kvalitetssäkra verksamheten genom att granska och godkänna alla handlingar och skriva under systemintyget. Detta innebär att den behörige ingenjören ansvarar för att verksamheten bedrivs enligt SSF 1060. Befogenheterna ska vara dokumenterade.",
+         action:"Upprätta ett befogenhetsdokument eller en befattningsbeskrivning som tydligt anger att den behörige ingenjören har befogenhet att granska, godkänna och underteckna systemintyg. Se till att dokumentet är undertecknat av behörig företrädare.",
+         actionPartial:"Kontrollera att befogenhetsdokumentationen är tydlig och aktuell. Finns det situationer där systemintyg undertecknas av någon annan? Det är en avvikelse."},
+        {id:"kam_pers_3",
+         text:"Finns en rutin och plan för hur kvalitetssäkring ska hanteras vid oförutsägbar händelse — t.ex. om den behörige ingenjören plötsligt slutar eller sjukskrivs?",
+         help:"SSF 1061:3 §4.4.3–4.4.5: vid oförutsägbar händelse (t.ex. sjukdom) får anläggarfirman under högst 12 månader använda en tillfällig behörig ingenjör. En rutin och tidplan ska finnas dokumenterad. Vid en sådan händelse ska SBSC underrättas utan onödigt dröjsmål.",
+         action:"Ta fram en kontinuitetsplan för situationen att behörig ingenjör plötsligt inte kan utöva sin roll: (1) Identifiera alternativa behöriga ingenjörer ni kan anlita. (2) Upprätta en mall för avtal och tidplan. (3) Dokumentera att SBSC ska underrättas utan dröjsmål.",
+         actionPartial:"Kontrollera att rutinen är känd av ledningen och faktiskt kan aktiveras snabbt om behovet uppstår. Finns kontaktuppgifter till alternativa behöriga ingenjörer dokumenterade?"},
+      ]},
+
+      {id:"kam_ostraffade",name:"Ostraffad personal",questions:[
+        {id:"kam_ostr_1",
+         text:"Finns en dokumenterad rutin för att kontrollera att all personal med tillgång till anläggningsdokumentation är ostraffad — och tillämpas kontrollen minst vartannat år?",
+         help:"SSF 1061:3 §4.5: anläggarfirman ska ha en rutin för att bedöma om personal med tillgång till anläggningsdokumentation är ostraffad. Ostraffad definieras som att inte ha påförts annan påföljd än penningbot. Rutinen ska tillämpas minst vartannat år.",
+         action:"Ta fram en rutin för personalkontroll: (1) Definiera vilka roller som har tillgång till anläggningsdokumentation. (2) Begär utdrag ur belastningsregistret vid anställning och minst vartannat år. (3) Dokumentera genomförda kontroller med datum. Utdrag begärs via Polismyndigheten.",
+         actionPartial:"Kontrollera att kontrollintervallet vartannat år faktiskt hålls för all berörd personal — inte bara vid nyanställning. Finns det personal där senaste kontroll är äldre än 2 år?"},
+      ]},
+
+      {id:"kam_service",name:"Service & felanmälan",questions:[
+        {id:"kam_serv_1",
+         text:"Kan företaget ta emot och bekräfta felanmälan inom 12 timmar på helgfri vardag — och dokumenteras bekräftelserna?",
+         help:"SSF 1061:3 §4.7.1: anläggarfirman ska motta och bekräfta felanmälan inom 12 timmar på helgfri vardag. Notera att kravet gäller helgfria vardagar — till skillnad från inbrottslarm som kräver beredskap dygnet runt. Bekräftelsen ska dokumenteras.",
+         action:"Säkerställ att ni har en rutin för att ta emot felanmälningar under helgfria vardagar och bekräfta dessa inom 12 timmar. Dokumentera bekräftelsen med tidsstämpel — t.ex. via ärendehanteringssystem eller loggad mejl/SMS.",
+         actionPartial:"Kontrollera att bekräftelserna faktiskt sker inom 12-timmarsgränsen och dokumenteras. Finns en tydlig rutin för vem som tar emot felanmälningar och hur bekräftelsen skickas?"},
+        {id:"kam_serv_2",
+         text:"Kan företaget påbörja service på plats inom ett helgfritt dygn från att felanmälan bekräftats?",
+         help:"SSF 1061:3 §4.7.2: anläggarfirman ska kunna påbörja service på plats inom ett helgfritt dygn från bekräftad felanmälan. Om andra tider avtalats med kunden ska detta dokumenteras på systemintyget (§4.7.3).",
+         action:"Säkerställ att ni har tillräckliga resurser och rutiner för att hålla en dygns-responstid på helgfria vardagar. Om ni avtalat om andra tider med specifika kunder — kontrollera att detta finns dokumenterat på respektive systemintyg.",
+         actionPartial:"Kontrollera att responstiden faktiskt hålls i praktiken — inte bara i teorin. Finns det kunder med avvikande avtalade tider som inte är dokumenterade på systemintyget?"},
+      ]},
+
+      {id:"kam_lokaler",name:"Lokaler & dokumentationsskydd",questions:[
+        {id:"kam_lok_1",
+         text:"Har anläggarfirmans lokaler mekaniskt inbrottsskydd i lägst skyddsklass 1 (SSF 200), inbrottslarm i lägst larmklass 2 (SSF 130) och larmöverföring i larmklass 3 (SSF 114) med två alternativa vägar?",
+         help:"SSF 1061:3 §4.8.1–4.8.3: lokalerna där kamerabevakningsverksamhet bedrivs ska ha: (1) mekaniskt inbrottsskydd skyddsklass 1 enligt SSF 200, (2) inbrottslarm larmklass 2 enligt SSF 130, (3) larmöverföring larmklass 3 enligt SSF 114 med två alternativa vägar. Kravet på larmklass 3-överföring är strängare än för inbrottslarm-anläggarfirmor.",
+         action:"Gå igenom era lokaler mot alla tre kraven. Kontrollera att inbrottslarmet är i larmklass 2 och att larmöverföringen är i larmklass 3 med två alternativa kommunikationsvägar. Dokumentera med anläggarintyg.",
+         actionPartial:"Kontrollera specifikt larmöverföringen — larmklass 3 med två alternativa vägar är ett krav som ofta missas. Kontakta er larminstallation för att verifiera att larmöverföringen uppfyller SSF 114 larmklass 3."},
+        {id:"kam_lok_2",
+         text:"Bedrivs enbart den egna kamerabevakningsverksamheten i de lokaler som omfattas av certifieringen?",
+         help:"SSF 1061:3 §4.8.4: i de lokaler som omfattas av kamerabevakningsverksamheten får endast den egna verksamheten bedrivas. Delade lokaler med annan verksamhet — t.ex. uthyrda kontor eller butiksyta — uppfyller inte kravet för de ytor som är gemensamma.",
+         action:"Gå igenom att era lokaler enbart används för den egna verksamheten i de delar som certifieringen omfattar. Om lokaler delas med annan verksamhet — definiera tydligt vilka ytor som ingår i certifieringens omfattning.",
+         actionPartial:"Kontrollera om det förekommer annan verksamhet i lokalerna — t.ex. andrahandsuthyrning eller gemensamma ytor. Klargör vilka delar som ingår i certifieringens scope."},
+        {id:"kam_lok_3a",
+         text:"Finns dokumenterade och implementerade rutiner för att registrera och kontrollera alla besökare i anläggarfirmans lokaler — och eskorteras besökare alltid?",
+         help:"SSF 1061:3 §4.9.1–4.9.2: personer som inte är anställda eller ägare ska betraktas som besökare. Anläggarfirman ska ha implementerade och dokumenterade rutiner för kontroll av besökande i alla lokaler utom eventuell butikslokal. Med övervakning avses besöksregistrering och tillträdeskontroll.",
+         action:"Inför en besöksrutin som täcker alla lokaler (utom eventuell butikslokal): (1) Alla besökare registreras med namn, datum, syfte och tid. (2) Besökare eskorteras och lämnas aldrig ensamma. (3) Rutinen ska vara dokumenterad och känd av all personal.",
+         actionPartial:"Kontrollera att rutinen faktiskt tillämpas konsekvent — även för leverantörer, städpersonal och hantverkare. Förs besöksregistreringen vid varje besök?"},
+        {id:"kam_lok_3b",
+         text:"Är tillträdet till anläggarfirmans lokaler tekniskt begränsat via t.ex. kodlås, passerkort eller låst dörr med begränsad nyckeltillgång?",
+         help:"SSF 1061:3 §4.9.2: tillträdeskontroll är en del av kravet på övervakning av besökande. En dokumenterad rutin utan teknisk begränsning av tillträdet uppfyller inte kravet fullt ut — det krävs en teknisk mekanism som faktiskt begränsar vem som kan ta sig in.",
+         action:"Inför teknisk tillträdeskontroll i lokalerna: kodlås, passersystem eller låst dörr med begränsad nyckeltillgång. Dokumentera vilka som har tillträde och se över listan vid personalförändringar.",
+         actionPartial:"Kontrollera att den tekniska lösningen faktiskt begränsar tillträdet i praktiken. Hur många har tillgång till koder/nycklar och ses listan över regelbundet?"},
+        {id:"kam_dok_1",
+         text:"Förvaras anläggningsdokumentation för kamerabevakningsanläggningar i låst skåp eller låst rum — oavsett om det är fysiskt eller digitalt material?",
+         help:"SSF 1061:3 §4.10.1: anläggarfirman ska förvara anläggningsdokumentation i låst skåp eller låst rum, oavsett media. Digitalt material ska skyddas av brandvägg och lösenord samt säkerhetskopieras på extern enhet (§4.10.3). Om servern finns hos tredje part gäller särskilda krav enligt Bilaga A.",
+         action:"Gå igenom hur er anläggningsdokumentation förvaras: (1) Fysiskt material: låst skåp eller rum. (2) Digitalt material: brandvägg, lösenord och backup på extern enhet. (3) Om outsourcad server: kontrollera att Bilaga A-kraven är uppfyllda och intygade av leverantören.",
+         actionPartial:"Kontrollera att backup faktiskt genomförs och testas regelbundet. Om ni använder molntjänster — är leverantören informerad om och uppfyller Bilaga A-kraven?"},
+        {id:"kam_dok_2",
+         text:"Finns rutiner för att förvara, skydda och rekonstruera kundregister, anläggningshandlingar och programvara till datorbaserade system?",
+         help:"SSF 1061:3 §4.10.2: rutiner ska finnas för att förvara, skydda och rekonstruera kundregister, anläggningshandlingar och programvara. Med rekonstruktion avses att information kan återskapas vid förlust — t.ex. om en dator eller server havererar. Tillgänglighet för behörig personal regleras i §4.10.4.",
+         action:"Ta fram en rutin som täcker: (1) Var kundregister och anläggningshandlingar förvaras. (2) Hur de skyddas mot obehörig åtkomst. (3) Hur de kan rekonstrueras vid förlust — backup-frekvens, lagringsplats och ansvarig. Testa återställning minst en gång per år.",
+         actionPartial:"Kontrollera att rutinen täcker alla tre delarna — förvaring, skydd och rekonstruktion. Har backup-rutinen faktiskt testats med en återställning, eller antas den bara fungera?"},
+      ]},
+
+      {id:"kam_gdpr",name:"Lagar, GDPR & upplysningsplikt",questions:[
+        {id:"kam_gdpr_1",
+         text:"Är anläggarfirmans personal väl insatt i de väsentliga delarna av Kamerabevakningslagen och GDPR — och finns lagarna tillgängliga på anläggarfirman?",
+         help:"SSF 1061:3 §4.11: personalen ska vara väl insatt i väsentliga delar av Dataskyddsförordningen (GDPR) och Kamerabevakningslagen. Lagarna ska finnas tillgängliga på anläggarfirman. Kamerabevakningslagen (2018:1200) reglerar bl.a. tillståndsplikt, registreringstid och upplysningsskyldighet.",
+         action:"Säkerställ att berörd personal fått utbildning i Kamerabevakningslagen och GDPR — specifikt de delar som påverkar kundinstallationer: tillståndsplikt, registreringstid, skyltningskrav och kundens ansvar som personuppgiftsansvarig. Spara lagarna digitalt tillgängliga för all personal.",
+         actionPartial:"Kontrollera att kunskapen faktiskt finns hos personalen — inte bara att lagtexterna är tillgängliga. Kan teknikerna förklara vad Kamerabevakningslagen innebär för en typisk kundinstallation?"},
+        {id:"kam_gdpr_2",
+         text:"Finns rutiner för att informera kunden om vad Kamerabevakningslagen och GDPR innebär — och bistår ni kunden med nödvändiga dokument, ansökningshandlingar och skyltar?",
+         help:"SSF 1061:3 §4.11: anläggarfirman ska informera kunden om vad lagarna innebär och hur de påverkar användandet av anläggningen. Firman ska även bistå med de dokument och ansökningshandlingar som krävs samt tillhandahålla de skyltar som krävs för att upplysa om att området är kamerabevakat. Detta är ett aktivt krav — inte bara att hänvisa till IMY:s hemsida.",
+         action:"Ta fram en kundrutin för GDPR/Kamerabevakningslagen: (1) Informationsblad till kunden om deras skyldigheter som personuppgiftsansvarig. (2) Checklistor för tillståndsplikt och anmälningsplikt. (3) Mall för kamerabevakningsskylt. (4) DPA-avtal om ni hanterar personuppgifter för kundens räkning.",
+         actionPartial:"Kontrollera att rutinen faktiskt tillämpas vid varje kundinstallation — inte bara för kunder som frågar. Har ni mallar och skyltar tillgängliga, eller sköter ni detta ad hoc?"},
+        {id:"kam_gdpr_3",
+         text:"Har ni tecknat personuppgiftsbiträdesavtal (DPA) med de kunder där ni hanterar personuppgifter för deras räkning — t.ex. vid fjärrövervakning, lagring av videomaterial eller teknisk support med åtkomst till systemet?",
+         help:"GDPR Artikel 28: om anläggarfirman hanterar personuppgifter på uppdrag av kunden — t.ex. vid fjärrövervakning, support med åtkomst till inspelat material eller lagring av videomaterial i molntjänst — krävs ett personuppgiftsbiträdesavtal (DPA). Det är kundens ansvar att säkerställa att DPA finns, men er erfarenhet och era rutiner skapar ett mervärde och minskar kundens risk.",
+         action:"Inventera era kundrelationer och identifiera i vilka fall ni hanterar personuppgifter för kundens räkning. Ta fram en DPA-mall för dessa situationer och se till att avtal finns tecknade med berörda kunder. Rådgör med juridisk kompetens om ni är osäkra.",
+         actionPartial:"Kontrollera om det finns kundrelationer där ni de facto hanterar personuppgifter utan att DPA finns. Vanligast: fjärrsupportavtal med åtkomst till videomaterial och molnlagringstjänster."},
+      ]},
+
+    ]
+  },
+    iso9001:{
+    id:"iso9001",name:"ISO 9001",reg:"SS-EN ISO 9001:2015",
+    desc:"Kvalitetsledningssystem för anläggarfirmor inom brand och säkerhet",
+    sections:[
+      {id:"iso_kontext",name:"Organisationens kontext",questions:[
+        {id:"iso_k_1",
+         text:"Har ni kartlagt de externa och interna faktorer som påverkar er förmåga att leverera med rätt kvalitet och uppnå era mål?",
+         help:"ISO 9001:2015 §4.1: organisationen ska avgöra relevanta externa faktorer (t.ex. branschregler, försäkringskrav, konkurrens, teknikutveckling) och interna faktorer (t.ex. kompetens, kultur, ekonomi). Informationen ska övervakas och granskas. Det behöver inte vara ett avancerat dokument — en genomtänkt och uppdaterad lista räcker.",
+         action:"Håll ett kort internt möte och dokumentera de viktigaste externa och interna faktorerna. T.ex. externa: SSF/SBF-regelverksförändringar, försäkringsbolagens krav, konkurrens om behöriga ingenjörer. Interna: kompetensgap, ekonomisk uthållighet, nyckelberoendet av enskilda medarbetare. Uppdatera listan minst en gång per år.",
+         actionPartial:"Gå igenom om er nuvarande analys är aktuell och täcker både externa och interna faktorer. Är den integrerad i er planering, eller ligger den bara som ett dokument ingen läser?"},
+        {id:"iso_k_2",
+         text:"Har ni identifierat vilka intressenter (kunder, beställare, försäkringsbolag, myndigheter m.fl.) som ställer krav på er verksamhet, och vad dessa krav konkret innebär?",
+         help:"ISO 9001:2015 §4.2: organisationen ska bestämma vilka intressenter som är relevanta för kvalitetsledningssystemet och vilka av deras krav som är relevanta. För en brand- och säkerhetsinstallatör kan det t.ex. vara: kundkrav på dokumentation och anläggarintyg, försäkringsbolagens krav på SSF-certifiering, myndighetskrav via larmlagen.",
+         action:"Ta fram en enkel intressentlista: vem ställer krav på er, och vad kräver de? Koppla listan till era rutiner — t.ex. att kundkravet på skriftlig dokumentation möts av er anläggarintygsrutin.",
+         actionPartial:"Gå igenom om listan är komplett och aktuell. Märker ni att ni missar krav från någon intressent i era dagliga rutiner — uppdatera listan och se vilka rutiner som behöver justeras."},
+        {id:"iso_k_3",
+         text:"Är kvalitetsledningssystemets omfattning definierad och dokumenterad — dvs. vilka tjänster, uppdragstyper och verksamhetsdelar som ingår?",
+         help:"ISO 9001:2015 §4.3: organisationen ska bestämma och dokumentera systemets avgränsning. T.ex. 'Systemet omfattar projektering, installation, driftsättning och underhåll av inbrottslarmanläggningar larmklass 1–2 och brandlarmanläggningar.' Om något krav i standarden bedöms som icke-tillämpligt ska detta motiveras.",
+         action:"Skriv en kort beskrivning av systemets omfattning — vad ingår, vad ingår inte, och varför. Dokumentera detta som en del av systemet, t.ex. i kvalitetshandboken eller liknande.",
+         actionPartial:"Kontrollera att befintlig avgränsning fortfarande stämmer med er faktiska verksamhet. Har ni utökat eller inskränkt er verksamhet utan att uppdatera beskrivningen?"},
+      ]},
+      {id:"iso_ledarskap",name:"Ledarskap, policy & mål",questions:[
+        {id:"iso_l_1",
+         text:"Har högsta ledningen upprättat en kvalitetspolicy som är anpassad till verksamheten, innehåller ett förbättringsåtagande och är kommunicerad och känd av personalen?",
+         help:"ISO 9001:2015 §5.2: policyn ska vara anpassad till organisationens syfte och förutsättningar, ge ett ramverk för kvalitetsmål, och innefatta åtaganden att uppfylla tillämpliga krav och ständigt förbättra systemet. Den ska finnas tillgänglig som dokumenterad information och kommuniceras, förstås och tillämpas inom organisationen.",
+         action:"Skriv en enkel kvalitetspolicy på en sida. Den ska innehålla: vad ni erbjuder, vilket kvalitetsåtagande ni gör gentemot kunder, koppling till tillämpliga regler (SSF/SBF-normer, larmlagen), och ett åtagande om ständig förbättring. Låt ledningen skriva under. Gå igenom den med all personal och dokumentera kommunikationen.",
+         actionPartial:"Kontrollera att policyn uppfyller §5.2:s fyra krav: rätt syfte, ramverk för mål, uppfyllnadsåtagande och förbättringsåtagande. Kontrollera att den faktiskt är känd av personalen — inte bara publicerad."},
+        {id:"iso_l_2",
+         text:"Är ansvar och befogenheter för kvalitetsrelaterade roller tydligt fördelade, dokumenterade och kommunicerade inom organisationen?",
+         help:"ISO 9001:2015 §5.3: högsta ledningen ska tilldela ansvar och befogenhet för att (a) säkerställa att systemet uppfyller standardens krav, (b) säkerställa att processerna ger avsedda resultat, (c) rapportera om systemets funktion och förbättringsmöjligheter, och (d) säkerställa kundfokus.",
+         action:"Ta fram en enkel ansvarsmatris eller befattningsbeskrivningar som täcker §5.3:s fyra punkter. Klargör specifikt vem som ansvarar för: systemets efterlevnad, processresultat, rapportering till ledningen och kundernas krav.",
+         actionPartial:"Gå igenom om befintlig ansvarsfördelning täcker alla §5.3-krav. Är rapporteringsvägen till ledningen tydlig? Vet berörda personer om sina roller — eller är ansvaret bara dokumenterat utan att ha kommunicerats?"},
+        {id:"iso_l_3",
+         text:"Finns dokumenterade, mätbara kvalitetsmål för relevanta funktioner och processer, och finns en plan för hur de ska uppnås?",
+         help:"ISO 9001:2015 §6.2: kvalitetsmålen ska vara förenliga med policyn, mätbara, ta hänsyn till krav, vara relevanta för kundtillfredsställelse, övervakas, kommuniceras och uppdateras. För varje mål ska det framgå: vad som ska göras, vilka resurser som krävs, vem som ansvarar, när det ska vara klart och hur resultaten utvärderas.",
+         action:"Sätt 3–5 konkreta och mätbara mål. T.ex. 'Max 3% reklamationer per kvartal', 'All ny personal genomgår behörighetsutbildning inom 6 månader', 'Anläggarintyg överlämnas senast vid avprovning i 100% av uppdragen'. Dokumentera målen med ansvarig och uppföljningsdatum.",
+         actionPartial:"Gå igenom befintliga mål mot §6.2:s krav. Är de mätbara? Finns en plan med ansvarig, tidpunkt och utvärderingsmetod? Uppdateras de regelbundet och kommuniceras de till berörda?"},
+      ]},
+      {id:"iso_planering",name:"Riskbaserat tänkande & planering",questions:[
+        {id:"iso_p_1",
+         text:"Har ni identifierat risker och möjligheter som kan påverka kvalitetsledningssystemets förmåga att ge avsedda resultat, och planerat åtgärder för att hantera dem?",
+         help:"ISO 9001:2015 §6.1: organisationen ska identifiera risker och möjligheter och planera åtgärder för att hantera dem. Åtgärderna ska integreras i processerna och deras verkan utvärderas. Standarden kräver inte ett formellt riskhanteringssystem — en enkel riskanalys räcker. T.ex. risk: nyckelkompetens som slutar, möjlighet: utökat serviceavtal med befintliga kunder.",
+         action:"Gör en riskanalys i tabellform: identifiera de 5–10 viktigaste riskerna och möjligheterna, bedöm sannolikhet och konsekvens för varje, och definiera en åtgärd per risk. Integrera analysen i er planering och uppdatera den vid väsentliga förändringar.",
+         actionPartial:"Kontrollera att befintlig riskanalys faktiskt är kopplad till konkreta åtgärder — inte bara en lista. Utvärderas åtgärdernas verkan? Uppdateras analysen vid personalförändringar, nya regelverk eller verksamhetsförändringar?"},
+        {id:"iso_p_2",
+         text:"Finns rutiner för att planera förändringar av kvalitetsledningssystemet på ett kontrollerat sätt — dvs. att ändringarnas syfte, konsekvenser och resursbehov beaktas?",
+         help:"ISO 9001:2015 §6.3: när systemet behöver förändras ska detta göras planerat, med hänsyn till: syftet med ändringen, att systemets funktion bibehålls, resursers tillgänglighet, och befintlig/förändrad ansvarsfördelning. T.ex. om ni utökar till ny larmklass, inför nya rutiner eller byter systemstöd.",
+         action:"Ta fram en enkel rutin för förändringsplanering: innan en förändring av systemet genomförs ska syfte, konsekvenser, resursbehov och ansvar dokumenteras och godkännas av ledningen.",
+         actionPartial:"Kontrollera att ni faktiskt planerar systemförändringar — eller om de sker ad hoc. Finns det exempel på förändringar som gjorts utan att konsekvenserna för systemet beaktats?"},
+      ]},
+      {id:"iso_stod",name:"Kompetens, resurser & dokumentation",questions:[
+        {id:"iso_s_1",
+         text:"Har ni bestämt vilken kompetens som är nödvändig för varje roll, säkerställt att personalen är kompetent, och dokumenterat bevis på kompetensen?",
+         help:"ISO 9001:2015 §7.2: organisationen ska avgöra nödvändig kompetens, säkerställa att personalen har den (baserat på utbildning, upplärning eller erfarenhet), vidta åtgärder om kompetens saknas, och bevara dokumenterad information som belägg. T.ex. kompetensmatriser, utbildningsintyg, BIB/BII-certifikat, vidareutbildningsplan.",
+         action:"Skapa en kompetensmatris: roller/tjänster på ena axeln, anställda på den andra. Fyll i dokumenterad kompetens (certifikat, utbildningsintyg, erfarenhetsbeskrivning) per person. Markera luckor och upprätta en åtgärdsplan med tidplan.",
+         actionPartial:"Uppdatera matrisen med delar som saknas. Lägg till förnyelsedatum för tidsbegränsade certifikat (t.ex. BIB vart 5:e år). Kontrollera att åtgärdsplanen för kompetensgap faktiskt genomförs."},
+        {id:"iso_s_2",
+         text:"Finns rutiner för att skapa, uppdatera och styra dokumenterad information — inklusive versionshantering, distribution och skydd mot oavsiktlig ändring?",
+         help:"ISO 9001:2015 §7.5: all dokumenterad information som krävs av systemet ska styras. Det innebär: rätt identifiering (version, datum), lämplig form, granskning och godkännande, tillgänglighet vid behov, skydd mot förvanskning, versionshantering, och arkivering/gallring. Gäller både interna dokument och externa dokument man är beroende av (t.ex. SSF/SBF-normer).",
+         action:"Inför ett enkelt dokumentstyrningssystem: (1) Numrera och versionsmärk alla styrande dokument. (2) Definiera en central plats där aktuella versioner hämtas. (3) Ta bort eller märk upp ogiltiga versioner. (4) Definiera vem som godkänner nya/ändrade dokument.",
+         actionPartial:"Gå igenom om versionshanteringen faktiskt fungerar i praktiken — finns ogiltiga versioner tillgängliga? Kontrollera att externa dokument (SSF/SBF-normer med revideringsblad) är uppdaterade."},
+        {id:"iso_s_3",
+         text:"Finns rutiner för att bevara och överföra kritisk verksamhetskunskap — t.ex. om nyckelkompetens slutar eller ny personal tillkommer?",
+         help:"ISO 9001:2015 §7.1.6: organisationen ska bestämma den kunskap som är nödvändig för processerna och säkerställa att den underhålls och är tillgänglig. Vid förändrade behov ska man beakta befintlig kunskap och bestämma hur ytterligare kunskap inhämtas. T.ex. rutiner, installationserfarenhet, kundhistorik och systeminställningar som bara finns i en persons huvud.",
+         action:"Identifiera kritisk kunskap som riskerar att gå förlorad vid personalomsättning. Dokumentera den: t.ex. via arbetsrutiner, systemdokumentation, kundmappar och mentorskap. Säkerställ att ingen funktion är helt beroende av en enskild person.",
+         actionPartial:"Gå igenom vilken kritisk kunskap som fortfarande är odokumenterad eller beroende av en enskild person. Prioritera dokumentation av de mest riskfyllda luckorna."},
+      ]},
+      {id:"iso_verksamhet",name:"Verksamhet & leveranskvalitet",questions:[
+        {id:"iso_v_1",
+         text:"Fångar ni upp, granskar och dokumenterar kundkrav innan ett uppdrag accepteras — inklusive tillämpliga regelverk och krav som kunden inte uttryckligen angett men som är nödvändiga?",
+         help:"ISO 9001:2015 §8.2.2–8.2.3: innan ett uppdrag accepteras ska kraven på produkter/tjänster granskas. Det inkluderar: kundspecificerade krav, tillämpliga författningskrav (t.ex. larmlagen, SSF/SBF-normer), krav organisationen bedömer nödvändiga, och krav i kontrakt som avviker från tidigare angivna. Kunden ska bekräfta krav som inte är dokumenterade.",
+         action:"Inför en rutin för uppdragsgranskning: innan ni accepterar ett uppdrag, gå igenom vilka krav som gäller (kund, regelverk, er standard). Dokumentera kravgenomgången — t.ex. via offert, orderbekräftelse eller ett mötes- och kravformulär.",
+         actionPartial:"Kontrollera att rutinen används konsekvent och täcker alla §8.2.3-punkter — inte bara kundspecificerade krav utan även tillämpliga regelverk. Finns det uppdragstyper som genomförs utan dokumenterad kravgenomgång?"},
+        {id:"iso_v_2a",
+          text:"Finns rutiner för att verifiera att arbetet uppfyller kraven — t.ex. via en slutkontrollchecklista — innan det överlämnas till kunden?",
+          help:"ISO 9001:2015 §8.6: organisationen ska genomföra planerade aktiviteter för att verifiera att krav uppfyllts innan frisläppning. Det innebär att det ska finnas en definierad slutkontroll-rutin med acceptanskriterier — t.ex. en checklista som fylls i vid varje uppdrag.",
+          action:"Ta fram en slutkontrollchecklista anpassad till era tjänster: t.ex. för brandlarmsinstallation — funktionsprov, larmöverföringskontroll, dokumentation komplett, anläggarintyg upprättat. Definiera vad som ska kontrolleras och säkerställ att rutinen används vid varje uppdrag.",
+          actionPartial:"Kontrollera att checklistan faktiskt används konsekvent — inte bara vid vissa uppdragstyper. Saknas slutkontrollrutin för några tjänster ni erbjuder?"
+        },
+        {id:"iso_v_2b",
+          text:"Dokumenteras godkännandeprocessen med spårbarhet till vem som godkänt leveransen och när?",
+          help:"ISO 9001:2015 §8.6: dokumenterad information ska bevaras med bevis på överensstämmelse och spårbarhet till den som godkänt frisläppningen. Det räcker inte att ha en rutin — godkännandet måste kunna visas i efterhand.",
+          action:"Definiera vem som har rätt att godkänna leverans och säkerställ att godkännandet alltid dokumenteras med namn och datum — t.ex. i ett protokoll, checklista eller digital signatur. Spara dokumentationen per uppdrag i kundmappen.",
+          actionPartial:"Kontrollera att godkännandet faktiskt dokumenteras med spårbarhet per uppdrag. Finns en namngiven person med mandat att godkänna — eller godkänns leveranser utan att det registreras?"
+        },
+        
+        {id:"iso_v_3",
+         text:"Finns rutiner för att säkerställa att externt tillhandahållna produkter och tjänster (leverantörer, underentreprenörer) uppfyller era krav — inklusive dokumenterade kriterier för urval och uppföljning?",
+         help:"ISO 9001:2015 §8.4: organisationen ska definiera kriterier för utvärdering, val och uppföljning av externa leverantörer, baserat på deras förmåga att leverera enligt krav. Dokumenterad information om utvärdering och nödvändiga åtgärder ska bevaras. Gäller för materialleverantörer (SSF 1014-godkänd materiel), underentreprenörer och konsulter.",
+         action:"Upprätta en lista över godkända leverantörer med dokumenterade urvalskriterier (certifieringar, teknisk kompetens, referenser, leveranstider). Inför en rutin för löpande uppföljning av leverantörsprestanda och för att bedöma nya leverantörer.",
+         actionPartial:"Gå igenom befintlig leverantörslista — finns dokumenterade urvalskriterier? Sker löpande uppföljning? Uppdatera listan och kontrollera att underentreprenörer faktiskt uppfyller era krav."},
+        {id:"iso_v_4",
+         text:"Finns rutiner för att identifiera, styra och dokumentera avvikande processresultat — dvs. utfall som inte uppfyller ställda krav — för att förhindra oavsiktlig leverans?",
+         help:"ISO 9001:2015 §8.7: organisationen ska säkerställa att avvikande processresultat identifieras och hanteras. Åtgärder kan innefatta: korrigering, utsortering/retur, kundinfo, dispens. Dokumenterad information ska bevaras med beskrivning av avvikelsen, åtgärder och ansvarig beslutsfattare. Gäller även avvikelser som upptäcks efter leverans.",
+         action:"Inför ett avvikelsesystem för produkt-/tjänsteavvikelser (skilt från reklamationshanteringen): t.ex. ett formulär eller en logg där det framgår vad som avvek, hur det hanterades, vem som fattade beslut och om kunden informerades. Definiera vem som har mandat att godkänna dispens för leverans trots avvikelse.",
+         actionPartial:"Kontrollera att befintliga rutiner täcker §8.7:s krav — spårbarhet till beslutsfattare och hantering av avvikelser som uppkommer efter leverans. Uppdatera dokumentationsrutinen om dessa delar saknas."},
+      ]},
+      {id:"iso_uppfoljning",name:"Utvärdering, revision & förbättring",questions:[
+        {id:"iso_u_1a",
+          text:"Mäts kundtillfredsställelse på ett systematiskt sätt — med en definierad metod som används konsekvent?",
+          help:"ISO 9001:2015 §9.1.2: organisationen ska övervaka kunders uppfattning om i vilken utsträckning deras behov uppfyllts, och fastställa metoder för att inhämta, övervaka och granska informationen. Metoden behöver inte vara avancerad — en enkel enkät räcker om den används konsekvent.",
+          action:"Inför en rutin för kunduppföljning: t.ex. en kort enkät (3–5 frågor) via mejl efter avslutat uppdrag. Dokumentera svaren och definiera hur ofta och av vem mätningen genomförs.",
+          actionPartial:"Kontrollera att mätmetoden faktiskt används konsekvent — inte bara vid enstaka tillfällen. Finns ett system för att samla in och dokumentera svaren?"
+        },
+        {id:"iso_u_1b",
+          text:"Används resultaten från kundmätningen som underlag vid ledningens genomgång och som grund för konkreta förbättringsåtgärder?",
+          help:"ISO 9001:2015 §9.1.2 och §9.3.2: resultaten från kundmätningen ska ingå som obligatoriskt underlag vid ledningens genomgång. Det räcker inte att samla in data — resultaten ska analyseras och leda till beslut.",
+          action:"Säkerställ att kundnöjdhetsresultat finns med som en fast punkt på dagordningen vid ledningens genomgång. Analysera trender och besluta konkreta åtgärder som dokumenteras och följs upp.",
+          actionPartial:"Kontrollera att resultaten faktiskt presenteras vid ledningens genomgång — inte bara arkiveras. Leder mätresultaten till konkreta förbättringsåtgärder?"
+        },
+        
+        {id:"iso_u_2",
+         text:"Analyseras data och information från verksamheten regelbundet för att utvärdera processprestanda, måluppfyllelse och verkan av riskåtgärder?",
+         help:"ISO 9001:2015 §9.1.3: resultaten av analys ska användas för att utvärdera: produkters/tjänsters överensstämmelse med krav, kundtillfredsställelse, systemets prestanda, om planerade åtgärder genomförts verkningsfullt, verkan av riskhanteringsåtgärder, externa leverantörers prestanda, och förbättringsbehov.",
+         action:"Inför en rutin för regelbunden dataanalys — t.ex. kvartalsvis: gå igenom reklamationsstatistik, kundnöjdhetsresultat, måluppfyllelse och leverantörsprestanda. Sammanfatta slutsatserna och presentera dem vid ledningens genomgång.",
+         actionPartial:"Kontrollera att analysen täcker alla §9.1.3-punkter och att resultaten faktiskt används för beslut — inte bara samlas in och arkiveras."},
+        {id:"iso_u_3",
+         text:"Genomförs interna revisioner med planerade intervall, med dokumenterat revisionsprogram, objektivt genomförande och uppföljning av fynd?",
+         help:"ISO 9001:2015 §9.2: organisationen ska planera, upprätta, genomföra och underhålla ett revisionsprogram. Varje revision ska ha definierade kriterier och omfattning. Revisorer ska väljas för att säkerställa objektivitet (dvs. revisorn granskar inte sin egen verksamhet). Revisionsresultat ska rapporteras till ledningen och korrigerande åtgärder vidtas utan onödigt dröjsmål.",
+         action:"Upprätta ett revisionsprogram: planera minst en internrevision per år. Definiera vilka processer och krav som granskas, utse revisor (annan än den ansvarige för området), dokumentera fynd och beslutade åtgärder. Rapportera resultaten till ledningen.",
+         actionPartial:"Kontrollera att revisionsprogrammet täcker alla systemets processer över tid, att objektivitet säkerställs, och att korrigerande åtgärder verkligen genomförs och stängs. Finns revisionsprotokoll?"},
+        {id:"iso_u_4",
+         text:"Genomför högsta ledningen regelbundna genomgångar av systemet med de underlag som §9.3 kräver, och dokumenteras resultaten med beslut om resurser, förbättringar och systemändringar?",
+         help:"ISO 9001:2015 §9.3: ledningens genomgång ska innefatta: status för åtgärder från tidigare genomgång, externa/interna förändringar, kvalitetsprestanda (kundtillfredsställelse, måluppfyllelse, processprestanda, avvikelser, revisionsresultat, leverantörsprestanda), resursers tillräcklighet, riskåtgärders verkan, och förbättringsmöjligheter. Resultaten ska dokumenteras med beslut om förbättring, systemändringar och resursbehov.",
+         action:"Schemalägg ledningens genomgång minst en gång per år. Förbered ett standardiserat underlag som täcker alla §9.3.2-punkter. Dokumentera besluten i ett protokoll med ansvariga och datum för uppföljning.",
+         actionPartial:"Gå igenom senaste protokollet mot §9.3.2:s underlagslista — täcks alla punkter? Kontrollera att beslutade åtgärder följs upp vid nästa genomgång och att protokollet bevaras som dokumenterad information."},
+        {id:"iso_u_5",
+         text:"Finns ett system för avvikelse och korrigerande åtgärd (inkl. klagomål) med rotorsaksanalys, dokumenterade åtgärder och verifikation av att åtgärderna fungerat?",
+         help:"ISO 9001:2015 §10.2: vid avvikelse ska organisationen: reagera och hantera avvikelsen, utvärdera behovet av korrigerande åtgärd (rotorsaksanalys), vidta åtgärder, granska åtgärdernas verkan, och vid behov uppdatera risker/möjligheter och systemet. Dokumenterad information ska bevaras med avvikelsens art, åtgärder och resultat.",
+         action:"Inför ett system för korrigerande åtgärder (skilt från det operativa avvikelsesystemet i §8.7): ett register med kolumnerna — datum, avvikelse/klagomål, rotorsak, beslutad åtgärd, ansvarig, uppföljningsdatum, verifikation av verkan. Definiera en rutin för hur klagomål utlöser rotorsaksanalys.",
+         actionPartial:"Kontrollera att rotorsaksanalys faktiskt genomförs — inte bara att avvikelsen åtgärdas symptomatiskt. Verifieras att åtgärderna fungerat? Uppdateras riskanalysen när mönster i avvikelser identifieras?"},
+      ]},
+    ]
+  },
+  iso27001:{
+    id:"iso27001",name:"ISO 27001",reg:"SS-ISO/IEC 27001:2022",
+    desc:"Ledningssystem för informationssäkerhet",
+    sections:[
+      {id:"i27_kontext",name:"Kontext & systemomfattning",questions:[
+        {id:"i27_k_1",
+         text:"Har ni kartlagt externa och interna faktorer som påverkar er informationssäkerhet, samt identifierat vilka intressenter som har relevanta krav på hur ni hanterar information?",
+         help:"ISO 27001:2022 §4.1–4.2: organisationen ska avgöra externa och interna frågor relevanta för ISMS:ets syfte (t.ex. GDPR, NIS2, kundavtal, IT-infrastruktur) och fastställa vilka intressenter som är relevanta och vilka av deras krav som ska hanteras i systemet. T.ex. kunder som kräver konfidentiell hantering av larmkoder, myndigheter via GDPR och larmlagen.",
+         action:"Dokumentera er IS-kontext: lista externa faktorer (lagar, kundkrav, branschkrav, hot) och interna faktorer (IT-system, personal, processer). Gör en intressentlista med deras IS-krav — t.ex. kunder (larmkoder/anläggningsdata), SBSC (revisioner), myndigheter (GDPR). Uppdatera minst en gång per år.",
+         actionPartial:"Kontrollera att kontextanalysen täcker informationssäkerhet specifikt — inte bara verksamhetsfaktorer generellt. Är GDPR, NIS2 och kunders avtalskrav på informationshantering med?"},
+        {id:"i27_k_2",
+         text:"Är ISMS:ets omfattning definierad och dokumenterad — dvs. vilka informationstillgångar, system, lokaler, processer och externa parters beroendeförhållanden som ingår?",
+         help:"ISO 27001:2022 §4.3: omfattningen ska fastställa ISMS:ets gränser och tillämplighet, med hänsyn till externa/interna frågor (§4.1), intressenters krav (§4.2) och gränssnitt/beroendeförhållanden mot externa parter. Viktigt: ni måste explicit hantera beroenden mot externa system (molntjänster, underleverantörer med åtkomst till er information).",
+         action:"Skriv en dokumenterad ISMS-omfattning: vilka system ingår (t.ex. ärendesystem, e-post, kundregister, larmkonfigurationsdata), vilka lokaler, vilka processer och vilka externa parters beroendeförhållanden. Ange vad som är utanför systemet.",
+         actionPartial:"Gå igenom om er avgränsning täcker gränssnitt mot externa parter — molntjänster, underleverantörer, kunder med fjärråtkomst. Uppdatera vid ny IT-anskaffning eller verksamhetsförändringar."},
+      ]},
+      {id:"i27_ledarskap",name:"Ledarskap, policy & mål",questions:[
+        {id:"i27_l_1",
+         text:"Har högsta ledningen upprättat en informationssäkerhetspolicy som täcker standardens fyra krav — syfte, ramverk för mål, åtagande om krav och åtagande om ständig förbättring — och är den kommunicerad?",
+         help:"ISO 27001:2022 §5.2: informationssäkerhetspolicyn ska: (a) lämpa sig för organisationens syfte, (b) omfatta IS-mål eller ge ett ramverk för att sätta dem, (c) innehålla åtagande att uppfylla tillämpliga IS-krav, (d) innefatta åtagande om ständig förbättring. Policyn ska finnas som dokumenterad information, kommuniceras inom organisationen och vara tillgänglig för intressenter.",
+         action:"Skriv en informationssäkerhetspolicy som täcker alla fyra §5.2-krav — specifik för informationssäkerhet, inte en generell kvalitetspolicy. Adressera hur ni skyddar kunddata, larmkonfigurationer, personuppgifter och affärsinformation. Låt ledningen godkänna och kommunicera den till all personal.",
+         actionPartial:"Kontrollera att policyn uppfyller alla fyra §5.2-krav. Är den känd av personalen — inte bara publicerad? Ses den över vid väsentliga förändringar?"},
+        {id:"i27_l_2",
+         text:"Finns definierade roller och ansvar för informationssäkerhet, inklusive en utsedd person med ansvar för att ISMS:et uppfyller standardens krav och rapporterar prestanda till ledningen?",
+         help:"ISO 27001:2022 §5.3: högsta ledningen ska tilldela ansvar och befogenheter för (a) att säkerställa att ISMS:et uppfyller standardens krav och (b) rapportering av ISMS:ets prestanda till högsta ledningen. Behöver inte vara en heltidsroll — men ansvaret ska vara tydligt tilldelat och dokumenterat.",
+         action:"Utse en IS-ansvarig (CISO, säkerhetsansvarig eller annan lämplig roll) med mandat att driva ISMS:et och rapportera till ledningen. Dokumentera rollen med ansvar och befogenheter. För en liten organisation kan detta kombineras med annan ledningsroll.",
+         actionPartial:"Kontrollera att den IS-ansvarige faktiskt har mandat och resurser — inte bara en titel. Finns en tydlig rapporteringsväg till ledningen? Är rollen kommunicerad inom organisationen?"},
+        {id:"i27_l_3",
+         text:"Finns dokumenterade och mätbara informationssäkerhetsmål för relevanta funktioner och nivåer, med plan för vad som ska göras, vem som ansvarar och när det ska vara klart?",
+         help:"ISO 27001:2022 §6.2: IS-målen ska vara förenliga med policyn, mätbara (om praktiskt möjligt), ta hänsyn till IS-krav och riskbedömningsresultat, övervakas, kommuniceras och uppdateras. Planen ska specificera: vad som ska göras, resurser, ansvarig, tidpunkt och utvärderingsmetod.",
+         action:"Sätt 3–5 mätbara IS-mål. T.ex. 'Alla anställda genomgår IS-utbildning en gång per år', 'Alla säkerhetsincidenter rapporteras inom 24h', 'Backup testas kvartalsvis'. Dokumentera med ansvarig, tidplan och utvärderingsmetod.",
+         actionPartial:"Kontrollera att målen är kopplade till IS-specifika risker och krav. Uppdateras de baserat på riskbedömningsresultat? Kommuniceras de till berörda?"},
+      ]},
+      {id:"i27_risk",name:"Riskbedömning & riskbehandling",questions:[
+        {id:"i27_r_1",
+         text:"Finns en formellt definierad och dokumenterad process för bedömning av informationssäkerhetsrisker — med fastställda riskacceptanskriterier, identifiering av riskägare, konsekvensbedömning och sannolikhetsbedömning?",
+         help:"ISO 27001:2022 §6.1.2: processen ska: fastställa riskkriterier inkl. acceptansnivå, säkerställa konsekventa och jämförbara resultat, identifiera risker (konfidentialitet/riktighet/tillgänglighet), identifiera riskägare, analysera risker (konsekvens × sannolikhet = risknivå) och utvärdera/prioritera risker mot acceptansnivån. Dokumenterad information om processen ska bevaras.",
+         action:"Ta fram en riskbedömningsmetodik: (1) Definiera skalor för konsekvens och sannolikhet (t.ex. 1–3). (2) Definiera er acceptansnivå. (3) Identifiera informationstillgångar och hot mot dem. (4) Bedöm varje risk. (5) Identifiera riskägare. Dokumentera processen och resultaten.",
+         actionPartial:"Kontrollera att riskbedömningen täcker alla tre IS-dimensioner (konfidentialitet, riktighet, tillgänglighet) och att resultaten är konsekventa och jämförbara. Finns riskägare utsedda för varje identifierad risk?"},
+        {id:"i27_r_2",
+         text:"Finns en dokumenterad riskbehandlingsplan med valda behandlingsalternativ, nödvändiga säkerhetsåtgärder och riskägarnas formella godkännande av planen och kvarstående risker?",
+         help:"ISO 27001:2022 §6.1.3: för varje risk ska ni välja behandlingsalternativ (acceptera, undvika, reducera, dela), bestämma nödvändiga säkerhetsåtgärder och jämföra dessa mot Annex A-kontrollerna för att verifiera att inga nödvändiga åtgärder utelämnats. Riskägarnas godkännande av planen och kvarstående risker ska dokumenteras.",
+         action:"Ta fram en riskbehandlingsplan: lista identifierade risker, valt behandlingsalternativ per risk, vilka åtgärder (kopplade till Annex A-kontroller), implementeringsstatus och riskägare. Inhämta riskägarnas formella godkännande.",
+         actionPartial:"Kontrollera att behandlingsplanen är kopplad till riskbedömningen — inte en generell säkerhetsplan. Är kvarstående risker formellt godkända av riskägarna?"},
+        {id:"i27_r_3",
+         text:"Finns ett Uttalande om tillämplighet (Statement of Applicability, SoA) som specificerar vilka Annex A-kontroller som är tillämpliga, motivering för inkludering, implementeringsstatus och motivering för eventuell exkludering?",
+         help:"ISO 27001:2022 §6.1.3d: SoA är ett av ISO 27001:s mest specifika krav utan direkt motsvarighet i ISO 9001. Det ska innehålla: nödvändiga kontroller, motivering för inkludering, huruvida de är implementerade, och motivering för att exkludera Annex A-kontroller. SoA fungerar som länken mellan er riskbedömning och era faktiska säkerhetsåtgärder.",
+         action:"Ta fram ett SoA-dokument: använd Annex A:s 93 kontroller som utgångspunkt. För varje kontroll — ange om den är tillämplig (och varför), om den är implementerad, och om den exkluderas (med motivering). Koppla tillämpliga kontroller till er riskbehandlingsplan.",
+         actionPartial:"Kontrollera att SoA speglar faktisk implementeringsstatus — inte bara vad ni planerar. Är exkluderingsmotiveringar dokumenterade? Är SoA kopplat till er riskbehandlingsplan och senaste riskbedömning?"},
+        {id:"i27_r_4a",
+         text:"Genomförs riskbedömningar vid planerade intervall — minst en gång per år — och dokumenteras resultaten?",
+         help:"ISO 27001:2022 §8.2: riskbedömning ska utföras vid planerade intervall. Minst en gång per år är den vanligaste praxisnivån och vad revisorer förväntar sig. Resultaten ska bevaras som dokumenterad information med datum, deltagare och beslutade åtgärder.",
+         action:"Inför en fast årsrutin för riskbedömning — t.ex. varje höst inför budgetåret. Genomgången ska täcka hela ISMS:ets scope. Dokumentera resultaten med datum, deltagare, identifierade risker och beslutade åtgärder.",
+         actionPartial:"Kontrollera att senaste riskbedömning är genomförd och dokumenterad. Är resultaten tillgängliga och uppdaterade? Är de kopplade till er riskbehandlingsplan och SoA?"},
+        {id:"i27_r_4b",
+         text:"Genomförs riskbedömningar också när betydande förändringar sker — t.ex. vid ny IT-lösning, ny leverantör eller förändrad verksamhet?",
+         help:"ISO 27001:2022 §8.2: utöver planerade intervall ska riskbedömning genomföras när betydande ändringar föreslås eller sker. Det kräver en definierad tröskel för vad som är 'betydande' och en rutin för att trigga en bedömning. Utan denna rutin kan nya risker förbli oupptäckta mellan de planerade bedömningarna.",
+         action:"Definiera vad som räknas som 'betydande förändring' som ska trigga en riskbedömning — t.ex. ny molntjänst, byte av IT-leverantör, ny befattning med åtkomst till känslig information, ny lagstiftning. Dokumentera beslutet och lägg in triggern i er förändringsrutin.",
+         actionPartial:"Kontrollera att er förändringsrutin faktiskt innehåller en IS-riskcheck. Har ni genomfört ändringsinitierade riskbedömningar den senaste perioden och dokumenterat dem?"},
+      ]},
+      {id:"i27_atgarder",name:"Säkerhetsåtgärder — Annex A",questions:[
+        {id:"i27_a_1",
+         text:"Finns en förteckning över organisationens informationstillgångar med utsedda ägare, och är informationen klassad utifrån konfidentialitet, riktighet och tillgänglighet?",
+         help:"ISO 27001:2022 Annex A, kontroll 5.9 och 5.12: en tillgångsförteckning ska upprättas och underhållas, inklusive ägare per tillgång. Information ska klassas baserat på organisationens IS-behov. För en installatörsfirma kan tillgångar vara: kundregister, larmkonfigurationsdata, anläggningsritningar, systemlösenord, e-postsystem, personaluppgifter.",
+         action:"Upprätta en informationstillgångsförteckning: lista era informationstillgångar (data, system, dokumentation), tilldela en ägare per tillgång och klassificera varje tillgång (t.ex. Konfidentiell / Intern / Offentlig). Uppdatera vid nya system eller tjänster.",
+         actionPartial:"Gå igenom om förteckningen är komplett och aktuell — är alla kritiska tillgångar med? Finns ägare utsedda? Stämmer klassificeringen med hur informationen faktiskt hanteras?"},
+        {id:"i27_a_2a",
+         text:"Finns dokumenterade regler för vem som har tillgång till vilka system och informationstillgångar — baserat på principen om lägsta möjliga behörighet — och finns en lösenordspolicy?",
+         help:"ISO 27001:2022 Annex A 5.15 och 5.17: regler för åtkomstkontroll ska upprättas baserat på verksamhets- och IS-krav. Principen om lägsta möjliga behörighet (need-to-know) innebär att varje person bara har tillgång till det de behöver för sin roll. Lösenordspolicyn styr hur autentiseringsinformation skapas och hanteras.",
+         action:"Upprätta en åtkomstkontrollpolicy med: (1) en rollbaserad behörighetsstruktur — vem har tillgång till vad, (2) en lösenordspolicy med minimikrav på längd, komplexitet och förbud mot delning, (3) begränsning av administratörsrättigheter till dem som verkligen behöver dem.",
+         actionPartial:"Kontrollera att åtkomstkontrollpolicyn är dokumenterad och känd av personalen. Är lösenordspolicyn faktiskt implementerad i era system — t.ex. via tekniska krav på lösenordslängd?"},
+        {id:"i27_a_2b",
+         text:"Granskas åtkomsträttigheter regelbundet — och finns en rutin för att omedelbart ta bort åtkomst när anställningar avslutas eller roller förändras?",
+         help:"ISO 27001:2022 Annex A 5.18: åtkomsträttigheter ska tillhandahållas, ses över, ändras och tas bort löpande. Revisorer kontrollerar specifikt att f.d. anställda och externa konsulter inte längre har aktiv åtkomst. Kvarglömda konton är en av de vanligaste och mest underskattade säkerhetsriskerna.",
+         action:"Inför en offboarding-checklista som täcker: (1) omedelbar inaktivering av all systemåtkomst, (2) återlämning av enheter och åtkomstkort, (3) ändring av delade lösenord som personen kände till. Schemalägg dessutom en kvartalsgranskning av aktiva användarkonton.",
+         actionPartial:"Gör en genomgång av aktiva användarkonton — finns f.d. anställda eller konsulter kvar i systemen? Kontrollera att offboarding-rutinen faktiskt tillämpas konsekvent och inte bara finns på papper."},
+
+        {id:"i27_a_3",
+         text:"Finns rutiner för att säkerställa informationssäkerheten i leverantörsrelationer — inklusive IS-krav i avtal och löpande uppföljning av leverantörers IS-praxis?",
+         help:"ISO 27001:2022 Annex A, kontroller 5.19 och 5.20: processer ska fastställas för att hantera IS-risker i leverantörsrelationer. Relevanta IS-krav ska fastställas och avtalas med varje leverantör som hanterar er information — molntjänstleverantörer, IT-drift, underleverantörer med åtkomst till kunddata.",
+         action:"Gå igenom era leverantörsavtal och identifiera vilka leverantörer som hanterar er information. Lägg till IS-krav i nya avtal (konfidentialitet, incidentrapportering, rätt att revidera). Inför löpande uppföljning av leverantörers IS-praxis.",
+         actionPartial:"Kontrollera att befintliga avtal med informationshanterande leverantörer innehåller IS-krav. Sker löpande uppföljning? Är molntjänstleverantörer (e-post, fillagring, CRM) täckta?"},
+        {id:"i27_a_4",
+         text:"Finns ett incidenthanteringssystem med definierade processer och roller för att identifiera, rapportera, bedöma, hantera och lära av informationssäkerhetsincidenter — inkl. GDPR:s krav på anmälan till IMY inom 72 timmar?",
+         help:"ISO 27001:2022 Annex A, kontroller 5.24, 5.25, 5.26 och 5.27: organisationen ska planera incidenthantering, bedöma och klassificera händelser, hantera incidenter enligt dokumenterade rutiner och använda lärdomar för att förbättra säkerheten. GDPR kräver dessutom anmälan till Integritetsskyddsmyndigheten (IMY) inom 72 timmar vid personuppgiftsincidenter.",
+         action:"Ta fram en IS-incidenthanteringsrutin: (1) Definiera vad som räknas som IS-incident (obehörig åtkomst, dataintrång, borttappad enhet med kunddata). (2) Fastställ hur incidenter rapporteras internt. (3) Definiera eskaleringsvägar. (4) Inkludera GDPR-anmälningsrutin (IMY inom 72h). (5) Inför rutin för att dokumentera och lära av incidenter.",
+         actionPartial:"Kontrollera att personalen vet hur de rapporterar IS-incidenter. Finns en eskaleringsväg till IS-ansvarig? Täcker rutinen GDPR-kravet på IMY-anmälan? Dokumenteras incidenter och används de för förbättring?"},
+        {id:"i27_a_5",
+         text:"Finns tekniska skyddsåtgärder implementerade på era system och enheter — inklusive skydd mot skadlig kod, regelbunden säkerhetskopiering med återställningstest och hantering av tekniska sårbarheter?",
+         help:"ISO 27001:2022 Annex A, kontroller 8.7, 8.8 och 8.13: skydd mot skadlig kod ska vara implementerat. Information om tekniska sårbarheter ska inhämtas och åtgärdas (patchhantering). Säkerhetskopior av information, programvara och system ska tas och testas regelbundet. Dessa kontroller är vanligast att missa i detalj hos mindre organisationer.",
+         action:"Gå igenom ert tekniska grundskydd: (1) Antivirusskydd på alla enheter — aktivt och uppdaterat. (2) Backupp-rutin med dokumenterad frekvens, lagringsplats och regelbundna återställningstester. (3) Patchhanteringsrutin — hur och när uppdateras operativsystem och programvara? Dokumentera alla tre.",
+         actionPartial:"Kontrollera att backupen faktiskt testas med återställning — inte bara körs. Är patchhanteringen regelbunden? Är antivirusskyddet aktivt på alla enheter inklusive bärbara datorer och mobiler i arbetet?"},
+      ]},
+      {id:"i27_stod",name:"Stöd, kompetens & dokumentstyrning",questions:[
+        {id:"i27_s_1a",
+          text:"Har de personer som arbetar med informationssäkerhet dokumenterad kompetens — utbildning, certifiering eller erfarenhet — och bevaras bevis på kompetensen?",
+          help:"ISO 27001:2022 §7.2: organisationen ska avgöra nödvändig IS-kompetens, säkerställa att personalen har den och bevara dokumenterade bevis. Det gäller framförallt IS-ansvarig, systemadministratörer och de som genomför riskbedömningar.",
+          action:"Identifiera vilka roller som påverkar IS-prestandan. För varje roll — dokumentera nödvändig kompetens och verifiera att befintlig personal uppfyller den via utbildningsintyg, certifikat eller erfarenhetsbeskrivning. Sätt en plan för kompetensgap.",
+          actionPartial:"Kontrollera att kompetensbevis finns dokumenterade och bevarade — inte bara att personerna anses kunniga. Är kompetenskraven per IS-roll definierade?"
+        },
+        {id:"i27_s_1b",
+          text:"Genomgår all personal grundläggande IS-utbildning vid anställning och regelbundna uppdateringar om policyer, aktuella hot och säker hantering av information?",
+          help:"ISO 27001:2022 §7.3 och Annex A 6.3: alla som arbetar för organisationen ska vara medvetna om IS-policyn, sitt bidrag och konsekvenserna av att inte följa kraven. Annex A 6.3 kräver utbildning och medvetenhetshöjning med regelbundna uppdateringar anpassade till arbetsuppgifterna.",
+          action:"Inför ett IS-utbildningsprogram: (1) Grundutbildning vid anställning om IS-policy, lösenordshantering och incidentrapportering. (2) Årlig uppdatering om aktuella hot. (3) Dokumentera vem som gått vilken utbildning och när.",
+          actionPartial:"Kontrollera att utbildningen genomförs och dokumenteras. Är ny personal täckt vid onboarding? Är uppdateringarna relevanta för er verksamhet?"
+        },
+        
+        {id:"i27_s_2",
+         text:"Finns rutiner för att skapa, uppdatera och styra ISMS-dokumentationen — inklusive versionshantering, behörighetsbegränsning och skydd av känsliga dokument som riskbedömning och SoA?",
+         help:"ISO 27001:2022 §7.5: ISMS:ets dokumenterade information ska styras för att säkerställa tillgänglighet och skydd mot förlust av konfidentialitet, olämplig användning och förlust av riktighet. Notera: IS-dokumentation ska i sig skyddas informationssäkerhetsmässigt — t.ex. ska riskbedömningen och SoA inte vara fritt tillgängliga för alla.",
+         action:"Inför dokumentstyrning för ISMS-dokumentation: versionshantera alla styrande dokument, begränsa åtkomst till känsliga dokument (riskbedömning, SoA) till behöriga, skydda dokumenten mot obehörig ändring, och definiera rutiner för gallring och arkivering.",
+         actionPartial:"Gå igenom om ISMS-dokumentationen faktiskt är skyddad — lagras riskbedömning och SoA med rätt behörighetskontroll? Finns versionshantering för kritiska dokument?"},
+        {id:"i27_a_ropa",
+         text:"Har ni upprättat och underhåller ni ett register över era personuppgiftsbehandlingar (ROPA) enligt GDPR Artikel 30 — dvs. en dokumenterad förteckning över vilka personuppgifter ni behandlar, för vilket ändamål, hur länge och vilka som har åtkomst?",
+         help:"ISO 27001:2022 Annex A kontroll 5.34 kräver att organisationen identifierar och uppfyller kraven för skydd av personuppgifter. ROPA är ett av GDPR:s mest konkreta dokumentationskrav och något revisorer specifikt efterfrågar som bevis på efterlevnad. För en installatörsfirma innehåller registret typiskt: kundregister, personaluppgifter, leverantörskontakter och eventuell kameraövervakning.",
+         action:"Upprätta ett ROPA-dokument: gå igenom alla era behandlingar av personuppgifter och dokumentera för varje: (1) vad för uppgifter ni behandlar, (2) ändamål, (3) rättslig grund, (4) hur länge ni sparar dem, (5) vilka som har åtkomst, (6) om uppgifterna delas med tredje part. Integritetsskyddsmyndigheten (IMY) har mallar och vägledning på imy.se.",
+         actionPartial:"Gå igenom befintligt ROPA och kontrollera att alla behandlingar finns med — glöm inte lönehantering, kameraövervakning, kundregister och molntjänster som behandlar personuppgifter. Uppdatera när ni inför nya system eller processer."},
+        {id:"i27_a_dpa",
+         text:"Har ni tecknat personuppgiftsbiträdesavtal (DPA) med alla leverantörer och molntjänster som behandlar personuppgifter för er räkning — t.ex. IT-leverantörer, lönesystem, CRM-system och molnlagringstjänster?",
+         help:"ISO 27001:2022 Annex A kontroll 5.34 och GDPR Artikel 28 kräver ett skriftligt personuppgiftsbiträdesavtal med varje leverantör som behandlar personuppgifter på era uppdrag. Det är ett avtalsrättsligt krav — inte bara god praxis. Utan DPA riskerar ni böter och är personligt ansvariga som personuppgiftsansvarig. Vanliga leverantörer som kräver DPA: Microsoft 365, Google Workspace, lönesystem, CRM, backup-tjänster.",
+         action:"Inventera alla era leverantörer och identifiera vilka som behandlar personuppgifter. Kontakta respektive leverantör och begär ett DPA — de flesta stora leverantörer (Microsoft, Google m.fl.) har standardavtal tillgängliga direkt i sina portaler. Dokumentera vilka DPA:n ni har och när de senast granskades.",
+         actionPartial:"Gå igenom er leverantörslista och identifiera vilka DPA:n som saknas. Prioritera leverantörer som hanterar störst mängd eller känsligaste personuppgifter. Kontrollera att befintliga DPA:n är aktuella och täcker era nuvarande tjänster."},
+      ]},
+      {id:"i27_uppfoljning",name:"Utvärdering & förbättring",questions:[
+        {id:"i27_u_1",
+         text:"Finns ett definierat system för att övervaka och mäta ISMS:ets prestanda — med specificerat vad som mäts, vilka metoder, när mätning sker och vem som analyserar resultaten?",
+         help:"ISO 27001:2022 §9.1: organisationen ska fastställa: vad som ska övervakas och mätas (inkl. IS-processer och Annex A-kontroller), metoder för tillförlitliga resultat, tidpunkt för mätning, vem som mäter, när resultaten analyseras och vem som analyserar. Dokumenterade bevis på resultaten ska bevaras.",
+         action:"Definiera ett mätramverk: t.ex. antal IS-incidenter per kvartal, andel personal med IS-utbildning, patchningstid för kritiska sårbarheter, backup-testresultat, statusuppföljning av riskbehandlingsplanen. Dokumentera metod, frekvens och ansvarig per mätpunkt.",
+         actionPartial:"Kontrollera att mätpunkterna ger information om ISMS:ets verkliga verkan — inte bara aktiviteter. Analyseras resultaten och används de för beslut? Finns dokumenterade bevis?"},
+        {id:"i27_u_2",
+         text:"Genomförs interna revisioner av ISMS:et med planerade intervall — med dokumenterat revisionsprogram, definierade kriterier per revision och säkerställd objektivitet?",
+         help:"ISO 27001:2022 §9.2: organisationen ska planera, genomföra och underhålla ett revisionsprogram med frekvens, metoder, ansvar och rapportering. Per revision: definiera mål, kriterier och omfattning, välj revisorer för objektivitet, rapportera till ledningen. Dokumenterade bevis på program och resultat ska bevaras.",
+         action:"Upprätta ett IS-revisionsprogram: planera minst en fullständig internrevision per år. Definiera vilka ISMS-delar som granskas, utse en IS-revisor (annan än den IS-ansvarige), dokumentera fynd och korrigerande åtgärder. Rapportera till ledningen.",
+         actionPartial:"Kontrollera att programmet täcker hela ISMS:et — inte bara tekniska delar. Är objektiviteten säkerställd? Finns dokumenterade revisionsprotokoll med fynd och uppföljning?"},
+        {id:"i27_u_3",
+         text:"Genomför högsta ledningen regelbundna genomgångar av ISMS:et med de underlag §9.3.2 kräver — inklusive riskbedömningsstatus och -behandlingsplanens status, som är specifika krav i ISO 27001?",
+         help:"ISO 27001:2022 §9.3.2: ledningens genomgång ska täcka: åtgärdsstatus från tidigare genomgång, externa/interna förändringar, intressentförändringar, IS-prestanda (avvikelser, mätresultat, revisionsresultat, måluppfyllelse), intressentåterkoppling, riskbedömningsresultat och status för riskbehandlingsplanen, förbättringsmöjligheter. Riskbedömningsstatus är ett krav specifikt för ISO 27001 — saknas i ISO 9001.",
+         action:"Schemalägg ledningens IS-genomgång minst en gång per år. Förbered ett underlag som täcker alla §9.3.2-punkter — särskilt riskbedömningsresultaten och riskbehandlingsplanens implementeringsstatus. Dokumentera besluten med ansvariga och uppföljningsdatum.",
+         actionPartial:"Gå igenom senaste protokollet mot §9.3.2-listan — är riskbedömningsstatus och intressentförändringar med? Har beslutade åtgärder följts upp?"},
+        {id:"i27_u_4a",
+          text:"Finns ett system för avvikelse och korrigerande åtgärd med rotorsaksanalys — och dokumenteras avvikelsernas art, åtgärder och verkan?",
+          help:"ISO 27001:2022 §10.2: vid avvikelse ska organisationen reagera, utföra rotorsaksanalys, vidta åtgärder och granska åtgärdernas verkan. Dokumenterade bevis ska bevaras på avvikelsernas art, vidtagna åtgärder och resultat.",
+          action:"Inför ett IS-avvikelsesystem: ett register med avvikelsens beskrivning, rotorsak, beslutad åtgärd, ansvarig, uppföljningsdatum och verifikation av att åtgärden fungerat. Använd det för alla IS-avvikelser — inte bara allvarliga incidenter.",
+          actionPartial:"Kontrollera att rotorsaksanalys faktiskt genomförs — inte bara att avvikelsen åtgärdas symptomatiskt. Verifieras att åtgärderna fungerat? Finns bevis en revisor kan granska?"
+        },
+        {id:"i27_u_4b",
+          text:"Uppdateras ISMS:et och riskbedömningen när avvikelsemönster identifieras — dvs. när återkommande avvikelser pekar på en systemisk brist?",
+          help:"ISO 27001:2022 §10.2e: organisationen ska göra ändringar i ISMS:et om det är nödvändigt. Om ett mönster uppstår ska det trigga en uppdatering av riskbedömningen och eventuellt nya åtgärder. Avvikelsesystemet ska vara kopplat till riskbedömningen.",
+          action:"Definiera en rutin för när avvikelsemönster ska trigga uppdatering av riskbedömningen. Säkerställ att IS-ansvarig regelbundet analyserar avvikelseregistret för att identifiera mönster.",
+          actionPartial:"Kontrollera att det finns en koppling mellan avvikelsesystemet och riskbedömningen. Leder återkommande incidenter till ny riskbedömning, eller hanteras varje avvikelse isolerat?"
+        },
+        
+      ]},
+    ]
+  },
+};
+
+
+const {useState}=React;
+
+const ANSWERS=[
+  {key:"pa_plats",label:"Uppfyllt",   score:1.0,cls:"ans-green"},
+  {key:"delvis",  label:"Delvis",     score:0.5,cls:"ans-amber"},
+  {key:"ej",      label:"Ej påbörjat",score:0.0,cls:"ans-red"},
+  {key:"vet_ej",  label:"Vet ej",     score:null,cls:"ans-blue"},
+];
+
+const secPct=(sec,ans)=>{
+  let s=0,t=0;
+  sec.questions.forEach(q=>{
+    const a=ans[q.id];if(!a||a==="vet_ej")return;
+    const d=ANSWERS.find(x=>x.key===a);if(d){s+=d.score;t++;}
+  });
+  return{pct:t>0?Math.round(s/t*100):null,done:sec.questions.filter(q=>ans[q.id]).length,total:sec.questions.length};
+};
+const stdPct=(std,ans)=>{
+  let s=0,t=0,done=0,total=0;
+  std.sections.forEach(sec=>sec.questions.forEach(q=>{
+    total++;const a=ans[q.id];if(a)done++;
+    if(a&&a!=="vet_ej"){const d=ANSWERS.find(x=>x.key===a);if(d){s+=d.score;t++;}}
+  }));
+  return{pct:t?Math.round(s/t*100):null,done,total};
+};
+const barColor=p=>p===null?"#E8E9EC":p>=80?"#1B6B3F":p>=50?"#FFA300":"#C03535";
+const timeUntil=p=>{
+  if(p===null)return"Otillräckligt underlag";
+  if(p>=85)return"0–3 månader";if(p>=65)return"3–6 månader";
+  if(p>=40)return"6–12 månader";return"12+ månader";
+};
+const readiness=p=>{
+  if(p===null)return"Otillräckligt underlag";
+  if(p>=85)return"Mycket god beredskap";if(p>=65)return"God beredskap — luckor finns";
+  if(p>=40)return"Delvis förberedd";return"Grundarbete återstår";
+};
+const today=()=>new Date().toLocaleDateString("sv-SE",{day:"numeric",month:"long",year:"numeric"});
+
+function generateSummary(active,answers,company,overall){
+  const name=company||"Er organisation";
+  const hiCount=std=>std.sections.reduce((n,sec)=>n+sec.questions.filter(q=>answers[q.id]==="ej").length,0);
+  const miCount=std=>std.sections.reduce((n,sec)=>n+sec.questions.filter(q=>answers[q.id]==="delvis").length,0);
+  const ukCount=std=>std.sections.reduce((n,sec)=>n+sec.questions.filter(q=>answers[q.id]==="vet_ej").length,0);
+  const bestSec=std=>{let b=null,bp=-1;std.sections.forEach(sec=>{const{pct}=secPct(sec,answers);if(pct!==null&&pct>bp){bp=pct;b=sec;}});return b?{name:b.name,pct:bp}:null;};
+  const worstSec=std=>{let w=null,wp=101;std.sections.forEach(sec=>{const{pct}=secPct(sec,answers);if(pct!==null&&pct<wp){wp=pct;w=sec;}});return w?{name:w.name,pct:wp}:null;};
+  const totalHi=active.reduce((n,s)=>n+hiCount(s),0);
+  const totalMi=active.reduce((n,s)=>n+miCount(s),0);
+  const totalUk=active.reduce((n,s)=>n+ukCount(s),0);
+  const multi=active.length>1;
+
+  let intro="";
+  if(overall>=85) intro=`${name} befinner sig i ett mycket gott läge inför certifiering — självskattningen visar en samlad beredskap på ${overall}% och att de grundläggande förutsättningarna i stort är på plats.`;
+  else if(overall>=65) intro=`${name} har byggt upp en god grund för ${multi?"certifieringarna":"certifieringen"} och visar en samlad beredskap på ${overall}%. Arbetet är till stor del påbörjat, men ett antal viktiga pusselbitar behöver falla på plats innan revision är aktuellt.`;
+  else if(overall>=40) intro=`${name} är på väg i rätt riktning med en samlad beredskap på ${overall}%, men självskattningen visar att det kvarstår ett mer strukturerat arbete inom flera områden innan ${multi?"certifieringarna":"certifieringen"} är inom räckhåll.`;
+  else if(overall!==null) intro=`Självskattningen visar att ${name} befinner sig i ett tidigt skede av sin certifieringsresa — den samlade beredskapen landar på ${overall}%. Det är värdefullt att ha kartlagt läget nu, eftersom det ger en tydlig bild av vad som behöver byggas upp.`;
+  else intro=`Självskattningen för ${name} ger en övergripande bild av er beredskap inför ${multi?"certifieringarna":"certifieringen"}.`;
+
+  let strength="";
+  const strong=[];
+  active.forEach(std=>{const b=bestSec(std);if(b&&b.pct>=70)strong.push({cert:std.name,sec:b.name,pct:b.pct});});
+  if(strong.length>0&&overall>=40){
+    if(strong.length===1){const s=strong[0];strength=`Inom ${s.cert} sticker ${s.sec.toLowerCase()} ut positivt med ${s.pct}% — ett bra fundament att bygga vidare på.`;}
+    else{strength=`Starka områden som redan är väl etablerade: ${strong.map(s=>`${s.sec.toLowerCase()} (${s.cert})`).join(", ")} — goda fundament att bygga vidare på.`;}
+  }
+
+  let gaps="";
+  if(totalHi===0&&totalMi===0&&overall>=80) gaps="Självskattningen identifierar inga kritiska gap — eventuella återstående finjusteringar bör kunna åtgärdas relativt snabbt.";
+  else if(totalHi>0){
+    const crit=active.map(std=>({name:std.name,hi:hiCount(std),worst:worstSec(std)})).filter(x=>x.hi>0).sort((a,b)=>b.hi-a.hi);
+    if(crit.length===1){const cc=crit[0];const wn=cc.worst&&cc.worst.pct<50?` — framförallt inom ${cc.worst.name.toLowerCase()}`:"";gaps=`Det mest kritiska att ta tag i är ${cc.hi} {cc.hi===1?"krav":"krav"} inom ${cc.name} där arbetet ännu inte påbörjats${wn}. Dessa bör prioriteras för att undvika förseningar på vägen mot revision.`;}
+    else{gaps=`Det finns opåbörjade krav inom ${crit.map(x=>`${x.name} (${x.hi} st)`).join(" och ")} som behöver prioriteras — dessa bör prioriteras för att komma vidare mot revision.`;}
+    if(totalMi>3) gaps+=` Därtill finns ${totalMi} krav som delvis är på plats men behöver fullföljas.`;
+  } else if(totalMi>0) gaps=`Det finns inga krav som helt saknas, men ${totalMi} krav är påbörjade men behöver slutföras innan en revisor kan godkänna dem.`;
+
+  let closing="";
+  if(overall>=80) closing=`Nästa naturliga steg är att stämma av de sista detaljerna och boka ett inledande samtal med SBSC för att diskutera ansökan.`;
+  else if(overall>=60) closing=`Med ett fokuserat åtgärdsarbete under ${timeUntil(overall).toLowerCase()} bör ${name} ha goda förutsättningar att vara redo för revision. Vi rekommenderar att ni kontaktar SBSC tidigt för att stämma av er plan.`;
+  else if(overall>=35) closing=`Rekommendationen är att börja med de högt prioriterade åtgärderna och bygga upp rutiner och dokumentation systematiskt. Räkna med ${timeUntil(overall).toLowerCase()} innan revision är aktuellt.`;
+  else closing=`Börja med de mest grundläggande kraven — organisation, ekonomi och nyckelrutiner — och bygg därifrån. Varje steg framåt är ett steg närmre certifieringen.`;
+  if(totalUk>3) closing+=` Notera att ${totalUk} frågor besvarades med "Vet ej" — dessa behöver följas upp internt för att ge en fullständig bild.`;
+
+  return[intro,strength,gaps,closing].filter(Boolean).join(" ");
+}
+
+function Spider({sections,answers,size=220}){
+  const [tooltip,setTooltip]=React.useState(null);
+  const cx=size/2,cy=size/2,R=size*0.30,n=sections.length;
+  if(n<3)return null;
+  const ang=i=>(i*2*Math.PI/n)-Math.PI/2;
+  const pt=(i,r)=>({x:cx+r*Math.cos(ang(i)),y:cy+r*Math.sin(ang(i))});
+  const vals=sections.map((s,i)=>{const{pct}=secPct(s,answers);return{name:s.name,v:pct!=null?pct/100:0,i,pct};});
+  const dpts=vals.map(({v,i})=>{const p=pt(i,v*R);return`${p.x},${p.y}`;}).join(" ");
+  const lR=R*1.36;
+  return(
+    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} style={{overflow:"visible",cursor:"default"}}>
+      {[.25,.5,.75,1].map((lv,j)=>{
+        const ps=sections.map((_,i)=>{const p=pt(i,lv*R);return`${p.x},${p.y}`;}).join(" ");
+        return<polygon key={j} points={ps} fill="none" stroke="#E8E9EC" strokeWidth={j===3?1.5:1}/>;
+      })}
+      {vals.map(({i})=>{const e=pt(i,R);return<line key={i} x1={cx} y1={cy} x2={e.x} y2={e.y} stroke="#E8E9EC" strokeWidth="1"/>;} )}
+      <polygon points={dpts} fill="#FFA300" fillOpacity=".16" stroke="#FFA300" strokeWidth="2" strokeLinejoin="round"/>
+      {vals.map(({v,i,name,pct})=>{
+        const p=pt(i,v*R);
+        return(
+          <g key={i} onMouseEnter={()=>setTooltip({x:p.x,y:p.y,name,pct})} onMouseLeave={()=>setTooltip(null)} style={{cursor:"pointer"}}>
+            <circle cx={p.x} cy={p.y} r="12" fill="transparent"/>
+            <circle cx={p.x} cy={p.y} r="4.5" fill="#FFA300" stroke="#fff" strokeWidth="2"/>
+          </g>
+        );
+      })}
+      {vals.map(({name,i})=>{
+        const lp=pt(i,lR),cv=Math.cos(ang(i));
+        const anchor=cv>.15?"start":cv<-.15?"end":"middle";
+        return<text key={i} x={lp.x} y={lp.y} textAnchor={anchor} dominantBaseline="middle" fontSize="9.5" fontWeight="700" fill="#4A4B52" fontFamily="Open Sans,sans-serif">{name.length>22?name.slice(0,20)+"...":name}</text>;
+      })}
+      {[25,50,75].map((v,i)=>{const lp=pt(0,v/100*R);return<text key={i} x={lp.x+3} y={lp.y-2} fontSize="7" fill="#C0C0C0" fontFamily="Open Sans,sans-serif">{v}%</text>;})}
+      {tooltip&&(
+        <g>
+          <rect x={tooltip.x-58} y={tooltip.y-38} width="116" height="32" rx="4" fill="#101820" opacity=".93"/>
+          <text x={tooltip.x} y={tooltip.y-26} textAnchor="middle" fontSize="10" fontWeight="700" fill="white" fontFamily="Open Sans,sans-serif">
+            {tooltip.name.length>18?tooltip.name.slice(0,16)+"...":tooltip.name}
+          </text>
+          <text x={tooltip.x} y={tooltip.y-13} textAnchor="middle" fontSize="11" fontWeight="800" fill="#FFA300" fontFamily="Open Sans,sans-serif">
+            {tooltip.pct!==null?`${tooltip.pct}%`:"Vet ej"}
+          </text>
+        </g>
+      )}
+    </svg>
+  );
+}
+
+
+function TocBlock({active,answers}){
+  if(active.length<2)return null;
+  return(
+    <div className="toc-block">
+      <div className="toc-title">Innehåll — certifieringar i denna rapport</div>
+      {active.map(std=>{
+        const sc=stdPct(std,answers);
+        const clr=sc.pct===null?"var(--muted)":sc.pct>=80?"var(--green)":sc.pct>=50?"var(--amber)":"var(--red)";
+        return(
+          <div className="toc-item" key={std.id}>
+            <span className="toc-item-name">{std.name}<span style={{fontSize:11,color:"var(--muted)",fontWeight:400,marginLeft:6}}>{std.reg}</span></span>
+            <span className="toc-dots"/>
+            <span className="toc-item-pct" style={{color:clr}}>{sc.pct!==null?`${sc.pct}%`:"—"}</span>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function CertSection({std,answers}){
+  const sc=stdPct(std,answers);
+  const gaps=[];
+  std.sections.forEach(sec=>sec.questions.forEach(q=>{
+    const a=answers[q.id];
+    if(a==="ej")gaps.push({pri:"hi",lbl:"Prioritera",cls:"badge-hi",sec:sec.name,q:q.text,albl:"Så här börjar ni",act:q.action||null});
+    else if(a==="delvis")gaps.push({pri:"mi",lbl:"Slutför",cls:"badge-mi",sec:sec.name,q:q.text,albl:"Så här kompletterar ni",act:q.actionPartial||q.action||null});
+    else if(a==="vet_ej")gaps.push({pri:"uk",lbl:"Kontrollera",cls:"badge-uk",sec:sec.name,q:q.text,act:null});
+  }));
+  gaps.sort((a,b)=>({hi:0,mi:1,uk:2}[a.pri]-{hi:0,mi:1,uk:2}[b.pri]));
+  return(
+    <div className="cert-section">
+      <div className="cert-head">
+        <div><h3>{std.name}</h3><div className="cert-head-reg">{std.reg}</div></div>
+        <div className="cert-head-score">{sc.pct!=null?`${sc.pct}%`:"—"}</div>
+      </div>
+      <div className="cert-body">
+        <div className="spider-wrap"><Spider sections={std.sections} answers={answers}/></div>
+        <div className="bar-section">
+          {std.sections.map(s=>{const{pct}=secPct(s,answers);return(
+            <div className="bar-row" key={s.id}>
+              <div className="bar-label">{s.name}</div>
+              <div className="bar-track"><div className="bar-fill" style={{width:`${pct||0}%`,background:barColor(pct)}}/></div>
+              <div className="bar-pct">{pct!=null?`${pct}%`:"—"}</div>
+            </div>);})}
+        </div>
+        <div className="gap-section">
+          {gaps.length>0?(
+            <React.Fragment>
+              <h4>Prioriterade åtgärder — {std.name}</h4>
+              {gaps.map((g,i)=>(
+                <div className="gap-row" key={i}>
+                  <span className={`gap-badge ${g.cls}`}>{g.lbl}</span>
+                  <div className="gap-body">
+                    <div className="gap-title">{g.q}</div>
+                    <div className="gap-meta">{std.name} · {g.sec}</div>
+                    {g.act&&(
+                      <React.Fragment>
+                        <div className="gap-action-label">{g.albl}</div>
+                        <div className="gap-action">{g.act}</div>
+                      </React.Fragment>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </React.Fragment>
+          ):(
+            <div className="gap-none">✓ Inga identifierade gap för {std.name}</div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+function GatePage({LOGO, onSuccess}){
+  const [sent,setSent]=React.useState(false);
+  const [loading,setLoading]=React.useState(false);
+  const [name,setName]=React.useState("");
+  const [company,setCompany]=React.useState("");
+  const [email,setEmail]=React.useState("");
+  const [interest,setInterest]=React.useState("");
+
+  const handleSubmit=async(e)=>{
+    e.preventDefault();
+    setLoading(true);
+    try{
+      const res=await fetch("https://api.web3forms.com/submit",{
+        method:"POST",
+        headers:{"Content-Type":"application/json","Accept":"application/json"},
+        body:JSON.stringify({
+          access_key:"4ff231c7-8ece-4e89-9a4c-6996ff3a147b",
+          subject:"Certifieringsberedskap — "+company,
+          from_name:"SBSC Certifieringsberedskap",
+          namn:name,
+          foretag:company,
+          epost:email,
+          intresse:interest||"Ej angett",
+          kalla:"SBSC Certifieringsberedskap"
+        })
+      });
+      if(res.ok){setSent(true);}
+      else{alert("Något gick fel. Försök igen eller kontakta kund@sbsc.se.");}
+    }catch(err){
+      alert("Något gick fel. Kontrollera din internetanslutning.");
+    }
+    setLoading(false);
+  };
+
+  return(
+    <div className="gate-wrap">
+      <div className="gate-box">
+        <img src={LOGO} alt="SBSC" className="gate-logo"/>
+        {!sent?(
+          <React.Fragment>
+            <h1 className="gate-title">Är er firma redo för SBSC-certifiering?</h1>
+            <p className="gate-sub">Fyll i era kontaktuppgifter så får ni direkt tillgång till vår kostnadsfria självutvärdering. Vi hör av oss för att följa upp.</p>
+            <div className="gate-facts">
+              <div className="gate-fact"><div className="gate-fact-n">~15 min</div><div className="gate-fact-l">per certifiering</div></div>
+              <div className="gate-fact"><div className="gate-fact-n">0%</div><div className="gate-fact-l">data lagras</div></div>
+              <div className="gate-fact"><div className="gate-fact-n">PDF</div><div className="gate-fact-l">rapport</div></div>
+            </div>
+            <form className="gate-form" onSubmit={handleSubmit}>
+              <div className="gate-field">
+                <label className="gate-label">Ditt namn *</label>
+                <input className="gate-input" type="text" required placeholder="För- och efternamn" value={name} onChange={e=>setName(e.target.value)}/>
+              </div>
+              <div className="gate-field">
+                <label className="gate-label">Företagets namn *</label>
+                <input className="gate-input" type="text" required placeholder="T.ex. Andersson Larm & Säkerhet AB" value={company} onChange={e=>setCompany(e.target.value)}/>
+              </div>
+              <div className="gate-field">
+                <label className="gate-label">E-postadress *</label>
+                <input className="gate-input" type="email" required placeholder="namn@foretag.se" value={email} onChange={e=>setEmail(e.target.value)}/>
+              </div>
+              <div className="gate-field">
+                <label className="gate-label">Vilken certifiering är ni intresserade av?</label>
+                <select className="gate-input" value={interest} onChange={e=>setInterest(e.target.value)}>
+                  <option value="">Välj certifiering (valfritt)</option>
+                  <option value="Brandlarm (SBF 1008:3)">Brandlarm (SBF 1008:3)</option>
+                  <option value="Inbrottslarm (SSF 1015:3)">Inbrottslarm (SSF 1015:3)</option>
+                  <option value="Kamerabevakning (SSF 1061:3)">Kamerabevakning (SSF 1061:3)</option>
+                  <option value="ISO 9001">ISO 9001</option>
+                  <option value="ISO 27001">ISO 27001</option>
+                  <option value="Flera certifieringar">Flera certifieringar</option>
+                  <option value="Vet ej ännu">Vet ej ännu</option>
+                </select>
+              </div>
+              <button className="gate-btn" type="submit" disabled={loading}>
+                {loading?"Skickar...":"Starta självutvärderingen →"}
+              </button>
+              <p className="gate-privacy">
+                SBSC behandlar dina uppgifter i enlighet med GDPR. Uppgifterna används enbart för att följa upp din intresseanmälan om certifiering och delas inte med tredje part. Självskattningens svar lagras aldrig — de stannar i din webbläsare.
+              </p>
+            </form>
+          </React.Fragment>
+        ):(
+          <div className="gate-success">
+            <div className="gate-success-icon">✓</div>
+            <h2>Tack, {name.split(" ")[0]}!</h2>
+            <p>Vi har mottagit dina uppgifter och hör av oss inom kort. Nu kan du starta självutvärderingen direkt.</p>
+            <button className="gate-btn" style={{display:"inline-block",width:"auto",padding:"13px 32px"}} onClick={()=>onSuccess(company)}>
+              Starta självutvärderingen →
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function App(){
+  const [gateCleared,setGateCleared]=useState(false);
+  const [view,setView]=useState("start");
+  const [picked,setPicked]=useState([]);
+  const [answers,setAnswers]=useState({});
+  const [stdIdx,setStdIdx]=useState(0);
+  const [secIdx,setSecIdx]=useState(0);
+  const [company,setCompany]=useState("");
+  const [compErr,setCompErr]=useState(false);
+  const [attempted,setAttempted]=useState(false);
+  const [agreed,setAgreed]=useState(false);
+  const [showRestart,setShowRestart]=useState(false);
+
+  const active=picked.map(id=>STANDARDS[id]);
+  const curStd=active[stdIdx];
+  const curSec=curStd?curStd.sections[secIdx]:null;
+  const toggle=id=>setPicked(p=>p.includes(id)?p.filter(x=>x!==id):[...p,id]);
+  const answer=(qid,val)=>setAnswers(p=>({...p,[qid]:val}));
+  const totalQ=active.reduce((n,s)=>n+s.sections.reduce((m,sec)=>m+sec.questions.length,0),0);
+  const doneQ=active.reduce((n,s)=>n+s.sections.reduce((m,sec)=>m+sec.questions.filter(q=>answers[q.id]).length,0),0);
+  const prog=totalQ?Math.round(doneQ/totalQ*100):0;
+  const isFirst=stdIdx===0&&secIdx===0;
+  const isLast=curStd&&stdIdx===active.length-1&&secIdx===curStd.sections.length-1;
+  const secDone=curSec?curSec.questions.every(q=>answers[q.id]):false;
+
+  const goNext=()=>{
+    if(secIdx<curStd.sections.length-1)setSecIdx(secIdx+1);
+    else if(stdIdx<active.length-1){setStdIdx(stdIdx+1);setSecIdx(0);}
+    else setView("results");
+    window.scrollTo(0,0);
+  };
+  const goPrev=()=>{
+    if(secIdx>0)setSecIdx(secIdx-1);
+    else if(stdIdx>0){setStdIdx(stdIdx-1);setSecIdx(active[stdIdx-1].sections.length-1);}
+    window.scrollTo(0,0);
+  };
+  const goStart=()=>{
+    setAttempted(true);
+    if(!company.trim()||!picked.length||!agreed)return;
+    setCompErr(false);setStdIdx(0);setSecIdx(0);setView("questions");window.scrollTo(0,0);
+  };
+  const restart=()=>{setShowRestart(true);};
+  const confirmRestart=()=>{
+    setAnswers({});setPicked([]);setStdIdx(0);setSecIdx(0);
+    setCompany("");setAgreed(false);setAttempted(false);
+    setShowRestart(false);setView("start");window.scrollTo(0,0);
+  };
+
+  if(!gateCleared){
+    return <GatePage LOGO={LOGO} onSuccess={(co)=>{setCompany(co);setGateCleared(true);window.scrollTo(0,0);}}/>;
+  }
+
+  return(
+    <React.Fragment>
+      <a href="#main-content" className="skip-link">Hoppa till innehåll</a>
+      <header className="site-header no-print">
+        <div className="hdr-inner">
+          <img src={LOGO} alt="SBSC" className="hdr-logo"/>
+          <span className="hdr-label">Certifieringsberedskap</span>
+        </div>
+      </header>
+      <main className="shell" id="main-content">
+        {view==="start"&&(
+          <StartPage
+            picked={picked} toggle={toggle}
+            company={company} setCompany={setCompany}
+            compErr={compErr} setCompErr={setCompErr}
+            agreed={agreed} setAgreed={setAgreed}
+            attempted={attempted} goStart={goStart}
+          />
+        )}
+        {view==="questions"&&curStd&&curSec&&(
+          <QPage
+            active={active} curStd={curStd} curSec={curSec}
+            stdIdx={stdIdx} secIdx={secIdx}
+            answers={answers} answer={answer}
+            prog={prog} doneQ={doneQ} totalQ={totalQ}
+            goNext={goNext} goPrev={goPrev}
+            isFirst={isFirst} isLast={isLast} secDone={secDone}
+            jump={(si,qi)=>{setStdIdx(si);setSecIdx(qi);window.scrollTo(0,0);}}
+          />
+        )}
+        {view==="results"&&(
+          <ReportPage
+            active={active} answers={answers}
+            company={company} agreed={agreed}
+            restart={restart} back={()=>{setView("questions");window.scrollTo(0,0);}}
+          />
+        )}
+        {showRestart&&(
+          <div className="modal-overlay" onClick={()=>setShowRestart(false)}>
+            <div className="modal-box" onClick={e=>e.stopPropagation()}>
+              <div className="modal-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E89300" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+              </div>
+              <h3>Börja om från början?</h3>
+              <p>Alla svar och val raderas permanent. Detta kan inte ångras.</p>
+              <div className="modal-btns">
+                <button className="btn btn-secondary" onClick={()=>setShowRestart(false)}>Avbryt</button>
+                <button className="btn btn-primary" onClick={confirmRestart}>Ja, börja om</button>
+              </div>
+            </div>
+          </div>
+        )}
+      </main>
+    </React.Fragment>
+  );
+}
+
+function StartPage({picked,toggle,company,setCompany,compErr,setCompErr,agreed,setAgreed,attempted,goStart}){
+  const missingName=!company.trim();
+  const missingCert=!picked.length;
+  const missingAgreed=!agreed;
+  const hasError=attempted&&(missingName||missingCert||missingAgreed);
+
+  return(
+    <React.Fragment>
+      <div className="page-intro">
+        <div className="chip">Kostnadsfri självutvärdering</div>
+        <h1>Är er firma redo för SBSC-certifiering?</h1>
+        <p>Kartlägg er beredskap, se gap och få ett tydligt svar på hur lång tid det tar innan ni är redo för revision.</p>
+      </div>
+
+      <div className="card">
+        <div className="field-label">Företagets namn<span className="req-star">*</span></div>
+        <input
+          className={`text-input${attempted&&missingName?" invalid":""}`}
+          type="text"
+          placeholder="T.ex. Andersson Larm & Säkerhet AB"
+          value={company}
+          onChange={e=>{setCompany(e.target.value);if(e.target.value.trim())setCompErr(false);}}
+          onKeyDown={e=>{if(e.key==="Enter")goStart();}}
+        />
+        {attempted&&missingName&&<div className="field-error">Ange företagets namn för att fortsätta.</div>}
+        <div className="privacy-note">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <p>Ingen data sparas. Alla svar stannar i din webbläsare och raderas när du stänger sidan. Verktyget kan användas helt anonymt.</p>
+        </div>
+      </div>
+
+      <div className="card">
+        <div style={{fontWeight:800,fontSize:15,marginBottom:4}}>Välj certifiering</div>
+        <div style={{fontSize:13,color:"var(--muted)",marginBottom:18}}>Välj en eller flera certifieringar ni vill utvärdera.</div>
+        <div className="cert-list">
+          {Object.values(STANDARDS).map(s=>(
+            <div key={s.id} className={`cert-row${picked.includes(s.id)?" active":""}`} onClick={()=>toggle(s.id)} onKeyDown={e=>{if(e.key===" "||e.key==="Enter"){e.preventDefault();toggle(s.id);}}} role="checkbox" aria-checked={picked.includes(s.id)} tabIndex={0}>
+              <div className="cert-check">{picked.includes(s.id)?"✓":""}</div>
+              <div>
+                <div className="cert-name">{s.name}<span className="cert-badge">{s.reg}</span></div>
+                <div className="cert-desc">{s.desc}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="disc-check-wrap" onClick={()=>setAgreed(a=>!a)}>
+          <div className={`disc-checkbox${agreed?" disc-checked":""}`}>{agreed?"✓":""}</div>
+          <div className="disc-check-text">
+            <strong>Jag förstår hur rapporten ska användas</strong>
+            <ul style={{listStyle:"none",padding:0,margin:0,display:"flex",flexDirection:"column",gap:5}}>
+              <li style={{display:"flex",gap:7,alignItems:"flex-start"}}><span style={{color:"var(--amber)",fontWeight:800,flexShrink:0}}>—</span>Verktyget är ett förenklat stöd och garanterar inte att samtliga krav i tillämpliga regelverk berörs.</li>
+              <li style={{display:"flex",gap:7,alignItems:"flex-start"}}><span style={{color:"var(--amber)",fontWeight:800,flexShrink:0}}>—</span>Resultaten speglar er egen tolkning och kan avvika från en faktisk revision.</li>
+              <li style={{display:"flex",gap:7,alignItems:"flex-start"}}><span style={{color:"var(--amber)",fontWeight:800,flexShrink:0}}>—</span>En hög beredskapsgrad innebär inte att certifiering kan utfärdas utan föregående revision.</li>
+              <li style={{display:"flex",gap:7,alignItems:"flex-start"}}><span style={{color:"var(--amber)",fontWeight:800,flexShrink:0}}>—</span>Läs tillämpliga regelverk noggrant och sök vägledning från SBSC vid behov.</li>
+            </ul>
+            <div style={{marginTop:8,fontSize:11,color:"var(--muted)"}}>SBSC är ackrediterat av SWEDAC (nr 1631).</div>
+          </div>
+        </div>
+
+        {hasError&&(
+          <div className="validation-box">
+            <div className="validation-title">Följande måste fyllas i för att starta:</div>
+            {missingName&&<div className="validation-item"><span className="v-num">1</span>Ange företagets namn i fältet ovan</div>}
+            {missingCert&&<div className="validation-item"><span className="v-num">{missingName?"2":"1"}</span>Välj minst en certifiering i listan ovan</div>}
+            {missingAgreed&&<div className="validation-item"><span className="v-num">{[missingName,missingCert].filter(Boolean).length+1}</span>Bekräfta att du förstår hur rapporten ska användas (kryssrutan ovan)</div>}
+          </div>
+        )}
+
+        <div className="stat-row">
+          <div className="stat">
+            <div className="stat-n">~{picked.length>0?picked.length*10:10} min</div>
+            <div className="stat-l">{picked.length>1?`${picked.length} certifieringar · ${picked.reduce((n,id)=>n+STANDARDS[id].sections.reduce((m,s)=>m+s.questions.length,0),0)} frågor`:"beräknad tid"}</div>
+          </div>
+          <div className="stat"><div className="stat-n">0%</div><div className="stat-l">data lagras</div></div>
+          <div className="stat"><div className="stat-n">PDF</div><div className="stat-l">utskriftsvänlig</div></div>
+        </div>
+        <div className="btn-row">
+          <span style={{fontSize:12,color:"var(--muted)"}}>Ger en indikation — inte ett certifieringsbesked.</span>
+          <button className="btn btn-primary" onClick={goStart}>Starta utvärdering →</button>
+        </div>
+      </div>
+    </React.Fragment>
+  );
+}
+
+function QCard({q,i,answers,answer}){
+  const [open,setOpen]=React.useState(false);
+  return(
+    <div className="q-card">
+      <div className="q-text">{i+1}. {q.text}</div>
+      {q.help&&(
+        <React.Fragment>
+          <button className={`q-help-toggle${open?" open":""}`} onClick={()=>setOpen(o=>!o)}>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            {open?"Dölj vägledning":"Visa vägledning"}
+          </button>
+          {open&&<div className="q-help-expanded">{q.help}</div>}
+        </React.Fragment>
+      )}
+      <div className="ans-grid">
+        {ANSWERS.map(a=>(
+          <button key={a.key} className={`ans-btn${answers[q.id]===a.key?" "+a.cls:""}`} onClick={()=>answer(q.id,a.key)} aria-pressed={answers[q.id]===a.key} aria-label={a.label}>{a.label}</button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function QPage({active,curStd,curSec,stdIdx,secIdx,answers,answer,prog,doneQ,totalQ,goNext,goPrev,isFirst,isLast,secDone,jump}){
+  return(
+    <React.Fragment>
+      {active.length>1&&(
+        <div className="cert-switcher no-print">
+          {active.map((std,i)=>{
+            const allDone=std.sections.every(sec=>sec.questions.every(q=>answers[q.id]));
+            const isAct=i===stdIdx;
+            return(
+              <button
+                key={std.id}
+                className={`cert-switch-btn${isAct?" active":""}${allDone?" done":""}`}
+                onClick={()=>jump(i,0)}
+              >
+                {allDone&&!isAct?"✓ ":""}{std.name}
+              </button>
+            );
+          })}
+        </div>
+      )}
+      <div className="progress-bar no-print">
+        <div className="progress-top">
+          <span className="progress-label">{curStd.name} · {curSec.name}</span>
+          <span className="progress-count">{doneQ}/{totalQ} svar · {prog}%</span>
+        </div>
+        <div className="progress-track" role="progressbar" aria-valuenow={prog} aria-valuemin={0} aria-valuemax={100} aria-label={`Framsteg: ${prog}%`}><div className="progress-fill" style={{width:`${prog}%`}}/></div>
+      </div>
+      <div className="section-tabs no-print">
+        {curStd.sections.map((sec,i)=>{
+          const{done,total}=secPct(sec,answers);
+          const isAct=i===secIdx,isDone=done===total;
+          return(
+            <button key={sec.id} className={`section-tab${isAct?" active":""}${isDone&&!isAct?" done":""}`} onClick={()=>jump(stdIdx,i)}>
+              <span className="tab-dot"/>{sec.name}
+            </button>
+          );
+        })}
+      </div>
+      <div style={{marginBottom:20}}>
+        <div style={{fontSize:10,fontWeight:800,textTransform:"uppercase",letterSpacing:"1px",color:"var(--muted)",marginBottom:4}}>{curStd.name} · {curStd.reg}</div>
+        <h2 style={{fontSize:22,fontWeight:800,marginBottom:6}}>{curSec.name}</h2>
+        <p style={{fontSize:13,color:"var(--muted)"}}>Välj "Vet ej" om frågan behöver kontrolleras internt.</p>
+      </div>
+      {curSec.questions.map((q,i)=>(
+        <QCard key={q.id} q={q} i={i} answers={answers} answer={answer}/>
+      ))}
+      <div className="btn-row no-print">
+        <button className="btn-ghost" onClick={goPrev} disabled={isFirst}>← Föregående</button>
+        <button className="btn btn-primary" onClick={goNext} disabled={!secDone}>{isLast?"Visa rapport →":"Nästa →"}</button>
+      </div>
+      {!secDone&&<div className="q-hint no-print">Besvara alla frågor för att gå vidare.</div>}
+    </React.Fragment>
+  );
+}
+
+function ReportPage({active,answers,company,agreed,restart,back}){
+  let s=0,t=0;
+  active.forEach(std=>std.sections.forEach(sec=>sec.questions.forEach(q=>{
+    const a=answers[q.id];if(a&&a!=="vet_ej"){const d=ANSWERS.find(x=>x.key===a);if(d){s+=d.score;t++;}}
+  })));
+  const overall=t?Math.round(s/t*100):null;
+  const hiG=active.reduce((n,std)=>n+std.sections.reduce((m,sec)=>m+sec.questions.filter(q=>answers[q.id]==="ej").length,0),0);
+  const miG=active.reduce((n,std)=>n+std.sections.reduce((m,sec)=>m+sec.questions.filter(q=>answers[q.id]==="delvis").length,0),0);
+  const vetEjG=active.reduce((n,std)=>n+std.sections.reduce((m,sec)=>m+sec.questions.filter(q=>answers[q.id]==="vet_ej").length,0),0);
+  const ds=today();
+  const portal="https://kundportal.sbsc.se/login";
+  const summary=generateSummary(active,answers,company,overall);
+
+  return(
+    <React.Fragment>
+      <div className="print-header">
+        <img src={LOGO} alt="SBSC" className="print-header-logo"/>
+        <div className="print-header-right">
+          <span className="print-header-title">Certifieringsberedskapsanalys</span>
+          <span className="print-header-sub">{ds} · SBSC ackrediterat av SWEDAC (nr 1631)</span>
+        </div>
+      </div>
+
+      <TocBlock active={active} answers={answers}/>
+      <div className="report-banner">
+        <div>
+          <div className="banner-label">Certifieringsberedskapsanalys · SBSC</div>
+          <div className="banner-company">{company||"Ert företag"}</div>
+          <div className="banner-meta">
+            <span style={{display:"flex",alignItems:"center",gap:5}}>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              {ds}
+            </span>
+            <span>{active.map(s=>s.name).join(" · ")}</span>
+          </div>
+          {agreed&&(
+            <div className="report-confirm">
+              <div className="report-confirm-dot">✓</div>
+              <span>Genomförd med insikt om att rapporten är ett förenklat stöd som inte garanterar heltäckande kravbedömning och inte utgör ett certifieringsbesked. Bekräftat av {company} den {ds}.</span>
+            </div>
+          )}
+        </div>
+        <div>
+          <div className="banner-score-label">Samlad beredskap</div>
+          <div className="banner-score">{overall!=null?<React.Fragment>{overall}<em>%</em></React.Fragment>:"—"}</div>
+          <div className="banner-date">{ds}</div>
+        </div>
+      </div>
+
+      <div className="kpi-row">
+        <div className="kpi-cell"><div className="kpi-label">Bedömning</div><div className="kpi-value">{readiness(overall)}</div></div>
+        <div className="kpi-cell"><div className="kpi-label">Tid innan redo för revision</div><div className="kpi-value kpi-amber">{timeUntil(overall)}</div></div>
+        <div className="kpi-cell"><div className="kpi-label">Identifierade åtgärder</div><div className="kpi-value">{hiG} att prioritera · {miG} att slutföra</div></div>
+      </div>
+
+      {vetEjG>=5&&(
+        <div style={{
+          display:"flex",alignItems:"flex-start",gap:10,
+          padding:"12px 16px",marginBottom:14,
+          background:"#FEF9EC",border:"1.5px solid #FFD580",
+          borderRadius:6,fontSize:13
+        }}>
+          <svg style={{flexShrink:0,marginTop:1,color:"#8A5500"}} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <div>
+            <strong style={{display:"block",marginBottom:3,color:"#7A4800"}}>OBS: {vetEjG} frågor besvarades med "Vet ej"</strong>
+            <span style={{color:"#8A5500"}}>Resultatet kan vara missvisande. Dessa krav behöver kontrolleras internt innan ni får en fullständig bild av er beredskap.</span>
+          </div>
+        </div>
+      )}
+      <div className="summary-box">
+        <div className="summary-box-label">Var befinner ni er på certifieringsresan?</div>
+        <div className="summary-box-text">{summary}</div>
+      </div>
+
+      {active.map(std=><CertSection key={std.id} std={std} answers={answers}/>)}
+
+      <div className="disclaimer">
+        <strong>Viktig information om denna rapport</strong>
+        Denna rapport är en självskattning baserad på era egna svar och ger en indikativ — inte heltäckande — bild av er beredskap inför certifiering. Verktyget är ett förenklat stöd och garanterar inte att samtliga krav i tillämpliga regelverk och standarder berörs eller bedöms korrekt. Resultaten speglar hur ni själva tolkar och besvarar frågorna, vilket kan avvika väsentligt från hur SBSC:s revisorer bedömer er verksamhet vid en faktisk revision baserad på dokumentgranskning och platsbesök. Tillämpliga regelverk uppdateras löpande — SBSC ansvarar inte för att verktyget vid varje tidpunkt återspeglar gällande versioner. En hög beredskapsgrad i denna självskattning innebär inte att certifiering kan utfärdas utan föregående revision, eller att revisionens utfall med säkerhet blir positivt. Vi rekommenderar att ni noggrant läser de regelverk och standarder som ligger till grund för er valda certifiering och vid behov söker vägledning från SBSC innan ansökan lämnas in. SBSC är ackrediterat av SWEDAC (ackrediteringsnummer 1631).
+      </div>
+
+      <div className="cta-block">
+        <div>
+          <h3>Redo att ta nästa steg?</h3>
+          <p>Kontakta oss så berättar vi mer om certifieringsprocessen och vad som passar er verksamhet.</p>
+        </div>
+        <a className="cta-link" href={`mailto:kund@sbsc.se?subject=${encodeURIComponent("Certifieringsberedskap — "+company)}&body=${encodeURIComponent("Hej SBSC,\n\nVi har genomfört er självskattning för certifieringsberedskap.\n\nFöretag: "+company+"\nCertifieringar: "+active.map(s=>s.name).join(", ")+"\nSamlad beredskap: "+(overall!==null?overall+"%":"—")+"\nBedömning: "+readiness(overall)+"\nÅtgärder: "+hiG+" att prioritera · "+miG+" att slutföra\n\nVi är intresserade av att höra mer och bli kontaktade av SBSC.\n\nMed vänliga hälsningar,")}`}>
+          Ta kontakt med SBSC
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+
+      <div className="btn-row no-print" style={{marginTop:20}}>
+        <button className="btn-ghost" onClick={back}>← Tillbaka</button>
+        <div style={{display:"flex",gap:10}}>
+          <button className="btn btn-secondary" onClick={()=>window.print()}>🖨 Skriv ut / PDF</button>
+          <button className="btn btn-secondary" onClick={restart}>Börja om</button>
+        </div>
+      </div>
+    </React.Fragment>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+
+</script>
+</body>
+</html>
