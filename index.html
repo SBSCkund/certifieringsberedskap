@@ -97,6 +97,8 @@ button:disabled{opacity:.38;cursor:not-allowed;}
 .cert-switch-btn{flex:1;padding:7px 12px;font-size:12px;font-weight:700;border-radius:4px;cursor:pointer;font-family:inherit;background:none;border:none;color:var(--muted);transition:all .15s;text-align:center;}
 .cert-switch-btn.active{background:var(--white);color:var(--black);box-shadow:0 1px 3px rgba(0,0,0,.1);}
 .cert-switch-btn.done{color:var(--green);}
+.cert-switch-btn.cert-switch-back{color:var(--muted);border-left:1px solid var(--border);margin-left:4px;padding-left:12px;font-size:11px;}
+.cert-switch-btn.cert-switch-back:hover{color:var(--black);}
 .report-banner{border-radius:var(--r);padding:26px 30px;margin-bottom:14px;background:var(--black);color:var(--white);border-left:5px solid var(--amber);display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px;}
 .banner-label{font-size:10px;color:var(--amber);font-weight:800;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;}
 .banner-company{font-size:24px;font-weight:800;letter-spacing:-.5px;margin-bottom:4px;}
@@ -226,6 +228,7 @@ body{background:#fff!important;width:100%!important;margin:0!important;padding:0
 .lk-picker{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);padding:20px 22px;margin-bottom:16px;}
 .lk-picker-title{font-size:14px;font-weight:800;margin-bottom:4px;}
 .lk-picker-sub{font-size:12px;color:var(--muted);margin-bottom:14px;line-height:1.6;}
+.lk-options{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
 .lk-options{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
 .lk-opt{padding:12px 14px;border:1.5px solid var(--border);border-radius:6px;cursor:pointer;transition:all .12s;font-family:inherit;text-align:left;background:var(--white);}
 .lk-opt:hover{border-color:var(--amber);}
@@ -963,17 +966,17 @@ function QCard({q,i,answers,answer,larmklass,showLmsWarning}){
 function LarmklassValjare({selected,onSelect}){
   return(
     <div style={{marginBottom:20}}>
-      <div style={{fontSize:13,fontWeight:700,color:"var(--black)",marginBottom:8}}>Vilken larmklass siktar ni på?</div>
       <div className="lk-picker">
-        {LARMKLASSER.map(lk=>(
-          <div key={lk.id} className={`lk-card${selected===lk.id?" selected":""}`} onClick={()=>onSelect(lk.id)}>
-            <div className={`lk-radio${selected===lk.id?" selected":""}`}>{selected===lk.id&&<div className="lk-radio-dot"/>}</div>
-            <div>
-              <div className="lk-title">{lk.label}</div>
-              <div className="lk-desc">{lk.desc}</div>
-            </div>
-          </div>
-        ))}
+        <div className="lk-picker-title">Vilken larmklass siktar ni på?</div>
+        <div className="lk-picker-sub">Välj er målnivå — frågorna anpassas automatiskt.</div>
+        <div className="lk-options">
+          {LARMKLASSER.map(lk=>(
+            <button key={lk.id} className={`lk-opt${selected===lk.id?" active":""}${lk.id==="lk34"?" lk-opt-warn":""}`} onClick={()=>onSelect(lk.id)}>
+              <span className="lk-opt-name">{lk.label}</span>
+              <span className="lk-opt-desc">{lk.desc}</span>
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -1124,14 +1127,13 @@ function QPage({active,curStd,curSec,stdIdx,secIdx,answers,answer,prog,doneQ,tot
   const visibleQs=getVisibleQuestions(curSec,curStd.id==="inbrottslarm"?larmklass:null,curStd.id==="ssf1044"?swqNiva:null);
   return(
     <>
-      {active.length>1&&(
-        <div className="cert-switcher no-print">
-          {active.map((std,i)=>{
-            const allDone=std.sections.every(sec=>sec.questions.every(q=>answers[q.id]));
-            return(<button key={std.id} className={`cert-switch-btn${i===stdIdx?" active":""}${allDone?" done":""}`} onClick={()=>jump(i,0)}>{allDone&&i!==stdIdx?"✓ ":""}{std.name}</button>);
-          })}
-        </div>
-      )}
+      <div className="cert-switcher no-print">
+        {active.map((std,i)=>{
+          const allDone=std.sections.every(sec=>sec.questions.every(q=>answers[q.id]));
+          return(<button key={std.id} className={`cert-switch-btn${i===stdIdx?" active":""}${allDone?" done":""}`} onClick={()=>jump(i,0)}>{allDone&&i!==stdIdx?"✓ ":""}{std.name}</button>);
+        })}
+        <button className="cert-switch-btn cert-switch-back" onClick={()=>jump(-1,-1)} title="Tillbaka till urval">← Urval</button>
+      </div>
       <div className="progress-bar no-print">
         <div className="progress-top"><span className="progress-label">{curStd.name} · {curSec.name}</span><span className="progress-count">{doneQ}/{totalQ} svar · {prog}%</span></div>
         <div className="progress-track" role="progressbar" aria-valuenow={prog} aria-valuemin={0} aria-valuemax={100}><div className="progress-fill" style={{width:`${prog}%`}}/></div>
@@ -1405,7 +1407,7 @@ function App(){
             answers={answers} answer={answer} prog={prog} doneQ={doneQ} totalQ={totalQ}
             goNext={goNext} goPrev={goPrev} isFirst={isFirst} isLast={isLast} secDone={secDone}
             larmklass={larmklass} setLarmklass={setLarmklass} swqNiva={swqNiva} setSwqNiva={setSwqNiva}
-            jump={(si,qi)=>{setStdIdx(si);setSecIdx(qi);window.scrollTo(0,0);}}/>
+            jump={(si,qi)=>{if(si===-1){setView("start");window.scrollTo(0,0);}else{setStdIdx(si);setSecIdx(qi);window.scrollTo(0,0);}}}/>
         )}
         {view==="results"&&<ReportPage active={active} answers={answers} company={company} larmklass={larmklass} swqNiva={swqNiva} restart={()=>setShowRestart(true)} back={()=>{setView("questions");window.scrollTo(0,0);}}/>}
         {showRestart&&(
