@@ -97,8 +97,9 @@ button:disabled{opacity:.38;cursor:not-allowed;}
 .cert-switch-btn{flex:1;padding:7px 12px;font-size:12px;font-weight:700;border-radius:4px;cursor:pointer;font-family:inherit;background:none;border:none;color:var(--muted);transition:all .15s;text-align:center;}
 .cert-switch-btn.active{background:var(--white);color:var(--black);box-shadow:0 1px 3px rgba(0,0,0,.1);}
 .cert-switch-btn.done{color:var(--green);}
-.cert-switch-btn.cert-switch-back{color:var(--muted);border-left:1px solid var(--border);margin-left:4px;padding-left:12px;font-size:11px;}
-.cert-switch-btn.cert-switch-back:hover{color:var(--black);}
+.back-to-start-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;margin-bottom:10px;font-size:12px;font-weight:700;color:var(--black);background:#FFF8E6;border:1.5px solid var(--amber);border-radius:4px;cursor:pointer;font-family:inherit;transition:all .12s;}
+.back-to-start-btn:hover{background:var(--amber);}
+.back-to-start-btn.inline{margin-bottom:0;margin-top:0;}
 .report-banner{border-radius:var(--r);padding:26px 30px;margin-bottom:14px;background:var(--black);color:var(--white);border-left:5px solid var(--amber);display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px;}
 .banner-label{font-size:10px;color:var(--amber);font-weight:800;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;}
 .banner-company{font-size:24px;font-weight:800;letter-spacing:-.5px;margin-bottom:4px;}
@@ -1132,8 +1133,11 @@ function QPage({active,curStd,curSec,stdIdx,secIdx,answers,answer,prog,doneQ,tot
           const allDone=std.sections.every(sec=>sec.questions.every(q=>answers[q.id]));
           return(<button key={std.id} className={`cert-switch-btn${i===stdIdx?" active":""}${allDone?" done":""}`} onClick={()=>jump(i,0)}>{allDone&&i!==stdIdx?"✓ ":""}{std.name}</button>);
         })}
-        <button className="cert-switch-btn cert-switch-back" onClick={()=>jump(-1,-1)} title="Tillbaka till urval">← Urval</button>
       </div>
+      <button className="back-to-start-btn no-print" onClick={()=>jump(-1,-1)}>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Ändra val av självdeklarationer
+      </button>
       <div className="progress-bar no-print">
         <div className="progress-top"><span className="progress-label">{curStd.name} · {curSec.name}</span><span className="progress-count">{doneQ}/{totalQ} svar · {prog}%</span></div>
         <div className="progress-track" role="progressbar" aria-valuenow={prog} aria-valuemin={0} aria-valuemax={100}><div className="progress-fill" style={{width:`${prog}%`}}/></div>
@@ -1196,7 +1200,13 @@ function QPage({active,curStd,curSec,stdIdx,secIdx,answers,answer,prog,doneQ,tot
           showLmsWarning={curSec.lmsWarning}/>
       ))}
       <div className="btn-row no-print">
-        <button className="btn-ghost" onClick={goPrev} disabled={isFirst}>← Föregående</button>
+        <div style={{display:"flex",alignItems:"center",gap:10}}>
+          <button className="btn-ghost" onClick={goPrev} disabled={isFirst}>← Föregående</button>
+          <button className="back-to-start-btn inline" onClick={()=>jump(-1,-1)}>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            Ändra urval
+          </button>
+        </div>
         <button className="btn btn-primary" onClick={goNext} disabled={!secDone}>{isLast?"Visa rapport →":"Nästa →"}</button>
       </div>
       {!secDone&&<div style={{textAlign:"right",fontSize:11,color:"var(--muted)",marginTop:8}}>Besvara alla frågor för att gå vidare.</div>}
