@@ -215,6 +215,25 @@ body{background:#fff!important;width:100%!important;margin:0!important;padding:0
 .cta-block{flex-direction:column;text-align:center;}
 .bar-label{width:130px;font-size:11px;}
 }
+
+.guide-toggle{display:inline-flex;align-items:center;gap:5px;margin-top:10px;font-size:11px;font-weight:700;color:var(--blue);background:#EEF4FB;border:1px solid #C8DCF0;border-radius:4px;padding:4px 10px;cursor:pointer;transition:all .12s;font-family:inherit;}
+.guide-toggle:hover{background:#DBE9F8;}
+.guide-box{margin-top:10px;padding:12px 14px;background:#F5F9FF;border:1px solid #C8DCF0;border-radius:6px;border-left:3px solid var(--blue);}
+.guide-box-text{font-size:12px;color:#1a4a7a;line-height:1.75;}
+.guide-action-label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-top:10px;margin-bottom:4px;}
+.guide-action{font-size:12px;color:var(--black);line-height:1.65;padding:9px 12px;background:var(--white);border-radius:4px;border-left:3px solid var(--amber);}
+.lk-picker{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);padding:20px 22px;margin-bottom:16px;}
+.lk-picker-title{font-size:14px;font-weight:800;margin-bottom:4px;}
+.lk-picker-sub{font-size:12px;color:var(--muted);margin-bottom:14px;line-height:1.6;}
+.lk-options{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
+.lk-opt{padding:12px 14px;border:1.5px solid var(--border);border-radius:6px;cursor:pointer;transition:all .12s;font-family:inherit;text-align:left;background:var(--white);}
+.lk-opt:hover{border-color:var(--amber);}
+.lk-opt.active{border-color:var(--amber);background:#FFFBF0;}
+.lk-opt.disabled{opacity:.5;cursor:not-allowed;}
+.lk-opt-name{font-size:13px;font-weight:800;display:block;margin-bottom:2px;}
+.lk-opt-desc{font-size:11px;color:var(--muted);line-height:1.5;}
+.lk-hänvisning{display:flex;align-items:flex-start;gap:10px;padding:14px 16px;background:#F0F7EE;border:1.5px solid #A8D5A2;border-radius:var(--r);margin-top:8px;font-size:12px;color:#1B6B3F;line-height:1.65;}
+
 </style>
 </head>
 <body>
@@ -303,6 +322,7 @@ const STANDARDS = {
   inbrottslarm:{
     id:"inbrottslarm",name:"Inbrottslarm",reg:"SSF 1015:3",
     desc:"Anläggarfirma inbrottslarm larmklass 1–2 enligt SSF 1015:3",
+    larmklassAware:true,
     sections:[
       {id:"inb_org",name:"Organisation & tillstånd",questions:[
         {id:"inb_org_1",text:"Har företaget polismyndighetens tillstånd enligt larmlagen (SFS 1983:1097) att yrkesmässigt bedriva installation av centralanslutna inbrottslarmanläggningar?",
@@ -323,34 +343,34 @@ const STANDARDS = {
          help:"SSF 1016 §4.1–4.2",action:"Dokumentera utbildning och erfarenhet med intyg och referensuppdrag.",actionPartial:"Gå igenom om erfarenheten är tillräckligt dokumenterad och bred."},
         {id:"inb_pers_3",text:"Har den behörige ingenjören dokumenterade befogenheter att granska/godkänna handlingar och underteckna anläggarintyg?",
          help:"SSF 1015:3 §4.6.3",action:"Upprätta undertecknat dokument från ledningen med den behörige ingenjörens ansvar och befogenheter.",actionPartial:"Kontrollera att befintlig dokumentation är aktuell och speglar befogenheterna i praktiken."},
-        {id:"inb_pers_4",text:"Finns minst en servicetekniker (LK1) eller minst 2 servicetekniker (LK2) med nödvändig kompetens?",
-         help:"SSF 1015:3 §5.4 och §6.4",action:"Kartlägg personalsituationen och dokumentera kompetens och erfarenhet.",actionPartial:"Om ni siktar på LK2 — kontrollera att ni har minst 2 servicetekniker."},
+        {id:"inb_pers_4",lkVar:true,texts:{lk1:"Finns minst en servicetekniker med nödvändig kompetens för att utföra service på inbrottslarmanläggningar?",lk2:"Finns minst 2 servicetekniker med nödvändig kompetens — varav minst en alltid kan nås vid felanmälan?"},
+         help:"SSF 1015:3 §5.4 (LK1) och §6.4 (LK2)",action:"Kartlägg personalsituationen och dokumentera kompetens och erfarenhet för varje tekniker.",actionPartial:"Kontrollera att ni har rätt antal servicetekniker för er larmklass."},
       ]},
       {id:"inb_kvalitet",name:"Kvalitetssystem",lmsWarning:"inbrottslarm",questions:[
-        {id:"inb_kval_1",text:"Har företaget ett implementerat kvalitetssystem — minst SSF 1044 SWE Q Nivå 1 (LK1) eller Nivå 2 (LK2), alternativt ISO 9001 eller FR 2000?",
-         help:"SSF 1015:3 §5.2 och §6.2",action:"Ta reda på vilken larmklass ni siktar på och välj rätt kvalitetssystemnivå. Implementera SSF 1044 SWE Q Nivå 1 (LK1) eller Nivå 2 (LK2).",actionPartial:"Gå igenom att kvalitetssystemet är implementerat — inte bara dokumenterat. Kontrollera att kvalitetsansvariges kompetens är styrkt."},
-        {id:"inb_kval_2",text:"Genomförs ledningens genomgång av kvalitetssystemet minst en gång per kalenderår? (Obligatoriskt från LK2.)",
-         help:"SSF 1015:3 §6.2.2",action:"Schemalägg ett årligt möte med protokoll som dokumenterar beslutade åtgärder.",actionPartial:"Kontrollera att protokollet är komplett och att beslutade åtgärder har följts upp."},
+        {id:"inb_kval_1",lkVar:true,texts:{lk1:"Har företaget ett implementerat kvalitetssystem — minst SSF 1044 SWE Q Nivå 1, alternativt ISO 9001 eller FR 2000?",lk2:"Har företaget ett implementerat kvalitetssystem — minst SSF 1044 SWE Q Nivå 2, alternativt ISO 9001 eller FR 2000?"},
+         help:"SSF 1015:3 §5.2 (LK1) och §6.2 (LK2)",action:"Implementera SSF 1044 SWE Q på rätt nivå för er larmklass och säkerställ att systemet är i praktisk drift — inte bara dokumenterat.",actionPartial:"Kontrollera att kvalitetssystemet är implementerat i praktiken. Kontrollera att kvalitetsansvariges kompetens är styrkt."},
+        {id:"inb_kval_2",lkVar:true,texts:{lk1:"Rekommenderas: genomförs ledningens genomgång av kvalitetssystemet minst en gång per kalenderår? (Rekommenderas för LK1, obligatoriskt för LK2.)",lk2:"Genomförs ledningens genomgång av kvalitetssystemet minst en gång per kalenderår? (Obligatoriskt för LK2.)"},
+         help:"SSF 1015:3 §5.2.2 (LK1) och §6.2.2 (LK2)",action:"Schemalägg ett årligt möte med fast agenda och protokoll som dokumenterar beslutade åtgärder.",actionPartial:"Kontrollera att protokollet är komplett och att beslutade åtgärder följts upp."},
       ]},
       {id:"inb_verksamhet",name:"Verksamhet & service",questions:[
-        {id:"inb_verk_1",text:"Kan ni redovisa installerade inbrottslarmanläggningar med anläggarintyg (SSF 1058) senaste 12 månader — minst 5 st LK1 (+ 2 st LK2 om ni söker LK2)?",
-         help:"SSF 1015:3 §4.5.1 och SSF 130 §8.2",action:"Gå igenom projekthistoriken och lista alla installationer med utfärdade anläggarintyg.",actionPartial:"Kontrollera att ni använder senaste utgåvan av SSF 1058 och att intygen överlämnas vid avprovning."},
+        {id:"inb_verk_1",lkVar:true,texts:{lk1:"Kan ni redovisa minst 5 installerade inbrottslarmanläggningar LK1 med anläggarintyg (SSF 1058) utfärdade under senaste 12 månader?",lk2:"Kan ni redovisa minst 5 LK1-anläggningar samt minst 2 LK2-anläggningar med anläggarintyg (SSF 1058) utfärdade under senaste 12 månader?"},
+         help:"SSF 1015:3 §4.5.1 och SSF 130 §8.2",action:"Gå igenom projekthistoriken och lista alla installationer med utfärdade anläggarintyg — kontrollera att rätt SSF 1058-utgåva använts.",actionPartial:"Kontrollera att intygen är korrekt utfärdade och överlämnade vid avprovning."},
         {id:"inb_verk_5a",text:"Finns rutiner för att ge kunden utbildning vid varje överlämning — täcker minimiinnehållet i SSF 130 Bilaga F?",
          help:"SSF 130 §7 och Bilaga F",action:"Ta fram rutin och checklista för kundutbildning baserad på SSF 130 Bilaga F.",actionPartial:"Kontrollera att utbildningen genomförs konsekvent och täcker alla punkter i SSF 130 Bilaga F."},
         {id:"inb_verk_5b",text:"Dokumenteras kundutbildningen med uppgift om deltagare och genomförare — arkiveras med anläggningsdokumentationen?",
          help:"SSF 130 §7 och Bilaga F",action:"Använd SSF 130 Bilaga F som utbildningsblankett och arkivera med anläggarintyget.",actionPartial:"Kontrollera att blanketten faktiskt fylls i och arkiveras."},
-        {id:"inb_verk_2a",text:"Kan företaget ta emot och bekräfta felanmälan dygnet runt — inom 24h (LK1) eller 12h (LK2) — och dokumenteras bekräftelserna?",
-         help:"SSF 1015:3 §5.5.1/§6.5.1",action:"Säkerställ att ni har en bemannad eller automatiserad mottagningsfunktion dygnet runt med dokumenterad bekräftelse.",actionPartial:"Kontrollera att bekräftelserna sker inom rätt tidsgräns och dokumenteras."},
-        {id:"inb_verk_2b",text:"Finns rutiner för anläggningskontroll hos kund — vart 3:e år (LK1) eller minst en gång per år (LK2)?",
-         help:"SSF 130 §8.11",action:"Upprätta ett schema för anläggningskontroller per kund baserat på larmklass.",actionPartial:"Kontrollera att inga kunder med LK2-anläggningar missar den årliga kontrollen."},
-        {id:"inb_verk_3",text:"Kan service påbörjas på plats inom 2 helgfria dygn (LK1) eller 1 helgfritt dygn (LK2) från bekräftad felanmälan?",
-         help:"SSF 1015:3 §5.5.2 och §6.5.2–6.5.3",action:"Kartlägg er serviceberedskap och reservdelssituation.",actionPartial:"Testa om er nuvarande beredskap håller tidskravet i alla lägen."},
+        {id:"inb_verk_2a",lkVar:true,texts:{lk1:"Kan företaget ta emot och bekräfta felanmälan dygnet runt — inom 24 timmar — och dokumenteras bekräftelserna?",lk2:"Kan företaget ta emot och bekräfta felanmälan dygnet runt — inom 12 timmar — och dokumenteras bekräftelserna?"},
+         help:"SSF 1015:3 §5.5.1 (LK1) / §6.5.1 (LK2)",action:"Säkerställ bemannad eller automatiserad mottagningsfunktion dygnet runt med dokumenterad bekräftelse inom rätt tidsgräns.",actionPartial:"Testa om er mottagningsrutin klarar tidsgränsen konsekvent."},
+        {id:"inb_verk_2b",lkVar:true,texts:{lk1:"Finns rutiner för anläggningskontroll hos kund — minst vart 3:e år — med dokumentation av genomförd kontroll?",lk2:"Finns rutiner för anläggningskontroll hos kund — minst en gång per år — med dokumentation av genomförd kontroll?"},
+         help:"SSF 130 §8.11",action:"Upprätta ett kundschema för anläggningskontroller med påminnelsesystem och dokumentationsrutin.",actionPartial:"Kontrollera att inga kunder missas och att intervallen hålls."},
+        {id:"inb_verk_3",lkVar:true,texts:{lk1:"Kan service påbörjas på plats inom 2 helgfria dygn från bekräftad felanmälan?",lk2:"Kan service påbörjas på plats inom 1 helgfritt dygn från bekräftad felanmälan?"},
+         help:"SSF 1015:3 §5.5.2 (LK1) / §6.5.2 (LK2)",action:"Kartlägg serviceberedskap, reservdelssituation och hur ni hanterar sjukdom och ledighet.",actionPartial:"Testa om er nuvarande beredskap håller tidskravet även i pressade situationer."},
         {id:"inb_verk_4",text:"Installerar ni materiel som uppfyller kraven i SSF 1014 (Norm för materiel till inbrottslarmanläggning)?",
          help:"SSF 1015:3 §5.7.1 och §6.7.1",action:"Gå igenom ert standardsortiment och säkerställ SSF 1014-godkänd materiel.",actionPartial:"Uppdatera produktlistan om ni börjat använda nya produkter."},
       ]},
       {id:"inb_lokaler",name:"Lokaler & dokumentation",questions:[
-        {id:"inb_lok_1",text:"Har firmans lokaler mekaniskt inbrottsskydd (SSF 200 SK1) och inbrottslarm i larmklass 2 (SSF 130)?",
-         help:"SSF 1015:3 §5.6 och §6.6",action:"Låt en behörig ingenjör göra en genomgång av era lokaler mot kraven i SSF 200 och SSF 130.",actionPartial:"Gå igenom att larmöverföringen uppfyller rätt klass."},
+        {id:"inb_lok_1",lkVar:true,texts:{lk1:"Har firmans lokaler mekaniskt inbrottsskydd (SSF 200 SK1) och inbrottslarm (SSF 130)?",lk2:"Har firmans lokaler mekaniskt inbrottsskydd (SSF 200 SK1), inbrottslarm LK2 (SSF 130) och larmöverföring LK3 med minst två alternativa vägar (SSF 114)?"},
+         help:"SSF 1015:3 §5.6 (LK1) / §6.6 (LK2)",action:"Låt en behörig ingenjör göra en genomgång av era lokaler mot kraven i SSF 200, SSF 130 och SSF 114.",actionPartial:"LK2: kontrollera specifikt att larmöverföringen är LK3 med två alternativa vägar — detta missas ofta."},
         {id:"inb_lok_2",text:"Förvaras anläggningsdokumentation i godkänt säkerhetsskåp (SS 3492) med punktskydd — förankrat om under 150 kg?",
          help:"SSF 1015:3 §4.9.1",action:"Skaffa ett godkänt säkerhetsskåp och samla all relevant anläggningsdokumentation.",actionPartial:"Kontrollera att skåpet uppfyller SS 3492 med punktskydd och att förankring finns om under 150 kg."},
         {id:"inb_lok_3a",text:"Finns rutiner för att registrera och kontrollera alla besökande — lämnas besökare aldrig ensamma med anläggningsdokumentation?",
@@ -839,14 +859,15 @@ function TocBlock({active,answers}){
   );
 }
 
-function CertSection({std,answers}){
+function CertSection({std,answers,larmklass}){
   const sc=stdPct(std,answers);
   const gaps=[];
   std.sections.forEach(sec=>sec.questions.forEach(q=>{
     const a=answers[q.id];
-    if(a==="ej")gaps.push({pri:"hi",lbl:"Prioritera",cls:"badge-hi",sec:sec.name,q:q.text,albl:"Så här börjar ni",act:q.action||null});
-    else if(a==="delvis")gaps.push({pri:"mi",lbl:"Slutför",cls:"badge-mi",sec:sec.name,q:q.text,albl:"Så här kompletterar ni",act:q.actionPartial||q.action||null});
-    else if(a==="vet_ej")gaps.push({pri:"uk",lbl:"Kontrollera",cls:"badge-uk",sec:sec.name,q:q.text,act:null});
+    const qt=q.lkVar&&larmklass&&q.texts?q.texts[larmklass]||q.text:q.text;
+    if(a==="ej")gaps.push({pri:"hi",lbl:"Prioritera",cls:"badge-hi",sec:sec.name,q:qt,albl:"Så här börjar ni",act:q.action||null});
+    else if(a==="delvis")gaps.push({pri:"mi",lbl:"Slutför",cls:"badge-mi",sec:sec.name,q:qt,albl:"Så här kompletterar ni",act:q.actionPartial||q.action||null});
+    else if(a==="vet_ej")gaps.push({pri:"uk",lbl:"Kontrollera",cls:"badge-uk",sec:sec.name,q:qt,act:null});
   }));
   gaps.sort((a,b)=>({hi:0,mi:1,uk:2}[a.pri]-{hi:0,mi:1,uk:2}[b.pri]));
   return(
@@ -964,16 +985,51 @@ function GatePage({onSuccess}){
   );
 }
 
-function QCard({q,i,answers,answer,lmsWarning,picked}){
+
+function LarmklassPickerInb({onPick}){
+  return(
+    <div className="lk-picker">
+      <div className="lk-picker-title">Välj vilken larmklass ni söker certifiering för</div>
+      <div className="lk-picker-sub">Kraven skiljer sig åt beroende på larmklass — frågorna anpassas efter ditt val. LK3 och LK4 kräver ISO 9001 och hanteras via en separat revisionsprocess.</div>
+      <div className="lk-options">
+        <button className="lk-opt" onClick={()=>onPick("lk1")}>
+          <span className="lk-opt-name">Larmklass 1</span>
+          <span className="lk-opt-desc">SWE Q Nivå 1 · Felanmälan 24h · Service 2 dygn · Kontroll vart 3:e år</span>
+        </button>
+        <button className="lk-opt" onClick={()=>onPick("lk2")}>
+          <span className="lk-opt-name">Larmklass 2</span>
+          <span className="lk-opt-desc">SWE Q Nivå 2 · Felanmälan 12h · Service 1 dygn · Kontroll varje år · Larmöverföring LK3</span>
+        </button>
+        <button className="lk-opt disabled" disabled>
+          <span className="lk-opt-name">Larmklass 3–4</span>
+          <span className="lk-opt-desc">Kräver ISO 9001. Hanteras via separat revisionsprocess — välj ISO 9001 i certifieringsvalet.</span>
+        </button>
+        <button className="lk-opt" style={{gridColumn:"span 1"}} onClick={()=>onPick("lk1")}>
+          <span className="lk-opt-name">Osäker — visa LK1</span>
+          <span className="lk-opt-desc">Välj LK1 som startpunkt och justera vid behov.</span>
+        </button>
+      </div>
+      <div className="lk-hänvisning">
+        <span>ℹ️</span>
+        <div>LK3 och LK4 kräver ISO 9001 som kvalitetssystem. Välj ISO 9001 bland certifieringarna i det här verktyget — kontakta gärna SBSC för vägledning om rätt larmklass för er verksamhet.</div>
+      </div>
+    </div>
+  );
+}
+
+function QCard({q,i,answers,answer,lmsWarning,larmklass}){
   const [open,setOpen]=React.useState(false);
   const answered=answers[q.id];
+  // Välj rätt frågetext baserat på larmklass om frågan är lkVar
+  const qtext=q.lkVar&&larmklass&&q.texts?q.texts[larmklass]||q.text:q.text;
+  const showGuide=q.help||(q.action&&answered==="ej")||(q.actionPartial&&answered==="delvis");
   return(
     <div className="q-card">
-      <div className="q-text">{i+1}. {q.text}</div>
+      <div className="q-text">{i+1}. {qtext}</div>
       {q.help&&<div className="q-ref">{q.help}</div>}
       <div className="ans-grid">
         {ANSWERS.map(a=>(
-          <button key={a.key} className={`ans-btn${answers[q.id]===a.key?" "+a.cls:""}`} onClick={()=>answer(q.id,a.key)}>{a.label}</button>
+          <button key={a.key} className={`ans-btn${answered===a.key?" "+a.cls:""}`} onClick={()=>answer(q.id,a.key)}>{a.label}</button>
         ))}
       </div>
       {lmsWarning&&answered==="ej"&&(
@@ -985,11 +1041,42 @@ function QCard({q,i,answers,answer,lmsWarning,picked}){
           </div>
         </div>
       )}
+      {showGuide&&(
+        <>
+          <button className="guide-toggle" onClick={()=>setOpen(o=>!o)}>
+            <span>{open?"▾":"▸"}</span>
+            {open?"Dölj vägledning":"Visa vägledning"}
+          </button>
+          {open&&(
+            <div className="guide-box">
+              {q.help&&<div className="guide-box-text" style={{marginBottom:answered&&(q.action||q.actionPartial)?10:0}}><strong style={{fontSize:10,textTransform:"uppercase",letterSpacing:".7px",color:"var(--muted)",fontWeight:800}}>Normreferens</strong><br/>{q.help}</div>}
+              {answered==="ej"&&q.action&&(
+                <>
+                  <div className="guide-action-label">Så här kommer ni igång</div>
+                  <div className="guide-action">{q.action}</div>
+                </>
+              )}
+              {answered==="delvis"&&q.actionPartial&&(
+                <>
+                  <div className="guide-action-label">Så här slutför ni</div>
+                  <div className="guide-action">{q.actionPartial}</div>
+                </>
+              )}
+              {answered==="pa_plats"&&(
+                <div style={{fontSize:12,color:"var(--green)",fontWeight:700,marginTop:4}}>✓ Detta krav är uppfyllt enligt er skattning.</div>
+              )}
+              {answered==="vet_ej"&&(
+                <div style={{fontSize:12,color:"var(--blue)",lineHeight:1.65,marginTop:4}}>Kontrollera detta internt och återkom — resultatet kan påverkas av obesvarade frågor.</div>
+              )}
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 }
 
-function QPage({active,curStd,curSec,stdIdx,secIdx,answers,answer,prog,doneQ,totalQ,goNext,goPrev,isFirst,isLast,secDone,jump,picked}){
+function QPage({active,curStd,curSec,stdIdx,secIdx,answers,answer,prog,doneQ,totalQ,goNext,goPrev,isFirst,isLast,secDone,jump,larmklass,setLarmklass}){
   return(
     <>
       {active.length>1&&(
@@ -1007,7 +1094,7 @@ function QPage({active,curStd,curSec,stdIdx,secIdx,answers,answer,prog,doneQ,tot
       )}
       <div className="progress-bar no-print">
         <div className="progress-top">
-          <span className="progress-label">{curStd.name} · {curSec.name}</span>
+          <span className="progress-label">{curStd.name}{curStd.larmklassAware&&larmklass?" · "+(larmklass==="lk1"?"Larmklass 1":"Larmklass 2"):""} · {curSec.name}</span>
           <span className="progress-count">{doneQ}/{totalQ} svar · {prog}%</span>
         </div>
         <div className="progress-track" role="progressbar" aria-valuenow={prog} aria-valuemin={0} aria-valuemax={100}><div className="progress-fill" style={{width:`${prog}%`}}/></div>
@@ -1028,19 +1115,23 @@ function QPage({active,curStd,curSec,stdIdx,secIdx,answers,answer,prog,doneQ,tot
         <h2 style={{fontSize:22,fontWeight:800,marginBottom:6}}>{curSec.name}</h2>
         <p style={{fontSize:13,color:"var(--muted)"}}>Välj "Vet ej" om frågan behöver kontrolleras internt.</p>
       </div>
-      {curSec.questions.map((q,i)=>(
-        <QCard key={q.id} q={q} i={i} answers={answers} answer={answer} lmsWarning={curSec.lmsWarning} picked={picked}/>
+      {curStd.larmklassAware&&!larmklass&&(
+        <LarmklassPickerInb onPick={setLarmklass}/>
+      )}
+      {(!curStd.larmklassAware||larmklass)&&curSec.questions.map((q,i)=>(
+        <QCard key={q.id} q={q} i={i} answers={answers} answer={answer} lmsWarning={curSec.lmsWarning} larmklass={larmklass}/>
       ))}
       <div className="btn-row no-print">
         <button className="btn-ghost" onClick={goPrev} disabled={isFirst}>← Föregående</button>
-        <button className="btn btn-primary" onClick={goNext} disabled={!secDone}>{isLast?"Visa rapport →":"Nästa →"}</button>
+        <button className="btn btn-primary" onClick={goNext} disabled={!secDone||(curStd.larmklassAware&&!larmklass)}>{isLast?"Visa rapport →":"Nästa →"}</button>
       </div>
-      {!secDone&&<div style={{textAlign:"right",fontSize:11,color:"var(--muted)",marginTop:8}}>Besvara alla frågor för att gå vidare.</div>}
+      {curStd.larmklassAware&&!larmklass&&<div style={{textAlign:"right",fontSize:11,color:"var(--muted)",marginTop:8}}>Välj larmklass för att fortsätta.</div>}
+      {(!curStd.larmklassAware||larmklass)&&!secDone&&<div style={{textAlign:"right",fontSize:11,color:"var(--muted)",marginTop:8}}>Besvara alla frågor för att gå vidare.</div>}
     </>
   );
 }
 
-function ReportPage({active,answers,company,agreed,restart,back}){
+function ReportPage({active,answers,company,agreed,larmklass,restart,back}){
   let s=0,t=0;
   active.forEach(std=>std.sections.forEach(sec=>sec.questions.forEach(q=>{
     const a=answers[q.id];if(a&&a!=="vet_ej"){const d=ANSWERS.find(x=>x.key===a);if(d&&d.score!==null){s+=d.score;t++;}}
@@ -1067,7 +1158,7 @@ function ReportPage({active,answers,company,agreed,restart,back}){
           <div className="banner-company">{company||"Ert företag"}</div>
           <div className="banner-meta">
             <span>{ds}</span>
-            <span>{active.map(s=>s.name).join(" · ")}</span>
+            <span>{active.map(s=>s.name+(s.larmklassAware&&larmklass?" ("+(larmklass==="lk1"?"LK1":"LK2")+")":"")).join(" · ")}</span>
           </div>
         </div>
         <div>
@@ -1090,7 +1181,7 @@ function ReportPage({active,answers,company,agreed,restart,back}){
         <div className="summary-box-label">Var befinner ni er på certifieringsresan?</div>
         <div className="summary-box-text">{summary}</div>
       </div>
-      {active.map(std=><CertSection key={std.id} std={std} answers={answers}/>)}
+      {active.map(std=><CertSection key={std.id} std={std} answers={answers} larmklass={larmklass}/>)}
       <div className="disclaimer">
         <strong>Viktig information om denna rapport</strong>
         Denna rapport är en självskattning och ger en indikativ bild av er beredskap. Verktyget är ett förenklat stöd och garanterar inte att samtliga krav berörs. Resultaten speglar hur ni tolkar och besvarar frågorna och kan avvika från en faktisk revision. En hög beredskapsgrad innebär inte att certifiering kan utfärdas utan föregående revision. SBSC är ackrediterat av SWEDAC (ackrediteringsnummer 1631).
@@ -1210,6 +1301,7 @@ function App(){
   const [attempted,setAttempted]=useState(false);
   const [agreed,setAgreed]=useState(false);
   const [showRestart,setShowRestart]=useState(false);
+  const [larmklass,setLarmklass]=useState(null);
 
   const active=picked.map(id=>STANDARDS[id]);
   const curStd=active[stdIdx];
@@ -1242,6 +1334,7 @@ function App(){
   const confirmRestart=()=>{
     setAnswers({});setPicked([]);setStdIdx(0);setSecIdx(0);
     setCompany("");setAgreed(false);setAttempted(false);
+    setLarmklass(null);
     setShowRestart(false);setView("start");window.scrollTo(0,0);
   };
 
@@ -1260,9 +1353,10 @@ function App(){
         {view==="start"&&<StartPage picked={picked} toggle={toggle} company={company} setCompany={setCompany} compErr={compErr} setCompErr={setCompErr} agreed={agreed} setAgreed={setAgreed} attempted={attempted} goStart={goStart}/>}
         {view==="questions"&&curStd&&curSec&&(
           <QPage active={active} curStd={curStd} curSec={curSec} stdIdx={stdIdx} secIdx={secIdx} answers={answers} answer={answer} prog={prog} doneQ={doneQ} totalQ={totalQ} goNext={goNext} goPrev={goPrev} isFirst={isFirst} isLast={isLast} secDone={secDone} picked={picked}
-            jump={(si,qi)=>{setStdIdx(si);setSecIdx(qi);window.scrollTo(0,0);}}/>
+            jump={(si,qi)=>{setStdIdx(si);setSecIdx(qi);if(active[si]&&!active[si].larmklassAware)setLarmklass(null);window.scrollTo(0,0);}}
+            larmklass={larmklass} setLarmklass={setLarmklass}/>
         )}
-        {view==="results"&&<ReportPage active={active} answers={answers} company={company} agreed={agreed} restart={()=>setShowRestart(true)} back={()=>{setView("questions");window.scrollTo(0,0);}}/>}
+        {view==="results"&&<ReportPage active={active} answers={answers} company={company} agreed={agreed} larmklass={larmklass} restart={()=>setShowRestart(true)} back={()=>{setView("questions");window.scrollTo(0,0);}}/>}
         {showRestart&&(
           <div className="modal-overlay" onClick={()=>setShowRestart(false)}>
             <div className="modal-box" onClick={e=>e.stopPropagation()}>
