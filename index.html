@@ -988,7 +988,7 @@ function SWEQValjare({selected,onSelect}){
     <div style={{marginBottom:20}}>
       <div className="lk-picker">
         <div className="lk-picker-title">Vilken larmklass siktar er firma på?</div>
-        <div className="lk-picker-sub">Välj er målnivå — kraven visas kumulativt (Nivå 2 inkluderar allt i Nivå 1 och Grund).</div>
+        <div className="lk-picker-sub">Förvalt utifrån er larmklass — ni kan ändra här om ni vill se en annan nivå. Kraven visas kumulativt (Nivå 2 inkluderar allt i Nivå 1 och Grund).</div>
         <div className="lk-options">
           {SWQ_NIVAER.map(n=>(
             <button key={n.id} className={`lk-opt${selected===n.id?" active":""}${n.id==="lk34"?" lk-opt-warn":""}`} onClick={()=>onSelect(n.id)}>
@@ -1152,7 +1152,7 @@ function QPage({active,curStd,curSec,stdIdx,secIdx,answers,answer,prog,doneQ,tot
       </div>
       {showLkPicker&&(
         <>
-          <LarmklassValjare selected={larmklass} onSelect={setLarmklass}/>
+          <LarmklassValjare selected={larmklass} onSelect={handleLarmklass}/>
           {larmklass==="lk34"&&(
             <div className="lk-warn-box">
               <h4>Larmklass 3–4 kräver ISO 9001</h4>
@@ -1174,7 +1174,7 @@ function QPage({active,curStd,curSec,stdIdx,secIdx,answers,answer,prog,doneQ,tot
       )}
       {showSwqPicker&&(
         <>
-          <SWEQValjare selected={swqNiva} onSelect={setSwqNiva}/>
+          <SWEQValjare selected={swqNiva} onSelect={handleSwqNiva}/>
           {swqNiva==="lk34"&&(
             <div className="lk-warn-box">
               <h4>Larmklass 3–4 kräver ISO 9001</h4>
@@ -1363,6 +1363,12 @@ function App(){
   const [showRestart,setShowRestart]=useState(false);
   const [larmklass,setLarmklass]=useState("lk1");
   const [swqNiva,setSwqNiva]=useState("n1");
+  const [swqManual,setSwqManual]=useState(false);
+
+  // Synka SSF 1044-nivå med vald larmklass — om användaren inte manuellt valt nivå
+  const lkToSwq=(lk)=>lk==="lk2"?"n2":lk==="lk34"?"lk34":"n1";
+  const handleLarmklass=(lk)=>{setLarmklass(lk);if(!swqManual)setSwqNiva(lkToSwq(lk));};
+  const handleSwqNiva=(n)=>{setSwqNiva(n);setSwqManual(true);};
 
   const active=picked.map(id=>STANDARDS[id]);
   const curStd=active[stdIdx];
@@ -1395,7 +1401,7 @@ function App(){
   };
   const confirmRestart=()=>{
     setAnswers({});setPicked([]);setStdIdx(0);setSecIdx(0);
-    setCompany("");setAgreed(false);setAttempted(false);setLarmklass("lk1");setSwqNiva("n1");
+    setCompany("");setAgreed(false);setAttempted(false);setLarmklass("lk1");setSwqNiva("n1");setSwqManual(false);
     setShowRestart(false);setView("start");window.scrollTo(0,0);
   };
 
