@@ -223,6 +223,17 @@ body{background:#fff!important;width:100%!important;margin:0!important;padding:0
 .guide-toggle:hover{background:#DBE9F8;}
 .guide-box{margin-top:10px;padding:12px 14px;background:#F5F9FF;border:1px solid #C8DCF0;border-radius:6px;border-left:3px solid var(--blue);}
 .guide-box-text{font-size:12px;color:#1a4a7a;line-height:1.75;}
+.revisor-block{margin-top:22px;border-top:2px solid #101820;padding-top:18px;}
+.revisor-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.revisor-icon{width:32px;height:32px;background:#101820;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.revisor-icon svg{width:16px;height:16px;fill:#FFA300;}
+.revisor-title{font-size:13px;font-weight:700;color:#101820;letter-spacing:.3px;}
+.revisor-subtitle{font-size:11px;color:#666;margin-top:1px;}
+.revisor-items{display:flex;flex-direction:column;gap:10px;}
+.revisor-item{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;background:#FAFAFA;border:1px solid #E8E8E8;border-left:3px solid #FFA300;border-radius:4px;}
+.revisor-item-icon{font-size:14px;flex-shrink:0;margin-top:1px;}
+.revisor-item-text{font-size:12px;color:#333;line-height:1.65;}
+.revisor-item-text strong{color:#101820;font-weight:700;}
 .guide-action-label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-top:10px;margin-bottom:4px;}
 .guide-action{font-size:12px;color:var(--black);line-height:1.65;padding:9px 12px;background:var(--white);border-radius:4px;border-left:3px solid var(--amber);}
 .lk-picker{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);padding:20px 22px;margin-bottom:16px;}
@@ -259,7 +270,275 @@ const {
   useState
 } = React;
 const LOGO = "data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCABSAJ4DASIAAhEBAxEB/8QAHQABAAIDAQEBAQAAAAAAAAAAAAcIBQYJBAECA//EAEIQAAEDAwICAw0GBAUFAAAAAAECAwQABQYHERIhCDFBCRMXGCJRVVdhlJXS1BQyN3F2tBUjgZEzQlJygmKDksHh/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/ALl0pUQdLLVC/wCk2nVvyPHIdslS5N3bhLRPbWtsIUy8skBC0Hi3bT27bE8qCX6VQDx1dU/QGGe5yfqKeOrqn6Awz3OT9RQX/pVAPHV1T9AYZ7nJ+op46uqfoDDPc5P1FBf+lUA8dXVP0Bhnucn6injq6p+gMM9zk/UUF/6VQDx1dU/QGGe5yfqKeOrqn6Awz3OT9RQX/pVAPHV1T9AYZ7nJ+op46uqfoDDPc5P1FBf+lUA8dXVP0Bhnucn6injq6p+gMM9zk/UUF/6VQDx1dU/QGGe5yfqKeOrqn6Awz3OT9RQX/pVAPHV1T9AYZ7nJ+oqROjr0ktTtT9Vbdi0yzYqxb3EuPTXY0SQHENIST5JU8QCTwjmD10Fu6UpQKrN3R38ELN+pGP20mrM1Wbujv4IWb9SMftpNBQClKUClTDZtDHo1jh3rUPNbHgsee2HYcedxOzHWz1L7ynmlJ9pB9lfL7oa67js+/wCn+a2LOYVtbLs5mFxNSmGx1rLSutI84O/soIfpW1aUYPc9Rs8t+IWiRGjSpodUHpJUGmw22pwlXCCepJHV1kVvjmh1obcU2vWrTpK0kpUDMe5Ef9ughmlSNqPo9kmGY8xk6J9myLHH3e8putllGQwhz/QvcAoP5jbflvWI0v06yTUS7PwbC1HbZiNd+mzZboajRGu1biz1DkeoE8uqg1ClTWNGsDcV9iY16xFdzJ4Q0uM6lgr83furbft2qPNS8DyTTzI1WLJYiGXygOsOtLDjMhs9Tjax95J/v5wKDV6VJWAaOZDk1hGT3S4WrFcZ4uEXa8v95bdPmaTsVOHkeobcjzrZGNDMfvi/sGD6w4rf7yr/AAre825EU+r/AEtqVuFKPYOW9BCNK91/tFzsF6l2a8wnoVwhulp9h1OykKHZ/wC9+0c68NAq7Pc4MNSzaMhzuS3/ADZLibdDUR1ITst0j81FA/4GqUIQpa0oQkqUo7JAHMmurmgOHpwTSDHMbKQJDMNLss+d9zy3P7KUQPYBQb1SlKBVZu6O/ghZv1Ix+2k1Zmqzd0d/BCzfqRj9tJoKAV7bC/HjXyBJlo44zUltbqdutAUCof23rxVtuAYFds0tuSzbXIiNjHrW5dJLbylBbjSPvBAAO5/PYUEwdLnBswyPUSVqJYIUnIsTusZhcCZb0l9DDaWkpLagnfg2IUfNz8+9RXorn07SzUaNkyLeuallp6PKgLeLIkIWgp4FnY8grhVsQeaRWMwjP81wmR3/ABXJrnatzupth896Wf8AqbO6Ff1BqbWr3H1w0Uza8ZjaLe3lWJxWpcW9Q46WXJCCSC08E8ldR282/L2hjehvEfYuGoGXQob8h2zYzJ+zMtIK1KedBCEDbnxHgIH9aiMYFnTrmwxDIFrUfR7u5P8A41MGD3W6ab9EW5ZPY7jJtV8yjJG4rMlhwoc+zR0cXkEdR4y4D7DUfNa5avtOJcTqLkRKTuAqYpQ/qDyNBICocrTHouZNjmYhMS+ZbPjKt9ncUC+y20pKlPuo33b34dgDz34eVNCbfIzPo7Z3p9ij7LOXyLhHnqjqdShdzhoSP5CCSOaVBSvbxAdRNefWGYc96OmN6o3+CwzlYvzlmfmtMpaNyYDSnA6sAAFSVJ4Nx7fyEa6l4XftLsxZtUy4MrlGKzOjTIDqwhbbg3StCiEnsI384NBhMkxjIsalGLkFjuNqeB24JcZTZ3/qOdTBglxXrrkmlum12tgb/gKHY8ueH93JcNOy+DbYcPChBSDuTz3rG4J0g8+hOxbNlElnM7A6tLUm33tpMkuNkgEBxQKt9uoknY9hqWdP8UsmC9Nu74tjqvszEq0PfwxLi91RHnoyXQknrG3lAduxHXQQP0gdQH86zuSIbgaxy1qMOyQmhwssR0eSkpT51AcRPXz27AKj2O87GkNyGHFNutLC21pOxSoHcEe3evsuO/ElOxZTS2X2Vlt1tadlIUDsQQeog1lsExi6ZnmFrxezNFybcZCWW+RIQCfKWrb/ACpG6iewA0Gz69agQ9Ssuh5IxbHYMoW1iNNLiwovvNp4S5uPONhz8wqPazGbWRONZddcfTcY9xNulLjKkxwe9uKQeFRTv2bgjft2rD0EndF3DVZxrhjtpWjihsSPt0w7bgNM+WQf9xCU/wDKupQ5DYVTvub2HLbg5HnclrZLy022GojmQnZbpHs3LY39h81XEoFKUoFVm7o7+CFm/UjH7aTVmarN3R38ELN+pGP20mgoBW5aP6g3PTbMUX+3x2JrS2VxpsJ//DlMLGym1ebzg+cdvVWm0oJpkvdGq8PruS2tQMdW4rjct0ZuPIaQTzKW1qUDw+bi514c+1PxxOBOad6YY9LsWPSX0v3KXOeDk65qTzSHCnyUJBAPCk7bge3eJKUE8saj6Q3fR/E8Fyyy5oFWHvri12t2O22884d1KPHuTt1Dq6zWHRdejhDWJDOJ6hXNaOYjTLlHaac9ilNp4gPyqHqUEg6w6nzdQDa7dHtEOwY7Zmi1a7TD372wCd1KJP3lnluf/pO02/UvAsxw6y4zq3YrwuTY44iW6+2VaPtIYH3WnW3CErSOw77jsHM7wrSgnGzZF0f8Gnt3ywWXLMwvEZXfIbV5DMeE04PurWlBKlkHnsRtUb3DP8pmaluaiKuS0ZCqaJqZCR9xYPkpAPLhAASE9XCNuqtWpQTvfs00P1ImKvubWDI8VyR4bzX7CG3ostfa4W3CChR9nX1kk86/ixqlgWndonxNHbBdf43OZVHdyK+KQZDLahsUsNIJSj/dvv599hUHUoP04tbjinHFFS1ElSidySe2vyOZ2FKknoy4kc01vxqzqZLsZEoS5XLcBpryzv7CUhP5qA7aDoj0ecRVg+jeN48+z3mW1DS9LRtzDznlrB9oKiP6Vv1KUClKUCq89PnHr/kuj1pg45Y7neZbeQMvLYgRFyHEoEeQCspQCQndSRv1bkeerDUoOTXgn1T9WmZ/ApPyU8E+qfq0zP4FJ+SustKDk14J9U/VpmfwKT8lPBPqn6tMz+BSfkrrLSg5NeCfVP1aZn8Ck/JTwT6p+rTM/gUn5K6y0oOTXgn1T9WmZ/ApPyU8E+qfq0zP4FJ+SustKDk14J9U/VpmfwKT8lPBPqn6tMz+BSfkrrLSg5NeCfVP1aZn8Ck/JTwT6p+rTM/gUn5K6y0oOTXgn1T9WmZ/ApPyVa/uf2md9xqRkmU5Rj9ys81xCIERu4RFsOFvcLcUErAOxIQN+ryfZVtqUClKUClKUClKUClKUClKUClKUClKUClKUClKUClKUClKUClKUH//2Q==";
+
+const RP = {
+  iso27001: {
+    t: "Revisorns perspektiv — ISO 27001:2022",
+    i: "Vanliga kvalitetsbrister som SBSC:s revisorer identifierar — oberoende av självdeklarationens resultat.",
+    p: [
+      ["\ud83d\udcc4","Policyer är generiska, inte IS-specifika.","En allmän IT-policy uppfyller inte §5.2. Policyn ska explicit adressera informationssäkerhet, innehålla måtbara mål eller ett ramverk för dem, och vara känd av personalen — inte bara tillgänglig i ett dokumentsystem."],
+      ["\u2696\ufe0f","Riskbedömningen är statisk eller föråldrad.","§8.2 kräver bedömning vid planerade intervall och vid betydande förändringar. Organisationer genomför ofta en engångsbedömning vid implementering och uppdaterar den sedan inte."],
+      ["\ud83d\udccb","SoA speglar planer, inte verklighet.","Uttalandet om tillämplighet ska visa faktisk implementeringsstatus — inte vad som planeras. En kontroll markerad som implementerad utan att kunna visas upp i praktiken är en allvarlig avvikelse."],
+      ["\ud83d\udd0d","Intern revision saknar reell objektivitet.","§9.2 kräver att revisorn är objektiv och opartisk. En IS-ansvarig som reviderar sin egen implementation uppfyller inte kravet. Lösning: anlita extern revisor eller revidera varandras ansvar korsvis."],
+      ["\ud83d\udc65","Ledningens genomgång är ofullständig.","§9.3.2 listar sju obligatoriska underlagspunkter. Revisorer ser ofta protokoll som enbart täcker risksatus och mål — men missar intressentförändringar och återkoppling från avvikelsesystemet."],
+      ["\ud83d\udd11","Åtkomstkontroll finns på papper men inte i praktiken.","Annex A 5.15–5.18 kräver teknisk implementation. Gamla användarkonton, konsulter med kvarstående åtkomst och delade lösenord är de vanligaste fynden vid teknisk genomgång."],
+      ["\ud83d\udcda","ISO 27002 förbises.","ISO 27002:2022 förklarar hur Annex A:s 93 kontroller implementeras i praktiken. Den är inte certifieringsbar men ett centralt implementeringsstöd som många organisationer missar."]
+    ]
+  },
+  iso9001: {
+    t: "Revisorns perspektiv — ISO 9001:2015",
+    i: "Vanliga kvalitetsbrister som SBSC:s revisorer identifierar — oberoende av självdeklarationens resultat.",
+    p: [
+      ["\ud83c\udfaf","Kvalitetsmål saknar mätbarhet och uppföljning.","§6.2 kräver mätbara mål med definierad metod och uppföljningsplan. Vaga mål som 'ökad kundnöjdhet' utan mätvärde och tidplan uppfyller inte kravet."],
+      ["\ud83d\udcc4","Processer är dokumenterade men inte tillämpade.","Den vanligaste anmärkningen vid revision: rutiner och processbeskrivningar finns, men stickprov och intervjuer visar att de inte följs i praktiken."],
+      ["\ud83d\udd0d","Intern revision är en formalitet, inte ett verktyg.","§9.2 kräver att revisionen bedömer om QMS uppfyller kraven och är effektivt implementerat. Enbart dokumentkontroll utan intervjuer och stickprov uppfyller inte syftet."],
+      ["\ud83d\ude0a","Kundtillfredsställelse mäts men analyseras inte.","§9.1.2 kräver att organisationen övervakar hur väl kundernas krav uppfylls. Att skicka en enkät räcker inte — resultaten ska analyseras och kopplas till förbättringsåtgärder."],
+      ["\u2699\ufe0f","Avvikelser hanteras reaktivt utan rotorsaksanalys.","§10.2 kräver att avvikelsers grundorsak utreds. Att lösa det akuta problemet utan att utreda varför det uppstod uppfyller inte kravet."],
+      ["\ud83e\udd1d","Leverantörsstyrning är underutvecklad.","§8.4 kräver kontroll av externa leverantörer. Avsaknad av urvalskriterier, utvärderingsrutiner och IS-krav i leverantörsavtal är en vanlig avvikelse."]
+    ]
+  },
+  iso14001: {
+    t: "Revisorns perspektiv — ISO 14001:2015",
+    i: "Vanliga kvalitetsbrister som SBSC:s revisorer identifierar — oberoende av självdeklarationens resultat.",
+    p: [
+      ["\ud83c\udf3f","Miljöaspekter identifieras men rangordnas inte korrekt.","§6.1.2 kräver att organisationen identifierar och bedömer vilka miljöaspekter som är betydande. En lista utan kriterier för vad som gör en aspekt betydande uppfyller inte kravet."],
+      ["\u2696\ufe0f","Bindande krav följs upp nominellt, inte reellt.","§6.1.3 och §9.1.2 kräver att tillämpliga lagar identifieras och att efterlevnad utvärderas. En förteckning utan bevis på att efterlevnaden kontrollerats uppfyller inte kravet."],
+      ["\ud83c\udfaf","Miljömål kopplas inte till miljöaspekterna.","§6.2 kräver mål kopplade till de betydande miljöaspekterna. Generella mål som 'minska vår miljöpåverkan' utan koppling uppfyller inte kravet."],
+      ["\ud83d\udd04","Livscykelperspektivet förbises i planering och inköp.","§8.1 kräver att livscykelperspektivet beaktas. Organisationer glömmer ofta miljökrav på leverantörer och miljöinformation nedöm i värdekedjan."],
+      ["\ud83d\udcca","Ledningens genomgång saknar miljöprestandadata.","§9.3 kräver faktisk miljöprestandainformation som underlag. Protokoll som enbart listar åtgärder utan prestandadata uppfyller inte kravet."]
+    ]
+  },
+  iso45001: {
+    t: "Revisorns perspektiv — ISO 45001:2018",
+    i: "Vanliga kvalitetsbrister som SBSC:s revisorer identifierar — oberoende av självdeklarationens resultat.",
+    p: [
+      ["\ud83d\udc77","Arbetstagares medverkan är formell, inte reell.","§5.4 kräver att arbetstagare konsulteras och medverkar. Nominell medverkan via sköldkommitté utan reellt inflytande på riskbedömning uppfyller inte kravet."],
+      ["\u26a0\ufe0f","Riskbedömning täcker inte alla arbetsmoment.","§6.1.2 kräver identifiering av farliga situationer för alla aktiviteter — även rutinmässiga och icke-routinemässiga arbetsmoment samt externa parters aktiviteter."],
+      ["\ud83d\udccb","Bindande krav är listade men inte utvärderade.","§9.1.2 kräver att efterlevnad av lagkrav utvärderas med planerade intervall. En förteckning utan bevis på kontroll uppfyller inte kravet."],
+      ["\ud83d\udea8","Incidentutredning stannar vid händelseförloppet.","§10.2 kräver att grundorsaker fastställs. Rapporter som beskriver vad som hände utan att utreda varför uppfyller inte kravets avsikt."],
+      ["\ud83d\udd04","Förändringsledning saknar OH&S-perspektiv.","§8.1.3 kräver att OH&S-risker beaktas vid planerade förändringar. Förändringar utan OH&S-riskcheck är ett återkommande fynd vid revision."]
+    ]
+  }
+};
+
+
 const STANDARDS = {
+  ssf1040: {
+    id: "ssf1040",
+    name: "SSF 1040",
+    reg: "SSF 1040 utgåva 3",
+    desc: "Anläggarfirma låsanläggningar — mekaniska och elektromekaniska system",
+    sections: [{
+      id: "las_org",
+      name: "Organisation & ekonomi",
+      questions: [{
+        id: "las_org_1",
+        text: "Är företaget registrerat som juridisk person i Sverige med ekonomisk bärighet lägst 'Kreditvärdig' — och fritt från restförd moms och skatteskulder?",
+        help: "SSF 1040:3 §4.1.1: anläggarfirman ska vara en i Sverige inregistrerad juridisk person och uppvisa ekonomisk bärighet motsvarande lägst 'Kreditvärdig' i kreditupplysningsföretagens värderingssystem samt inte ha restförd moms eller kvarstående skatteskulder. SBSC kontrollerar detta vid ansökan.",
+        action: "Kontrollera kreditvärdigheten hos UC eller Creditsafe. Kontrollera skattekontot hos Skatteverket och åtgärda eventuella skulder.",
+        actionPartial: "Gör en aktuell kreditupplysning och kontrollera skattekontot. Håll löpande koll via Skatteverkets e-tjänster."
+      }, {
+        id: "las_org_2",
+        text: "Har företaget en giltig ansvarsförsäkring som bedömts kunna täcka en eventuell ersättningsskyldighet för låsanläggningsverksamheten?",
+        help: "SSF 1040:3 §4.1.2: anläggarfirman ska ha en för verksamheten relevant ansvarsförsäkring med en försäkringsomfattning som anläggarfirman bedömt kunna tillgodose en eventuell ersättningsskyldighet. Normen specificerar inte ett minimibelopp — det är firmans egen bedömning som gäller.",
+        action: "Kontakta ert försäkringsbolag och säkerställ att ansvarsförsäkringen täcker låsanläggningsverksamhet. Dokumentera bedömningen skriftligen.",
+        actionPartial: "Gå igenom att befintlig försäkring täcker låsanläggningsarbete specifikt och att ni dokumenterat bedömningen av om täckningen är tillräcklig."
+      }]
+    }, {
+      id: "las_personal",
+      name: "Certifierad låsmästare & personal",
+      questions: [{
+        id: "las_pers_1",
+        text: "Finns minst en certifierad låsmästare (SSF 1049) med anläggarfirman som sin huvudsakliga arbetsgivare?",
+        help: "SSF 1040:3 §4.3.1: den certifierade låsmästaren ska bedriva sitt huvudsakliga arbete inom ramen för anläggarfirmans verksamhet. Firman ska säkerställa att låsmästaren har erforderliga befogenheter för att kunna bedriva verksamheten enligt normen. Kompetenskraven för den enskilda låsmästaren regleras i personnormen SSF 1049 — det är certifikatet i sig som SSF 1040:3 ställer krav på.",
+        action: "Kontrollera att minst en person med giltigt SSF 1049-certifikat arbetar huvudsakligen inom er verksamhet. Kontakta SBSC för ansökan om SSF 1049-certifiering vid behov.",
+        actionPartial: "Kontrollera att certifikatet är giltigt och inte snart löper ut. Säkerställ att ni är låsmästarens huvudsakliga arbetsgivare."
+      }, {
+        id: "las_pers_2",
+        text: "Har den certifierade låsmästaren dokumenterade befogenheter att granska handlingar, godkänna anläggningar och ansvara för interna kontroller?",
+        help: "SSF 1040:3 §4.3.1: den certifierade låsmästaren ansvarar för att: kvalitetssäkra objekt genom att granska och godkänna alla handlingar, säkerställa att projektering och installation görs enligt tillämpligt regelverk, att anläggarintyget skrivs i tillämpliga fall, och att interna kontroller utförs. Ansvar och befogenheter ska vara dokumenterade — en kompetensförteckning eller liknande är normens förslag.",
+        action: "Upprätta en dokumentation av låsmästarens ansvar och befogenheter — kompetensförteckning, befattningsbeskrivning eller bemyndigandedokument undertecknat av ledningen.",
+        actionPartial: "Kontrollera att befogenhetsdokumentationen är aktuell och faktiskt speglar det mandat låsmästaren har i praktiken."
+      }, {
+        id: "las_pers_3",
+        text: "Har firman minst två heltidsanställda (ägare eller anställda) som bedriver verksamhet med installation och service av låsanläggningar?",
+        help: "SSF 1040:3 §4.6.1: anläggarfirmans personal ska utgöras av minst två heltidsanställda personer — ägare eller anställda — som bedriver verksamhet med installation och service av låsanläggningar enligt SSF 200 eller SSF 210. En person kan ha flera roller (t.ex. ägare och certifierad låsmästare).",
+        action: "Kartlägg personalsituationen. Dokumentera att minst två heltidsanställda bedriver låsanläggningsverksamhet.",
+        actionPartial: "Kontrollera att personalens anställningsform (heltid) är dokumenterad och att verksamhetsbeskrivningen stämmer."
+      }, {
+        id: "las_pers_4",
+        text: "Finns en rutin för hur kvalitetssäkringen hanteras om låsmästaren plötsligt avgår eller har långtidsfrånvaro?",
+        help: "SSF 1040:3 §4.6.2: vid oförutsägbar personalavgång eller långtidsfrånvaro får firman under högst 12 månader lösa situationen på två sätt: (Alt. 1) anlita en icke tillsvidareanställd med certifikat via skriftligt avtal, eller (Alt. 2) använda tillsvidareanställd utan certifikat förutsatt att denne får kontinuerligt stöd av en certifierad person via avtal. SBSC ska underrättas.",
+        action: "Upprätta en kontinuitetsplan: kontaktlista med externa certifierade låsmästare ni kan anlita på kort varsel vid frånvaro.",
+        actionPartial: "Kontrollera att ni känner till de två alternativa vägarna i §4.6.2 och att ni har förberett er för denna situation."
+      }]
+    }, {
+      id: "las_ledning",
+      name: "Ledningssystem & policy",
+      lmsWarning: "ssf1040",
+      questions: [{
+        id: "las_led_1",
+        text: "Finns ett upprättat och underhållet ledningssystem med den dokumenterade information som SSF 1040:3 föreskriver?",
+        help: "SSF 1040:3 §4.4.1: anläggarfirman ska upprätta, införa och underhålla ett ledningssystem som innehåller den dokumenterade information normen föreskriver samt den information företaget bedömt nödvändig. Dokumenterad information som visar ledningssystemets verkan ska bevaras enligt fastställd arkiveringsmetod. Har ni ISO 9001 eller FR 2000 uppfyller det §4.4.1.",
+        action: "Inventera vilken dokumentation normen kräver och säkerställ att den finns och underhålls. Definiera en arkiveringsrutin.",
+        actionPartial: "Gå igenom om befintlig dokumentation är aktuell och faktiskt underhålls — ett ledningssystem som inte uppdateras uppfyller inte §4.4.1."
+      }, {
+        id: "las_led_2",
+        text: "Finns en kvalitetspolicy som är känd av alla inom företaget och återspeglar hur personalen ska agera för att påverka kundupplevd kvalitet?",
+        help: "SSF 1040:3 §4.4.2: en kvalitetspolicy ska finnas som är känd av alla inom anläggarfirman. Policyn ska vara relevant för företaget och återspegla ledningens viljeinriktning hur personalen ska agera i sammanhang som påverkar den kundupplevda kvaliteten. Revisorer frågar medarbetare om policyn — den ska vara praktiskt känd, inte bara dokumenterad.",
+        action: "Upprätta en kvalitetspolicy och kommunicera den till all personal. Dokumentera att kommunikationen skett.",
+        actionPartial: "Kontrollera att policyn faktiskt är känd av personalen — fråga en slumpmässig medarbetare om innehållet."
+      }, {
+        id: "las_led_3",
+        text: "Finns en miljöpolicy som är känd av alla och ger personalen förutsättningar att förbättra firmans miljöprestanda?",
+        help: "SSF 1040:3 §4.4.3: en miljöpolicy ska finnas som är känd av alla inom anläggarfirman. Policyn ska vara anpassad för företaget samt dess tjänster och produkter, och ge personalen förutsättningar att agera i ett sammanhang som förbättrar anläggarfirmans miljöprestanda.",
+        action: "Upprätta en kortfattad men konkret miljöpolicy och kommunicera den till all personal. Identifiera konkreta beteenden den ska styra.",
+        actionPartial: "Kontrollera att policyn faktiskt är känd av personalen och inte bara finns som ett dokument i systemet."
+      }, {
+        id: "las_led_4",
+        text: "Ger ledningen bevis på sitt åtagande — informerar om externa krav, säkerställer att policyer är införda och att resurser finns tillgängliga?",
+        help: "SSF 1040:3 §4.4.4: ledningens åtagande ska bevisas med dokumentation som täcker: (1) informerar personalen om att externa krav (lagar, kundkrav, regelverk) uppfylls, (2) kvalitetspolicy är införd och underhållen, (3) miljöpolicy är införd och underhållen, (4) ledningens genomgång utförs, (5) nödvändiga resurser finns tillgängliga.",
+        action: "Skapa en checklista för de fem punkterna i §4.4.4 och bevara dokumentation på att de uppfylls.",
+        actionPartial: "Kontrollera att alla fem punkterna är dokumenterade — resurstillsäkringen saknar ofta dokumentation."
+      }, {
+        id: "las_led_5",
+        text: "Finns dokumenterade rutiner för intern kommunikation om sådant som påverkar ledningssystemets verkan, kundkvalitet och miljöprestanda?",
+        help: "SSF 1040:3 §4.4.5: företagsledningen ska säkerställa att lämpliga metoder är införda för genomförande och dokumentering av den interna kommunikation som påverkar ledningssystemets verkan, kundupplevd kvalitet och miljöprestanda.",
+        action: "Dokumentera hur intern kommunikation sker — vilka kanaler, hur ofta, och hur medarbetare kan ge feedback uppåt.",
+        actionPartial: "Kontrollera att kommunikationsrutinerna faktiskt dokumenteras — inte bara sker informellt."
+      }, {
+        id: "las_led_6",
+        text: "Genomför ledningen regelbundna genomgångar av ledningssystemet — med de underlag §4.4.6 kräver och bevarad dokumentation?",
+        help: "SSF 1040:3 §4.4.6: ledningens genomgång ska med planerade intervall behandla minst: kundreklamationer och andra kundreaktioner, internt upptäckta fel, utfall från interna kontroller, miljöprestanda, omvärlds- och intressentanalyser samt förändrade förutsättningar. Dokumenterad information från genomgången ska bevaras.",
+        action: "Schemalägg ledningens genomgång och fastställ en fast agenda som täcker alla §4.4.6-punkter. Protokollför alltid med beslutade åtgärder.",
+        actionPartial: "Kontrollera att protokollet täcker alla obligatoriska punkter och att beslutade åtgärder faktiskt följs upp."
+      }]
+    }, {
+      id: "las_verksamhet",
+      name: "Verksamhet & leveranssäkerhet",
+      questions: [{
+        id: "las_verk_1",
+        text: "Kan firman redovisa att den fortlöpande installerat låsanläggningar enligt SSF 200, SSF 210 eller motsvarande under senaste 12 månader?",
+        help: "SSF 1040:3 §4.5.1: anläggarfirman ska bedriva installationsverksamhet för låsanläggningar och under den senaste 12-månadersperioden fortlöpande ha installerat låsanläggningar enligt SSF 200, SSF 210 eller motsvarande anläggningar. SBSC kontrollerar aktiv verksamhet vid revision.",
+        action: "Samla dokumentation på genomförda installationer under senaste 12 månader — anläggarintyg, orderbekräftelser eller motsvarande.",
+        actionPartial: "Kontrollera att dokumentationen på genomförda uppdrag är komplett och lättillgänglig för revision."
+      }, {
+        id: "las_verk_2",
+        text: "Innehar firman minst en leverantörslicens för lås- och nyckelhantering?",
+        help: "SSF 1040:3 §4.5.2: anläggarfirman ska inneha minst en leverantörslicens för lås och nyckelhantering. Leverantörslicensen ger rätt att beställa och hantera spärrade nyckelprofiler och är ett grundläggande krav för låsanläggningsverksamhet.",
+        action: "Kontrollera att er leverantörslicens är aktiv och giltig. Kontakta leverantören om licensen är på väg att löpa ut.",
+        actionPartial: "Kontrollera att licensen täcker de produkter och nyckelprofiler ni arbetar med."
+      }, {
+        id: "las_verk_3",
+        text: "Finns dokumenterade metoder för att fastställa och genomgå kundanknutna krav — och bekräftas alla beställningar till kund?",
+        help: "SSF 1040:3 §4.8.1: metod ska finnas för att säkerställa att alla kundanknutna krav blir fastställda. Kraven på den tillhandahållna tjänsten ska vara väl definierade och genomgångna. Alla beställningar eller överenskommelser ska bekräftas till kund enligt fastställd metod. Muntlig bekräftelse ska dokumenteras.",
+        action: "Ta fram en rutin för kravgenomgång vid varje uppdrag och en mall för orderbekräftelse. Säkerställ att muntliga överenskommelser dokumenteras.",
+        actionPartial: "Kontrollera att rutinen tillämpas konsekvent — även vid återkommande kunder och enkla uppdrag."
+      }, {
+        id: "las_verk_4",
+        text: "Kan firman installera certifierad eller intygad materiel som uppfyller kraven i gällande standarder (t.ex. SSF 3522)?",
+        help: "SSF 1040:3 §4.8.2: anläggarfirman ska i låsanläggningar enligt SSF 200 och SSF 210 kunna installera certifierad eller intygad materiel som uppfyller kraven i gällande standarder och normer — t.ex. låsenheter enligt SSF 3522.",
+        action: "Säkerställ att er produktportfölj innehåller certifierade eller intygade produkter. Ta fram en förteckning med klassificeringsinformation.",
+        actionPartial: "Kontrollera att produktförteckningen är aktuell och att ni inte installerar ocertifierade produkter i SSF 200/210-anläggningar."
+      }]
+    }, {
+      id: "las_utforande",
+      name: "Utförande av tjänster",
+      questions: [{
+        id: "las_utf_1",
+        text: "Arbetar installatörer och berörd personal efter underlag som säkerställer att avtal med kund uppfylls — och finns fastställda metoder för ändringar och tillägg?",
+        help: "SSF 1040:3 §4.9.1: installatör och berörd personal ska arbeta efter underlag som är utformade så att avtal/överenskommelse med kund uppfylls. Metoder för hantering av ändringar och tillägg ska vara fastställda.",
+        action: "Ta fram installationsunderlag (checklistor, ritningar, specifikationer) för varje uppdrag. Definiera hur ändringar dokumenteras och kommuniceras till kund.",
+        actionPartial: "Kontrollera att rutinen för ändringshantering faktiskt tillämpas — att ändringar dokumenteras och godkänns av kund."
+      }, {
+        id: "las_utf_2",
+        text: "Finns fastställda metoder för att verifiera att kundkrav är uppfyllda innan anläggningen överlämnas?",
+        help: "SSF 1040:3 §4.9.2: installatör och berörd personal ska ha fastställda metoder för att försäkra sig om att kundkrav och eventuella andra krav som identifierats är uppfyllda innan anläggningen överlämnas till kund.",
+        action: "Ta fram en överlämningschecklista som verifierar att alla kundkrav är uppfyllda. Dokumentera godkännandet med datum och underskrift.",
+        actionPartial: "Kontrollera att checklistan används konsekvent och att avvikelser dokumenteras och åtgärdas innan överlämning."
+      }, {
+        id: "las_utf_3",
+        text: "Kan firman ta emot och bekräfta felanmälan — och påbörja service på plats inom ett helgfritt dygn för SSF 200/210-anläggningar?",
+        help: "SSF 1040:3 §4.9.3: anläggarfirman ska kunna motta och bekräfta felanmälan — organisationen ska vara anpassad för detta. För anläggningar enligt SSF 200 och SSF 210 ska firman ha möjlighet att påbörja service på plats och leverera reservdelar inom ett helgfritt dygn från bekräftad felanmälan.",
+        action: "Säkerställ en felanmälningsfunktion som kan ta emot och bekräfta felanmälningar. Dokumentera hur serviceberedskap inom ett helgfritt dygn upprätthålls.",
+        actionPartial: "Kontrollera att responstiden faktiskt hålls i praktiken — inkl. vid semesterperioder och hög belastning."
+      }, {
+        id: "las_utf_4",
+        text: "Dokumenteras förändringar av anläggning i anläggarintyg eller motsvarande — även vid byte av anläggarfirma?",
+        help: "SSF 1040:3 §4.9.4: vid förändring av anläggning som utförs av ursprunglig anläggarfirma ska förändringen dokumenteras i anläggarintyg eller motsvarande. Sker förändringen av annan anläggarfirma eller om anläggningen övertas ska detta dokumenteras på motsvarande sätt.",
+        action: "Inför en rutin för ändrings- och överlåtelsedokumentation. Säkerställ att alla förändringar — egna och andras — dokumenteras på ett spårbart sätt.",
+        actionPartial: "Kontrollera att rutinen täcker även de fall då ni tar över en anläggning från annan firma."
+      }]
+    }, {
+      id: "las_lokaler",
+      name: "Skydd av lokal & dokumentation",
+      questions: [{
+        id: "las_lok_1",
+        text: "Uppfyller firmans lokaler mekaniskt inbrottsskydd lägst skyddsklass 1 (SSF 200) — eller finns en dokumenterad riskanalys för avvikelser?",
+        help: "SSF 1040:3 §4.7.1: anläggarfirmans lokaler ska som grundnivå uppfylla kraven enligt SSF 200, lägst skyddsklass 1. Om delar av omslutningsytan inte fullt ut motsvarar detta skydd ska en dokumenterad riskanalys tas fram med bedömning av sannolikheter och konsekvenser, och åtgärder vidtas baserat på analysen.",
+        action: "Låt en behörig person inventera lokalernas mekaniska skydd mot SSF 200 SK1. Åtgärda brister eller dokumentera riskanalysen.",
+        actionPartial: "Kontrollera att riskanalysen är dokumenterad och att beslutade åtgärder faktiskt är genomförda."
+      }, {
+        id: "las_lok_2",
+        text: "Har firmans lokaler inbrottslarm lägst larmklass 2 (SSF 130) — och är säkerhetsskåp med kundrelaterade nycklar och handlingar försett med punktskydd?",
+        help: "SSF 1040:3 §4.7.2: anläggarfirmans lokaler ska ha inbrottslarm enligt SSF 130, lägst larmklass 2. Säkerhetsskåp som innehåller nycklar, kodbärare och handlingar som berör kund ska förses med punktskydd. Om separat utrymme används istället för säkerhetsskåp ska det förses med larm motsvarande larmklass 3 med vibrationsdetektorer.",
+        action: "Kontrollera att inbrottslarmet uppfyller larmklass 2 och att säkerhetsskåp med kundmaterial är försett med punktskydd.",
+        actionPartial: "Kontrollera specifikt punktskyddet på säkerhetsskåpet — detta krav missas ofta."
+      }, {
+        id: "las_lok_3",
+        text: "Förvaras anläggningsdokumentation och spärrade nyckelämnen i säkerhetsskåp (SSF 3492) med punktskydd — förankrat om det väger under 150 kg?",
+        help: "SSF 1040:3 §4.7.6: anläggarfirman ska förvara anläggningsdokumentation och spärrade nyckelämnen i lägst säkerhetsskåp enligt SSF 3492 med punktskydd. Om skåpets vikt är lägre än 150 kg ska det förankras enligt tillverkarens monteringsanvisningar. Med anläggningsdokumentation avses delningslistor, separatlistor, låsscheman, systemhandlingar etc.",
+        action: "Kontrollera att dokumentation och spärrade nyckelämnen förvaras i SSF 3492-klassificerat skåp med punktskydd. Förankra skåpet om det väger under 150 kg.",
+        actionPartial: "Kontrollera att skåpet uppfyller SSF 3492 med punktskydd — inte alla säkerhetsskåp gör det."
+      }, {
+        id: "las_lok_4",
+        text: "Finns dokumenterade rutiner för förvaring och hantering av nycklar, kodbärare, programvara och handlingar som berör kundens säkerhet?",
+        help: "SSF 1040:3 §4.7.5: anläggarfirman ska ha dokumenterade rutiner för förvaring och hantering av nycklar, kodbärare, programvara och handlingar som berör kundens säkerhet eller egendom. Rutinerna ska minst uppfylla villkor i tillverkarens/leverantörens licensavtal. Nycklar och kodbärare ska förvaras i säkerhetsskåp enligt SSF 3492 eller separat utrymme med skyddsklass 3.",
+        action: "Ta fram rutiner för förvaring och hantering av kundmaterial. Kontrollera att licensavtalens krav på nyckelhantering är uppfyllda.",
+        actionPartial: "Kontrollera specifikt att licensavtalens villkor för nyckelhantering efterlevs — avvikelse kan leda till att licensen återkallas."
+      }, {
+        id: "las_lok_5",
+        text: "Finns tillträdeskontroll och besöksregistrering för de rum där anläggningsdokumentation och spärrade nyckelämnen förvaras?",
+        help: "SSF 1040:3 §4.7.3–4.7.4: i de rum där anläggningsdokumentation och spärrade nyckelämnen förvaras får endast personer i den egna verksamheten vistas. Besökare ska kontrolleras — kontrollen ska omfatta övervakning i form av besöksregistrering och tillträdeskontroll. En dokumenterad rutin för hur besökare hanteras ska finnas.",
+        action: "Inför besöksrutin för dokumentationsrummet: registrering av besökare och teknisk tillträdeskontroll (kodlås, passerkort eller låst dörr).",
+        actionPartial: "Kontrollera att rutinen tillämpas konsekvent — även för städpersonal, hantverkare och servicepersonal."
+      }]
+    }, {
+      id: "las_uppfoljning",
+      name: "Utvärdering & ständig förbättring",
+      questions: [{
+        id: "las_utv_1",
+        text: "Finns dokumenterade metoder för hantering av kundreklamationer och internt upptäckta fel — med bevarad dokumentation och koppling till förbättringsarbetet?",
+        help: "SSF 1040:3 §4.10.1: anläggarfirman ska ha fastställda metoder för hantering av kundreklamationer och internt upptäckta fel. Hanteringen ska ligga till grund för arbetet med ständiga förbättringar. Dokumenterad information ska bevaras.",
+        action: "Inför ett avvikelseregister med: datum, beskrivning, grundorsak, åtgärd, ansvarig och uppföljning. Täck både kundreklamationer och interna fel.",
+        actionPartial: "Kontrollera att rutinen faktiskt används och att resultaten kopplas till förbättringsarbetet — det räcker inte att dokumentera utan att agera."
+      }, {
+        id: "las_utv_2",
+        text: "Genomförs interna kontroller av ledningssystemet med planerade intervall — med dokumenterade resultat som används i förbättringsarbetet?",
+        help: "SSF 1040:3 §4.10.2: anläggarfirman ska ha fastställda metoder för att genomföra interna kontroller med planerade intervall för att avgöra om ledningssystemet överensstämmer med planeringen och normens krav, och om det har införts och underhållits ändamålsenligt. Dokumenterad information ska bevaras och resultaten användas i förbättringsarbetet. Intern kontroll kan genomföras som egenkontroll eller intern revision.",
+        action: "Upprätta ett program för interna kontroller med definierat omfång, frekvens och ansvarig. Protokollför alltid med beslutade förbättringsåtgärder.",
+        actionPartial: "Kontrollera att resultaten faktiskt leder till förbättringsåtgärder — intern kontroll utan uppföljning uppfyller inte §4.10.2."
+      }, {
+        id: "las_utv_3",
+        text: "Genomförs intern kontroll av att de egna lokalernas fysiska skydd och larm uppfyller normens krav — med bevarad dokumentation?",
+        help: "SSF 1040:3 §4.10.3: anläggarfirman ska enligt fastställd metod följa upp att de egna lokalernas fysiska skydd och larm uppfyller kraven i normen. Dokumenterad information ska bevaras och resultaten användas i förbättringsarbetet. Detta är en specifik kontroll utöver den allmänna ledningssystemskontrollen.",
+        action: "Inför en periodisk kontrollrutin för lokalernas skydd och larm. Dokumentera genomförda kontroller med datum, resultat och eventuella åtgärder.",
+        actionPartial: "Kontrollera att kontrollen av lokalskyddet sker separat och dokumenteras — det räcker inte att det ingår som en punkt i den allmänna internkontrollen utan att lokalen faktiskt inspekteras."
+      }, {
+        id: "las_utv_4",
+        text: "Utvärderas verksamhetens miljöpåverkan enligt fastställd metod — med bevarad dokumentation och koppling till förbättringsarbetet?",
+        help: "SSF 1040:3 §4.10.4: anläggarfirman ska enligt fastställd metod utvärdera verksamhetens påverkan på miljön. Dokumenterad information ska bevaras och resultaten användas i förbättringsarbetet.",
+        action: "Upprätta en rutin för miljöprestanda-utvärdering. Identifiera vilka aspekter av er verksamhet som har miljöpåverkan (transporter, avfall, kemikalier) och mät dem regelbundet.",
+        actionPartial: "Kontrollera att utvärderingen är dokumenterad och att resultaten faktiskt leder till förbättringar — en utvärdering som genomförs men inte används uppfyller inte syftet."
+      }, {
+        id: "las_utv_5",
+        text: "Analyseras resultat från utvärderingar och kontroller systematiskt — och leder analysen till konkreta beslut om förbättringsåtgärder med bevarad dokumentation?",
+        help: "SSF 1040:3 §4.11: anläggarfirman ska ständigt förbättra ledningssystemets lämplighet, tillräcklighet och verkan genom att analysera resultat från utvärderingar och kontroller. Analysen ska ligga till grund för beslut om åtgärder. Dokumenterad information från förbättringsarbetet ska bevaras.",
+        action: "Inför en rutin för analys och förbättring: samla resultat från alla kontroller, analysera mönster och fatta dokumenterade beslut om åtgärder.",
+        actionPartial: "Kontrollera att förbättringsarbetet är systematiskt — inte bara reaktivt. Revisorer letar efter bevis på ett mönster av ständig förbättring."
+      }]
+    }]
+  },
   brandlarm: {
     id: "brandlarm",
     name: "Brandlarm",
@@ -271,13 +550,13 @@ const STANDARDS = {
       questions: [{
         id: "br_org_1",
         text: "Är företaget registrerat som juridisk person (t.ex. aktiebolag) inom EU/EES?",
-        help: "SBF 1008:3 §4.2.1: anläggarfirman ska vara registrerad som juridisk person i Sverige — enskild firma, handelsbolag, aktiebolag m.fl. Registreringen kontrolleras av SBSC vid ansökan och vid periodisk uppföljning. En vilande registrering eller felaktig bolagsform kan diskvalificera.",
+        help: "SBF 1008:3 §4.2.1: anläggarfirman ska vara registrerad som juridisk person inom EU eller EES — enskild firma, handelsbolag, aktiebolag m.fl. Registreringen kontrolleras av SBSC vid ansökan. En vilande registrering eller felaktig bolagsform kan diskvalificera.",
         action: "Kontrollera registreringsstatusen hos Bolagsverket. Säkerställ att bolaget är aktivt och att rätt verksamhetskod används.",
         actionPartial: "Kontrollera att registreringen är aktuell och att bolagsuppgifterna stämmer — t.ex. adress och firmatecknare."
       }, {
         id: "br_org_2",
         text: "Är företaget fritt från betalningsanmärkningar, restförd moms och kvarstående skatteskulder?",
-        help: "SBF 1008:3 §4.2.2: anläggarfirman ska ha ekonomisk bärighet lägst 'Kreditvärdig' (t.ex. UC eller Creditsafe) och vara fri från restförd moms och skatteskulder. SBSC kontrollerar detta vid ansökan. En skuld på skattekontot kan vara tillräcklig för avslag även om er kreditrating är god.",
+        help: "SBF 1008:3 §4.2.2: anläggarfirman får inte ha betalningsanmärkningar i väsentlig omfattning i förhållande till sin omsättning, och får inte ha restförd moms eller kvarstående skatteskulder. SBSC kontrollerar detta vid ansökan. En skuld på skattekontot kan vara tillräcklig för avslag.",
         action: "Kontrollera kreditvärdigheten hos UC. Kontrollera skattekontot hos Skatteverket. Åtgärda eventuella restförda skulder.",
         actionPartial: "Gör en aktuell kreditupplysning och kontrollera skattekontot. Håll löpande koll via Skatteverkets e-tjänster."
       }, {
@@ -293,25 +572,25 @@ const STANDARDS = {
       questions: [{
         id: "br_pers_1",
         text: "Finns en sakkunnig person med giltigt BIB-certifikat (SBF 1007:5) och minst 2 års allsidig erfarenhet inom brandlarm?",
-        help: "SBF 1008:3 §4.3.1a: en Behörig Ingenjör Brandlarm (BIB) med giltigt SBSC-certifikat krävs. BIB ska ha minst 2 års dokumenterad branschrelevant erfarenhet och brandteknisk kunskap. Antal BIBs skalas med personalstyrkan (upp till 25 anst. = min 1 BIB). BIB ska ha firman som huvudarbetsgivare (minst 50% av arbetstiden).",
+        help: "SBF 1008:3 §4.3.1a: en sakkunnig person med giltigt certifikat som Behörig Ingenjör Brandlarm krävs. Anläggarfirman ska vara den sakkunniga personens huvudarbetsgivare och denne ska vara tillsvidareanställd. Certifikatkravet och erfarenhetskravet (minst 2 år) regleras i personnormen SBF 1007 — det är certifikatet i sig som normkravet i SBF 1008:3 ställer krav på.",
         action: "Identifiera lämplig person och stötta dem att genomgå BIB-certifiering via SBSC. Krav: 2 år erfarenhet och genomgången brandteknisk utbildning.",
         actionPartial: "Kontrollera att BIB-certifikatet är giltigt och inte snart löper ut. Kontrollera att BIB-skalningskravet är uppfyllt."
       }, {
         id: "br_pers_2",
         text: "Har den sakkunniga personen dokumenterade befogenheter att styra brandlarmverksamheten?",
-        help: "SBF 1008:3 §4.3.1a: BIBs ansvar och befogenheter ska vara dokumenterade. BIB ska ha reellt mandat att granska handlingar, underteckna anläggarintyg och stoppa ett projekt om det inte uppfyller kraven. En befattningsbeskrivning undertecknad av ledningen är det vanligaste sättet att dokumentera detta.",
+        help: "SBF 1008:3 §4.3.1a: den sakkunniga personens ansvar och befogenheter ska vara dokumenterade — att granska och godkänna handlingar, underteckna anläggarintyg och stoppa ett projekt om kraven inte uppfylls. Normen specificerar inte formen — en befattningsbeskrivning, ett bemyndigandedokument eller liknande är vanliga lösningar.",
         action: "Upprätta en befattningsbeskrivning för BIB med tydligt ansvarsområde och befogenheter — undertecknad av ledningen.",
         actionPartial: "Kontrollera att befogenhetsdokumentationen är aktuell och faktiskt speglar det mandat BIB har i praktiken."
       }, {
         id: "br_pers_3",
         text: "Finns minst en projektör och en driftsättare med minst 2 års dokumenterad erfarenhet från brandlarmområdet?",
-        help: "SBF 1008:3 §4.3.1c–d: utöver BIB krävs att firman har dokumenterad erfarenhet av projektering och installationsledning. En person med erfarenhet av projektering (ritningar, beräkningar) och en person med erfarenhet av installationsledning (planering, styrning av tekniker) ska finnas — det kan vara samma person som BIB.",
+        help: "SBF 1008:3 §4.3.1c–d: utöver den sakkunniga personen krävs minst en projektör med minst 2 års dokumenterad erfarenhet av brandlarmsprojektering, och minst en driftsättare med minst 2 års dokumenterad erfarenhet — driftsättaren utför färdigställandekontroll och driftsättning av installerade anläggningar. Samma person kan ha flera roller om kompetensen finns.",
         action: "Identifiera vem som täcker projekterings- och installationsledningsrollerna. Dokumentera erfarenheten för respektive roll.",
         actionPartial: "Kontrollera att erfarenheten är tillräcklig och dokumenterad — en lista med genomförda projekt med beskrivna arbetsuppgifter räcker."
       }, {
         id: "br_pers_4",
         text: "Är minst 3 personer tillsvidareanställda och täcker gemensamt alla funktioner: sakkunnig, projektör, driftsättare och servicetekniker?",
-        help: "SBF 1008:3 §4.3.1: anläggarfirman ska ha minst 3 tillsvidareanställda (ej provanställda) och vara dessa personers huvudarbetsgivare. Alla fyra funktionerna ska vara täckta: BIB, projekteringsansvarig, installationsledare och montörer. Rollerna kan kombineras — en person kan ha fler roller om kompetensen finns.",
+        help: "SBF 1008:3 §4.3.1: anläggarfirman ska ha minst 3 tillsvidareanställda som gemensamt täcker de fyra funktionerna: sakkunnig person (BIB), projektör, driftsättare och servicetekniker. Anläggarfirman ska vara dessa personers huvudarbetsgivare. Rollerna kan kombineras — en person kan ha flera funktioner om kompetensen finns.",
         action: "Kartlägg personalsituationen: räkna tillsvidareanställda (exkl. provanställda), verifiera att ni är huvudarbetsgivare och dokumentera att alla fyra funktionerna täcks.",
         actionPartial: "Dokumentera noggrant hur rollerna är fördelade per person — visa tydligt vem som täcker respektive funktion."
       }]
@@ -327,7 +606,7 @@ const STANDARDS = {
       }, {
         id: "br_mat_2",
         text: "Finns alla styrande dokument i SBF 1008:3 Bilaga 1 i senaste utgåva — inkl. revideringsblad?",
-        help: "Bilaga 1 — inkl. SBF 110:8 (rev. maj 2024) och SBF 1007:5 (rev. feb 2025)",
+        help: "SBF 1008:3 §4.6.3 och Bilaga 1: samtliga dokument i Bilaga 1 ska finnas i senaste utgåva — inkl. revideringsblad. Bilaga 1 uppdateras löpande via SBF 1008:3:s revideringsblad (2020, 2021, 2022, 2023). Kontrollera aktuell dokumentförteckning på brandskyddsforeningen.se — utgåvenummer förändras och måste verifieras.",
         action: "Samla alla dokument i listan i senaste utgåva — skapa ett dokumentregister.",
         actionPartial: "Kontrollera att ni har senaste utgåvorna inklusive revideringsblad."
       }, {
@@ -343,7 +622,7 @@ const STANDARDS = {
       questions: [{
         id: "br_und_1",
         text: "Kan ni påbörja felavhjälpning i en kundanläggning inom 2 arbetsdagar efter beställning?",
-        help: "SBF 1008:3 §4.4.1: ni ska kunna påbörja servicearbete på plats och leverera reservdelar inom 2 helgfria dygn från felanmälan. Beredskapen ska hålla även under semesterperioder och vid hög belastning. Felanmälningsrutinen ska vara dokumenterad.",
+        help: "SBF 1008:3 §4.4.1: åtgärdande av fel i anläggning ska kunna påbörjas inom 2 arbetsdagar efter beställning. Med arbetsdag menas vardagar exklusive lördagar och helgdagsaftnar. Beredskapen ska hålla även under semesterperioder och vid hög belastning.",
         action: "Kartlägg serviceberedskapen — tekniker och reservdelar. Dokumentera felanmälningsrutinen med garanterad 2-dagarsresponstid.",
         actionPartial: "Kontrollera att beredskapen håller 2-dagarskravet i alla lägen — inkl. sommarsemester och sjukfrånvaro."
       }, {
@@ -361,7 +640,7 @@ const STANDARDS = {
       }, {
         id: "br_und_3b",
         text: "Lämnas alltid en skriftlig servicerapport till kunden efter varje utfört underhålls- eller reparationsarbete?",
-        help: "SBF 1008:3 §4.4.4: efter varje servicearbete ska kunden få en servicerapport som dokumenterar vad som gjordes, vilka delar som byttes och vem som utförde arbetet. Rapporten ska överlämnas till kunden — en kopia ska arkiveras med anläggningsdokumentationen.",
+        help: "SBF 1008:3 §4.4.4: efter utfört underhålls- eller reparationsarbete ska anläggarfirman överlämna en rapport över utfört arbete. Rapporten får inte utformas så att den kan förväxlas med revisionsbesiktning enligt SBF 110. En kopia ska arkiveras med anläggningsdokumentationen.",
         action: "Ta fram en servicerapportmall och inför rutinen att alltid överlämna rapporten till kunden. Arkivera kopia i kundmappen.",
         actionPartial: "Kontrollera att servicerapporten används konsekvent vid alla servicearbeten — inkl. vid snabba utryckningar."
       }]
@@ -372,7 +651,7 @@ const STANDARDS = {
       questions: [{
         id: "br_kval_1",
         text: "Finns dokumenterade rutiner för de arbetsmoment SBF 1008:3 §4.7.1 kräver — projektering, anläggarintyg, överlämning, vidareutbildning m.m.?",
-        help: "SBF 1008:3 §4.7.1: 13 obligatoriska rutiner krävs (a–m): anbudsgivning, projektering, inköp, installation, driftsättning, överlämning/kundutbildning, service, revisionsbesiktning, garantiservice, avvikelsehantering, internrevision, ledningens genomgång och dokumentstyrning. Alla 13 krävs — en saknad rutin är en brist vid revision.",
+        help: "SBF 1008:3 §4.7.1: 12 obligatoriska rutiner krävs (a–m, exkl. ledningens genomgång): anbudsgivning, projektering, inköp, installation, driftsättning, överlämning/kundutbildning, service, revisionsbesiktning, garantiservice, avvikelsehantering, internrevision och dokumentstyrning. Ledningens genomgång är ett separat krav i §4.7.1 sista stycket — minst en gång per år.",
         action: "Gå igenom §4.7.1-listan punkt för punkt och kontrollera att rutiner finns för alla 13 arbetsmoment. Samla dem i en kvalitetshandbok.",
         actionPartial: "Kontrollera att befintliga rutiner är uppdaterade och faktiskt kända av personalen — inte bara dokumenterade för ledningens skull."
       }, {
@@ -402,19 +681,19 @@ const STANDARDS = {
       }, {
         id: "br_kval_6",
         text: "Finns rutiner för avvikelsehantering och korrigerande åtgärder — inkl. uppföljning att åtgärderna fungerat?",
-        help: "SBF 1008:3 §4.7.7: avvikelser — från kundreklamationer till interna fel och tillbud — ska hanteras systematiskt. Grundorsaken ska utredas och korrigerande åtgärder vidtas och följas upp. En vanlig brist är att avvikelser hanteras operativt men inte dokumenteras, eller att grundorsaken inte utreds.",
+        help: "SBF 1008:3 §4.7.7: avvikelser — från kundreklamationer till interna fel och tillbud — ska hanteras systematiskt. Grundorsaken ska utredas och korrigerande åtgärder vidtas och följas upp. Notera: fel av övergripande art (allvarligare fel med risk för person- eller egendomsskada) ska rapporteras till certifieringsorganet. En vanlig brist är att avvikelser hanteras operativt men inte dokumenteras.",
         action: "Inför ett avvikelseregister med kolumnerna: datum, beskrivning, grundorsak, korrigerande åtgärd, ansvarig och uppföljning.",
         actionPartial: "Kontrollera att avvikelsehanteringen täcker grundorsaksutredning — det räcker inte att åtgärda symptomet utan att förstå varför."
       }, {
         id: "br_kval_7a",
         text: "Genomförs internrevision av kvalitetssystemet regelbundet — med dokumenterade fynd och korrigerande åtgärder?",
-        help: "SBF 1008:3 §4.7.8: interna revisioner ska genomföras minst en gång per år och täcka alla rutiner och processer. Revisorn ska vara objektiv — inte revidera sin egna verksamhet. Revisionsresultat ska dokumenteras med protokoll och korrigerande åtgärder ska beslutas och följas upp.",
+        help: "SBF 1008:3 §4.7.8: anläggarfirman ska ha rutiner för internrevision av kvalitetssystemet. Normen specificerar inte frekvensen — men en gång per år är etablerad branschpraxis. Revisorn ska vara objektiv och inte revidera sin egna verksamhet. Resultat och korrigerande åtgärder ska dokumenteras.",
         action: "Planera en internrevision för det kommande året med definierat omfång, revisor och datum. Protokollför alltid med beslutade åtgärder.",
         actionPartial: "Kontrollera att revisionsprotokollen innehåller konkreta uppföljningsbeslut — och att åtgärderna faktiskt genomförts."
       }, {
         id: "br_kval_7b",
         text: "Genomför ledningen en formell genomgång av kvalitetssystemet minst en gång per år — med dokumenterat protokoll?",
-        help: "SBF 1008:3 §4.7.1: ledningens genomgång ska genomföras minst en gång per år. Agendan ska täcka: status på föregående åtgärder, avvikelserapporter, kundreklamationer, revisionsresultat, resursbehov och policy. Protokollet ska dokumentera beslutade åtgärder med ansvarig och tidplan.",
+        help: "SBF 1008:3 §4.7.1 (sista stycket): ledningens genomgång ska genomföras minst en gång per år. SBF 1008:3 anger inga specifika agendapunkter — men baserat på normens syfte rekommenderas att genomgången täcker: status på föregående åtgärder, avvikelserapporter, kundreklamationer, revisionsresultat och resursbehov. Protokollet ska dokumentera beslutade åtgärder.",
         action: "Schemalägg ledningens genomgång och fastställ en fast agenda som täcker alla §4.7.1-punkter. Protokollför alltid med beslut och tidplaner.",
         actionPartial: "Kontrollera att protokollet täcker alla obligatoriska punkter — och att beslutade åtgärder faktiskt följts upp sedan föregående genomgång."
       }]
@@ -432,7 +711,7 @@ const STANDARDS = {
       questions: [{
         id: "inb_org_1",
         text: "Har företaget polismyndighetens tillstånd enligt larmlagen (SFS 1983:1097) att yrkesmässigt bedriva installation av centralanslutna inbrottslarmanläggningar?",
-        help: "SSF 1015:3 §4.1.1: tillståndet är ett absolut grundkrav och måste finnas innan ansökan lämnas in. Söks hos Polismyndigheten — krävs för all yrkesmässig installation av centralanslutna inbrottslarm.",
+        help: "SSF 1015:3 §4.1.1: tillståndet är ett absolut grundkrav och måste finnas innan ansökan lämnas in. Söks hos Polismyndigheten — krävs för all yrkesmässig installation av centralanslutna inbrottslarm. Tillståndet ska finnas giltigt — certifieringsorganet kontrollerar det vid ansökan och uppföljning.",
         action: "Ansök om tillstånd hos Polismyndigheten enligt larmlagen (SFS 1983:1097). Kräver bl.a. att ansvariga personer är ostraffade.",
         actionPartial: "Kontrollera att tillståndet är giltigt och avser rätt verksamhet och adress. Uppdatera vid lokalbyte — SBSC ska underrättas utan dröjsmål."
       }, {
@@ -444,13 +723,13 @@ const STANDARDS = {
       }, {
         id: "inb_org_3",
         text: "Har företaget en giltig ansvarsförsäkring relevant för inbrottslarmsverksamheten?",
-        help: "SSF 1015:3 §4.3.1: försäkringen ska täcka skador som uppstår i installations- och servicearbetet. Be försäkringsbolaget bekräfta att täckningen gäller inbrottslarmsverksamhet.",
+        help: "SSF 1015:3 §4.3.1 och tolkningsdokument 2017: anläggarfirman ska ha en för verksamheten relevant ansvarsförsäkring med täckning som firman bedömt tillräcklig för att möta eventuell ersättningsskyldighet. Be försäkringsbolaget bekräfta att täckningen är anpassad till inbrottslarmsverksamhet.",
         action: "Kontakta ert försäkringsbolag och teckna ansvarsförsäkring anpassad till inbrottslarmsverksamhet. Be om skriftligt intyg.",
         actionPartial: "Gå igenom att befintlig försäkring täcker inbrottslarmsarbete specifikt. Be om skriftlig bekräftelse."
       }, {
         id: "inb_org_4a",
         text: "Finns en dokumenterad rutin för att kontrollera att all personal med tillgång till anläggningsdokumentation är ostraffad?",
-        help: "SSF 1015:3 §4.4.1 och SSF 1016: rutinen ska encompass all personal som hanterar anläggningsdokumentation — inte bara den behörige ingenjören. Kontroll via belastningsregistret.",
+        help: "SSF 1015:3 §4.4.1: rutinen ska täcka all personal som har tillgång till och arbetar med anläggningsdokumentation. Bedömningen att personalen är ostraffad ska göras minst vartannat år. Kontroll via belastningsregistret är den vanligaste praktiska tillämpningen — normen specificerar inte metoden.",
         action: "Ta fram en skriftlig rutin: (1) vilka roller, (2) kontroll vid anställning och minst vartannat år, (3) ansvarig person.",
         actionPartial: "Gå igenom att rutinen täcker alla berörda roller — inte bara nyanställda eller den behörige ingenjören."
       }, {
@@ -466,19 +745,13 @@ const STANDARDS = {
       questions: [{
         id: "inb_pers_1",
         text: "Finns minst en certifierad behörig ingenjör inbrottslarm (SSF 1016) med giltigt certifikat och anläggarfirman som sin huvudarbetsgivare?",
-        help: "SSF 1015:3 §4.6.1: den behörige ingenjören ska ha giltigt SSF 1016-certifikat, vara ostraffad och ha firman som sin huvudarbetsgivare (minst 50%). Antal BIs skalas med personalstyrkan: upp till 25 anst. = min 1 BI.",
-        action: "Identifiera en lämplig person och ansök om SSF 1016-certifiering via SBSC. Krav: el/teleteknisk gymnasieutbildning, 2 år praktisk erfarenhet, kunskaper i SSF 130 och SSF 1015.",
+        help: "SSF 1015:3 §4.6.1 och §4.6.3.1: anläggarfirman ska ha minst en person med giltigt SSF 1016-certifikat och anläggarfirman ska vara den behörige ingenjörens huvudarbetsgivare. Antal BI skalas med personalstyrkan — upp till 25 anställda krävs minst 1 BI.",
+        action: "Identifiera en lämplig person och ansök om SSF 1016-certifiering via SBSC. Kontakta SBSC för aktuella kompetenskrav för SSF 1016-certifiering.",
         actionPartial: "Kontrollera att certifikatet är giltigt och att skalningskravet (antal BIs/antal anställda) är uppfyllt."
-      }, {
-        id: "inb_pers_2",
-        text: "Har den behörige ingenjören el/teleteknisk gymnasieutbildning och minst 2 års praktisk erfarenhet av inbrottslarmsarbete de senaste 2 åren?",
-        help: "SSF 1016 §4.1–4.2: praktisk erfarenhet = projektering, installation, service och underhåll som väsentligaste del av arbetet under senaste 2-årsperioden.",
-        action: "Dokumentera utbildning och erfarenhet: samla utbildningsintyg och en beskrivning av arbetsuppgifterna de senaste 2 åren.",
-        actionPartial: "Gå igenom om erfarenheten är tillräckligt dokumenterad för SSF 1016-kraven."
       }, {
         id: "inb_pers_3",
         text: "Har den behörige ingenjören dokumenterade befogenheter att granska handlingar, underteckna anläggarintyg och ansvara för att projektering och installation sker enligt SSF 130?",
-        help: "SSF 1015:3 §4.6.3: ansvar och befogenheter ska vara dokumenterade. Den behörige ingenjören ska ha reellt mandat att stoppa eller kräva komplettering av ett uppdrag.",
+        help: "SSF 1015:3 §4.6.3.1: den behörige ingenjören ska ha dokumenterade ansvar och befogenheter för att granska handlingar, underteckna anläggarintyg och ansvara för att projektering och installation sker enligt SSF 130. Dokumentationen kan t.ex. vara en kompetensförteckning, befattningsbeskrivning eller ett separat bemyndigandedokument.",
         action: "Upprätta ett undertecknat dokument från ledningen med den behörige ingenjörens ansvar och befogenheter.",
         actionPartial: "Kontrollera att dokumentationen är aktuell och speglar de befogenheter personen har i praktiken."
       }, {
@@ -513,7 +786,7 @@ const STANDARDS = {
           lk2: "Genomförs ledningens genomgång av kvalitetssystemet minst en gång per kalenderår? (Obligatoriskt för LK2.)"
         },
         text: "Genomförs ledningens genomgång av kvalitetssystemet?",
-        help: "SSF 1015:3 §6.2.2: för LK2 är ledningens genomgång obligatorisk — dokumenterat minst en gång per kalenderår. Ska täcka systemets funktion och resultat. För LK1 rekommenderas men är inte obligatoriskt.",
+        help: "SSF 1015:3 §6.2.2: för LK2 är ledningens genomgång ett normkrav — ska genomföras och dokumenteras minst en gång per kalenderår. För LK1 finns inget explicit normkrav, men SBSC rekommenderar det som god praxis för att säkra att kvalitetssystemet fungerar.",
         action: "Schemalägg ett årligt möte med ledningen. Protokollför med datum, deltagare, fynd och beslutade åtgärder.",
         actionPartial: "Kontrollera att protokollet täcker alla obligatoriska punkter och att åtgärder följts upp."
       }]
@@ -527,20 +800,20 @@ const STANDARDS = {
           lk2: "Kan ni redovisa minst 5 LK1-anläggningar och minst 2 LK2-anläggningar med anläggarintyg (SSF 1058) under senaste 12 månader?"
         },
         text: "Kan ni redovisa tillräckligt antal installerade anläggningar med anläggarintyg senaste 12 månader?",
-        help: "SSF 1015:3 §4.5.1 och SSF 130 §8.2: anläggarintyget ska utfärdas på SSF 1058-mallen och överlämnas vid avprovning. LK1: minst 5 st. LK2: ytterligare minst 2 LK2-anläggningar.",
+        help: "SSF 1015:3 §4.5.1: anläggarfirman ska kunna redovisa minst 5 utfärdade och till kund överlämnade anläggarintyg för LK1, och ytterligare minst 2 LK2-anläggningar för LK2. Anläggarintyget ska utfärdas på SSF 1058-mallen (krav enligt SSF 130 §8.2).",
         action: "Gå igenom projekthistoriken senaste 12 månader och lista alla installationer med anläggarintyg på SSF 1058-mallen.",
         actionPartial: "Kontrollera att ni använder senaste SSF 1058-utgåvan och att intyg överlämnas vid avprovning."
       }, {
         id: "inb_verk_5a",
         text: "Finns rutiner för att ge kunden utbildning vid varje överlämning — täckande minimiinnehållet i SSF 130 Bilaga F?",
-        help: "SSF 130 §7 och Bilaga F: kundutbildning vid överlämning är krav. Minimiinnehåll: till- och frånkoppling, återställning, bortkoppling av adress, larmlagen och kontrolljournal.",
+        help: "SSF 130 §7.1.1–7.1.2: kundutbildning vid överlämning är ett normkrav. Utbildningen ska dokumenteras med uppgift om innehåll, vem som fått den och vem som givit den. Bilaga F i SSF 130 är en informativ bilaga som ger vägledning om lämpligt utbildningsinnehåll — t.ex. till- och frånkoppling, återställning, bortkoppling av adress och kontrolljournal.",
         action: "Ta fram en rutin och checklista för kundutbildning vid överlämning baserad på SSF 130 Bilaga F.",
         actionPartial: "Kontrollera att utbildningen genomförs vid varje överlämning och täcker alla punkter i Bilaga F."
       }, {
         id: "inb_verk_5b",
         text: "Dokumenteras kundutbildningen med uppgift om vem som deltog och vem som genomförde den — arkiveras med anläggningsdokumentationen?",
-        help: "SSF 130 §7 och Bilaga F: utbildningen ska dokumenteras. SSF 130 Bilaga F är blanketten som ska användas och arkiveras med anläggarintyget.",
-        action: "Använd SSF 130 Bilaga F som utbildningsblankett. Låt kunden bekräfta med signatur och arkivera med anläggarintyget.",
+        help: "SSF 130 §7.1.2: utbildningen ska dokumenteras med uppgift om innehåll, vem som fått den och vem som givit den. SSF 130 Bilaga F är ett informativt exempel på hur dokumentationen kan utformas — blanketten kan användas som mall och arkiveras med anläggarintyget.",
+        action: "Dokumentera kundutbildningen med uppgift om innehåll, deltagare och vem som genomförde den. SSF 130 Bilaga F kan användas som mall. Arkivera med anläggarintyget.",
         actionPartial: "Kontrollera att blanketten fylls i och arkiveras — inte bara att utbildningen sker muntligt."
       }, {
         id: "inb_verk_2a",
@@ -549,14 +822,14 @@ const STANDARDS = {
           lk2: "Kan företaget ta emot och bekräfta felanmälan dygnet runt — inom 12 timmar — och dokumenteras bekräftelserna?"
         },
         text: "Kan företaget ta emot och bekräfta felanmälan dygnet runt med korrekt responstid?",
-        help: "SSF 1015:3 §5.5.1 (LK1) och §6.5.1 (LK2): felanmälan ska mottas och bekräftas dygnet runt, 7 dagar. LK1: inom 24 timmar. LK2: inom 12 timmar. Bekräftelsen ska dokumenteras.",
+        help: "SSF 1015:3 §5.5.1 (LK1) och §6.5.1 (LK2): felanmälan ska mottas och bekräftas dygnet runt, sju dagar i veckan. LK1: inom 24 timmar. LK2: inom 12 timmar. Bekräftelsen ska dokumenteras med tidsstämpel.",
         action: "Säkerställ mottagningsfunktion dygnet runt. Inför system för att dokumentera felanmälan och bekräftelse med tidsstämpel.",
         actionPartial: "Kontrollera att bekräftelserna sker inom rätt tidsgräns och dokumenteras — inkl. nattetid och helger."
       }, {
         id: "inb_verk_2b",
         lkText: {
-          lk1: "Finns rutiner för regelbunden anläggningskontroll hos kund — minst vart tredje kalenderår?",
-          lk2: "Finns rutiner för regelbunden anläggningskontroll hos kund — minst en gång per kalenderår med högst 15 månaders mellanrum?"
+          lk1: "Finns rutiner för regelbunden anläggningskontroll hos kund — minst vart tredje kalenderår? (SSF 130 §8.11.1)",
+          lk2: "Finns rutiner för regelbunden anläggningskontroll hos kund — minst en gång per kalenderår med högst 15 månaders mellanrum? (SSF 130 §8.11.1)"
         },
         text: "Finns rutiner för regelbunden anläggningskontroll med rätt intervall för er larmklass?",
         help: "SSF 130 §8.11: LK1: minst vart 3:e kalenderår. LK2: minst en gång per kalenderår med högst 15 månaders mellanrum. Kontrollen dokumenteras i kontrolljournalen.",
@@ -585,8 +858,8 @@ const STANDARDS = {
       questions: [{
         id: "inb_lok_1",
         lkOnly: "lk2",
-        text: "Har firmans lokaler mekaniskt inbrottsskydd (SSF 200 SK1), inbrottslarm LK2 (SSF 130) och larmöverföring LK3 (SSF 114) med två alternativa vägar? (Krav för LK2.)",
-        help: "SSF 1015:3 §6.6: för LK2 krävs: (1) mekaniskt skydd SK1 enligt SSF 200, (2) inbrottslarm LK2, (3) larmöverföring LK3 med två alternativa vägar. Det tredje kravet missas ofta.",
+        text: "Har firmans lokaler mekaniskt inbrottsskydd (SSF 200 SK1), inbrottslarm LK2 (SSF 130) och larmöverföring i larmklass 3 (SSF 114)? (Krav för LK2.)",
+        help: "SSF 1015:3 §6.6.1–6.6.2: för LK2 krävs: (1) mekaniskt inbrottsskydd i skyddsklass 1 enligt SSF 200, (2) inbrottslarm i larmklass 2 enligt SSF 130, (3) larmöverföring i larmklass 3 enligt SSF 114. Det tredje kravet missas ofta.",
         action: "Låt en behörig ingenjör göra en genomgång av era lokaler mot alla tre kraven. Dokumentera med anläggarintyg.",
         actionPartial: "Kontrollera specifikt larmöverföringen — LK3 med två alternativa vägar är det vanligast förbisedda kravet."
       }, {
@@ -598,7 +871,7 @@ const STANDARDS = {
       }, {
         id: "inb_lok_3a",
         text: "Finns rutiner för att registrera och kontrollera alla besökare i dokumentationsrummet — och eskorteras besökare alltid?",
-        help: "SSF 1015:3 §4.8.1: besökare ska registreras med namn, syfte och tid. Besökare ska eskorteras och får aldrig lämnas ensamma med anläggningsdokumentationen.",
+        help: "SSF 1015:3 §4.8.1: besökare ska registreras och tillträdet till dokumentationsrummet ska kontrolleras. Normen kräver besöksregistrering och tillträdeskontroll — hur registreringen utformas (t.ex. med namn, syfte och tid) och om eskortering tillämpas är en praktisk tillämpning utöver normkravet.",
         action: "Inför besöksrutin: (1) Alla besökare registreras. (2) Besökare eskorteras alltid. (3) Besöksloggen arkiveras.",
         actionPartial: "Kontrollera att rutinen tillämpas konsekvent — även för städpersonal, hantverkare och externa IT-tekniker."
       }, {
@@ -649,7 +922,7 @@ const STANDARDS = {
       }, {
         id: "kam_verk_2",
         text: "Har ni tillgång till alla referensdokument som SSF 1061:3 §2 kräver — inkl. SSF 1060, SSF 1062, GDPR och Kamerabevakningslagen?",
-        help: "SSF 1061:3 §4.2.3: ni ska ha tillgång till de normer och regelverk som styr verksamheten — SSF 1060, SSF 1062, Kamerabevakningslagen och GDPR är centrala. Dessa ska vara i senaste utgåva. GDPR och lagstiftning förändras löpande — bevakning krävs.",
+        help: "SSF 1061:3 §4.2.3: ni ska ha tillgång till de dokument som anges i normens §2 — primärt SSF 1060 och SSF 1062 i senaste utgåva. Kamerabevakningslagen och GDPR är separata lagkrav som regleras i §4.11 och ska finnas tillgängliga på firman. Lagstiftning förändras löpande — löpande bevakning krävs.",
         action: "Samla alla referensdokument i senaste utgåva och skapa ett dokumentregister med versionsdatum.",
         actionPartial: "Kontrollera att ni har senaste utgåvorna. Kamerabevakningslagen och GDPR är levande lagstiftning — säkerställ löpande bevakning."
       }, {
@@ -688,7 +961,7 @@ const STANDARDS = {
       questions: [{
         id: "kam_pers_1",
         text: "Finns minst en certifierad behörig ingenjör kamerabevakning (SSF 1062) med giltigt certifikat?",
-        help: "SSF 1061:3 §4.4.1–4.4.2.1: minst en behörig ingenjör kamerabevakning med giltigt SSF 1062-certifikat krävs. Certifikatet utfärdas av SBSC och förnyas vart femte år. BI ska vara anställd med firman som huvudarbetsgivare. Antal BIs kan skalas med personalstyrkan — kontrollera skalningsreglerna.",
+        help: "SSF 1061:3 §4.4.1–4.4.2.1: minst en person med giltigt certifikat som behörig ingenjör kamerabevakning (SSF 1062) krävs. Den behörige ingenjören ska bedriva sitt huvudsakliga arbete inom ramen för anläggarfirmans verksamhet. Certifikatet utfärdas av SBSC — kontakta SBSC för aktuella certifieringsvillkor och förnyelseintervall.",
         action: "Kontrollera att minst en person har giltigt SSF 1062-certifikat och att ansvar och befogenheter är dokumenterade. Ansök via SBSC vid behov.",
         actionPartial: "Kontrollera att certifikatet är giltigt och inte inom 6 månader från förnyelse. Starta förnyelseprocess i tid."
       }, {
@@ -748,7 +1021,7 @@ const STANDARDS = {
       }, {
         id: "kam_lok_3a",
         text: "Finns dokumenterade rutiner för att registrera och kontrollera alla besökare — eskorteras besökare alltid?",
-        help: "SSF 1061:3 §4.9.1–4.9.2: alla besökare ska registreras och eskorteras. 'Besökare' inkluderar leverantörer, städpersonal och servicepersonal — inte bara externa gäster. Besöksloggen ska arkiveras. Revisorer kontrollerar om rutinen faktiskt tillämpas, inte bara om den finns dokumenterad.",
+        help: "SSF 1061:3 §4.9.1–4.9.2: besökare ska registreras och tillträdet kontrolleras — normen kräver besöksregistrering och tillträdeskontroll. 'Besökare' inkluderar leverantörer, städpersonal och servicepersonal. Eskortering av besökare är en vanlig och effektiv praktisk tillämpning av tillträdeskontrollen, men specificeras inte som krav i §4.9.",
         action: "Inför besöksrutin: registrering i besökslogg, eskortering av alla besökare och arkivering av loggen.",
         actionPartial: "Kontrollera att rutinen tillämpas konsekvent — även för leverantörer och städpersonal. Fråga personalen om rutinen är känd."
       }, {
@@ -788,7 +1061,7 @@ const STANDARDS = {
       }, {
         id: "kam_gdpr_3",
         text: "Har ni tecknat personuppgiftsbiträdesavtal (DPA) med kunder där ni hanterar personuppgifter för deras räkning?",
-        help: "GDPR Artikel 28: om ni som installatör/servicepersonal hanterar personuppgifter — t.ex. videoupptagningar eller åtkomst till kundernas kamerasystem — är ni personuppgiftsbiträde och ett DPA (personuppgiftsbiträdesavtal) krävs. Vanligast vid remote access och servicearbete med tillgång till livebild.",
+        help: "GDPR Art. 28 (lagkrav): om ni som installatör eller servicepersonal hanterar personuppgifter — t.ex. har åtkomst till videoupptagningar eller kundernas kamerasystem vid remote access — är ni personuppgiftsbiträde och ett DPA är ett lagkrav. SSF 1061:3 ställer inget explicit DPA-krav, men §4.11 kräver att personal är väl insatt i GDPR.",
         action: "Inventera kundrelationer och identifiera de fall där ni hanterar personuppgifter. Ta fram en DPA-mall och avtala med berörda kunder.",
         actionPartial: "Kontrollera om det finns aktiva kundrelationer med remote access eller serviceuppdrag utan DPA — prioritera dessa."
       }]
@@ -859,7 +1132,7 @@ const STANDARDS = {
         id: "s44_n4",
         swqNiva: "n1",
         text: "En kvalitetsansvarig är utsedd med befogenhet att säkra att ledningssystemet uppfyller ställda krav.",
-        help: "SSF 1044 §4.2.5: en kvalitetsansvarig ska vara utsedd med faktiska befogenheter att säkra att ledningssystemet uppfyller kraven. 'Befogenhet' innebär mandat att stoppa en process eller kräva åtgärd — inte bara administrativt ansvar. Revisorer verifierar att befogenheten är reell.",
+        help: "SSF 1044 §4.2.5 (Nivå 1): en kvalitetsansvarig med befogenheter att säkra att ledningssystemet uppfyller kraven ska utses. §4.3.1 (Nivå 2) tillägger krav på en namngiven ställföreträdare med samma befogenheter. Befogenheten ska vara reell — revisorer verifierar att den kvalitetsansvarige faktiskt kan stoppa en process eller kräva åtgärd.",
         action: "Utse en kvalitetsansvarig och dokumentera befogenheterna skriftligen — undertecknat av ledningen.",
         actionPartial: "Kontrollera att den kvalitetsansvariges roll och befogenheter är dokumenterade, kända i organisationen och reella — inte bara nominella."
       }]
@@ -965,7 +1238,7 @@ const STANDARDS = {
         id: "s44_m7",
         swqNiva: "n2",
         text: "Det finns en rutin för ledningens genomgång med planerade intervaller — underlag inkluderar kundreklamationer och interna felrapporter, beslut dokumenteras.",
-        help: "SSF 1044 §4.3.7: ledningens genomgång ska genomföras med planerade intervaller (minst en gång per år) och underlag ska inkludera kundreklamationer och interna felrapporter. Beslut ska dokumenteras. Vanlig brist: genomgången sker men protokollet är för knapphändigt eller åtgärder följs inte upp.",
+        help: "SSF 1044 §4.3.7: ledningens genomgång ska genomföras med planerade intervaller. Underlag ska inkludera uppföljning av åtgärder från föregående genomgång, sammanställning av kundreklamationer och interna felrapporter. Beslut och beslutade åtgärder ska dokumenteras. En gång per år är etablerad branschpraxis.",
         action: "Schemalägg ledningens genomgång och fastställ fast agenda som alltid inkluderar kundreklamationer, felrapporter och status för föregående beslut.",
         actionPartial: "Kontrollera att protokollet täcker alla krav i §4.3.7 och att beslutade åtgärder faktiskt dokumenteras och följs upp."
       }]
@@ -1040,7 +1313,7 @@ const STANDARDS = {
       }, {
         id: "fr10",
         text: "Årlig kompetensanalys genomförs och utbildningsplan upprättas för att säkerställa kompetensen.",
-        help: "FR 2000 §1.8: en annual kompetensanalys ska identifiera kompetensgap och leda till en utbildningsplan. Analysen ska täcka alla medarbetare — inte bara teknikerna. Utbildningsplanen ska vara realistisk och genomförbar, inte bara ett önskelista.",
+        help: "FR 2000 §1.8: en kompetensanalys ska genomföras regelbundet för att identifiera kompetensgap och leda till en utbildningsplan. Analysen ska täcka alla medarbetare — inte bara teknikerna. Utbildningsplanen ska vara realistisk och genomförbar med konkreta aktiviteter.",
         action: "Genomför en kompetensanalys för alla medarbetare och upprätta en utbildningsplan för det kommande året med konkreta aktiviteter.",
         actionPartial: "Kontrollera att analysen faktiskt genomförs och att utbildningsplanen är realistisk med fastlagda datum och ansvarig."
       }, {
@@ -1108,7 +1381,7 @@ const STANDARDS = {
       }, {
         id: "fr20",
         text: "Ledningens genomgång genomförs minst en gång per år och täcker: åtgärdsstatus, lagefterlevnad, mål, avvikelser, revisionsresultat, kundnöjdhet, policy och resurser.",
-        help: "FR 2000 §1.17: ledningens genomgång ska genomföras minst en gång per år och täcka: status på föregående åtgärder, lagefterlevnad, måluppfyllelse, avvikelser, revisionsresultat, kundnöjdhet, policy och resursbehov. Alla dessa punkter krävs i protokollet. En informell diskussion utan protokoll uppfyller inte kravet.",
+        help: "FR 2000 §1.17: ledningens genomgång ska genomföras minst en gång per år och täcka: (a) status på föregående åtgärder, (b) förändringar i externa/interna frågor inkl. lagar, aspekter och risker, (c) lagefterlevnad, (d) analys av mål, avvikelser, revisionsresultat, leverantörsprestanda och kundnöjdhet, (e) policy och nya mål, (f) resurser och kompetens, (g) intressentkommunikation, (h) förbättringar av processer, (i) förändringar som kan påverka ledningssystemet. Protokoll ska bevaras.",
         action: "Schemalägg ledningens genomgång och sätt en fast agenda som täcker alla §1.17-punkter. Protokollför alltid med beslutade åtgärder.",
         actionPartial: "Gå igenom senaste protokollet mot §1.17-listan — täcker det alla punkter? Är beslutade åtgärder följda?"
       }]
@@ -1202,6 +1475,269 @@ const STANDARDS = {
       }]
     }]
   },
+  iso14001: {
+    id: "iso14001",
+    name: "ISO 14001",
+    reg: "SS-EN ISO 14001:2015",
+    desc: "Miljöledningssystem",
+    sections: [{
+      id: "i14_kontext",
+      name: "Kontext & systemomfattning",
+      questions: [{
+        id: "i14_k_1",
+        text: "Har ni kartlagt externa och interna faktorer som påverkar er miljöprestanda och förmågan att uppnå avsedda resultat med miljöledningssystemet?",
+        help: "ISO 14001:2015 §4.1: organisationen ska avgöra vilka externa och interna frågor som är relevanta för dess syfte och som påverkar förmågan att uppnå avsedda resultat med miljöledningssystemet — inklusive miljöförhållanden som påverkas av eller kan påverka organisationen.",
+        action: "Dokumentera externa faktorer (lagar, marknad, lokala miljöförhållanden) och interna faktorer (processer, produkter, tjänster) i en kontextanalys.",
+        actionPartial: "Kontrollera att kontextanalysen är miljöspecifik och täcker lokala/regionala miljöförhållanden — en generell verksamhetsanalys uppfyller inte §4.1."
+      }, {
+        id: "i14_k_2",
+        text: "Har ni identifierat relevanta intressenter och deras krav — inkl. bindande krav från lagar, myndigheter och avtalsparter?",
+        help: "ISO 14001:2015 §4.2: organisationen ska fastställa relevanta intressenter och deras krav, samt avgöra vilka krav som ska bli bindande för miljöledningssystemet. Bindande krav inkluderar lagkrav (lagar, tillstånd, myndighetsbeslut) och frivilliga åtaganden organisationen väljer att uppfylla.",
+        action: "Upprätta en intressentlista med: intressent, krav och om kravet är bindande. Täck myndigheter, kunder, grannar och branschorganisationer.",
+        actionPartial: "Kontrollera att listan är aktuell och att bindande krav är tydligt identifierade — ej bara listade."
+      }, {
+        id: "i14_k_3",
+        text: "Är miljöledningssystemets omfattning definierad och dokumenterad — inkl. de aktiviteter, produkter och tjänster som ingår?",
+        help: "ISO 14001:2015 §4.3: organisationen ska fastställa avgränsningar och tillämplighet för miljöledningssystemet. Omfattningen ska beakta externa/interna frågor (§4.1), bindande krav (§4.2) och organisatoriska gränser. Dokumenterad information om omfattningen krävs.",
+        action: "Dokumentera systemomfattningen: vilka verksamhetsställen, aktiviteter, produkter och tjänster som ingår — och eventuella avgränsningar med motivering.",
+        actionPartial: "Kontrollera att avgränsningen inte används för att utesluta aktiviteter med betydande miljöpåverkan."
+      }]
+    }, {
+      id: "i14_ledarskap",
+      name: "Ledarskap & miljöpolicy",
+      questions: [{
+        id: "i14_l_1",
+        text: "Finns en miljöpolicy med åtaganden om skydd av miljön, uppfyllande av bindande krav och ständig förbättring — kommunicerad och externt tillgänglig?",
+        help: "ISO 14001:2015 §5.2: miljöpolicyn ska innehålla: (a) lämplig för organisationens syfte, (b) ramverk för miljömål, (c) åtagande att skydda miljön inkl. förebygga förorening, (d) åtagande att uppfylla bindande krav, (e) åtagande om ständig förbättring av miljöprestanda. Policyn ska kommuniceras inom organisationen och finnas tillgänglig för intressenter.",
+        action: "Upprätta en miljöpolicy som uppfyller alla fem kraven i §5.2. Kommunicera den internt och publicera externt (t.ex. hemsidan).",
+        actionPartial: "Kontrollera att policyn innehåller alla fem åtagandena — åtagandet om ständig förbättring av miljöprestanda (inte bara systemet) missas ofta."
+      }, {
+        id: "i14_l_2",
+        text: "Är roller och ansvar för miljöledningssystemet definierade — inkl. utsedd person med ansvar för rapportering till ledningen?",
+        help: "ISO 14001:2015 §5.3: ledningen ska tilldela ansvar och befogenhet för att: (a) säkerställa att systemet uppfyller standardens krav, (b) rapportera till ledningen om systemets prestanda. Rollen kan delas av flera personer eller vara en dedikerad miljöansvarig.",
+        action: "Definiera och kommunicera roller och ansvar för miljöledningssystemet. Utse en namngiven person med rapporteringsansvar till ledningen.",
+        actionPartial: "Kontrollera att ansvaret för rapportering till ledningen är explicit definierat — inte bara generellt miljöansvar."
+      }]
+    }, {
+      id: "i14_planering",
+      name: "Miljöaspekter & bindande krav",
+      questions: [{
+        id: "i14_p_1",
+        text: "Har ni identifierat era miljöaspekter och deras miljöpåverkan ur ett livscykelperspektiv — och fastställt vilka som är betydande?",
+        help: "ISO 14001:2015 §6.1.2: miljöaspekter ska fastställas för aktiviteter, produkter och tjänster som organisationen kan styra eller påverka, under beaktande av livscykelperspektivet (från råvara till avfallshantering). Kriterier för vad som gör en aspekt 'betydande' ska fastställas och dokumenteras. Typiska aspekter för ett installationsföretag: kabelavfall, elförbrukning, transporter, kemikalier.",
+        action: "Genomför en miljöaspektsinventering ur livscykelperspektiv. Dokumentera aspekter, tillhörande påverkan och de kriterier ni använt för att fastställa vilka som är betydande.",
+        actionPartial: "Kontrollera att livscykelperspektivet täcker hela kedjan — inköp av material, transport, installation och avfallshantering."
+      }, {
+        id: "i14_p_2",
+        text: "Är bindande krav identifierade och dokumenterade — och tas hänsyn till dem när systemet upprättas och underhålls?",
+        help: "ISO 14001:2015 §6.1.3: organisationen ska fastställa och ha tillgång till bindande krav som rör miljöaspekterna, och ta hänsyn till dessa när systemet upprättas och underhålls. Bindande krav inkluderar lagkrav (Miljöbalken, avfallsförordningen, kemikalielagstiftning) och frivilliga åtaganden.",
+        action: "Upprätta en förteckning över tillämpliga bindande krav med: krav, vad det innebär för er verksamhet och hur ni säkerställer efterlevnad.",
+        actionPartial: "Kontrollera att förteckningen är aktuell och att varje krav är kopplat till en rutin eller ansvarig person."
+      }, {
+        id: "i14_p_3",
+        text: "Finns dokumenterade miljömål kopplade till de betydande miljöaspekterna — mätbara och med plan för hur de ska uppnås?",
+        help: "ISO 14001:2015 §6.2.1–6.2.2: miljömål ska upprättas för relevanta funktioner och nivåer, med hänsyn till de betydande miljöaspekterna och bindande krav. Mål ska vara mätbara (om praktiskt möjligt), övervakas, kommuniceras och uppdateras vid behov. Planen ska ange vad, resurser, ansvarig, tidplan och hur resultaten utvärderas.",
+        action: "Sätt 2–4 mätbara miljömål kopplade till era betydande miljöaspekter. Definiera mätvärde, ansvarig, tidplan och utvärderingsmetod.",
+        actionPartial: "Kontrollera att målen är kopplade till de identifierade betydande aspekterna — generella mål utan denna koppling uppfyller inte §6.2.1."
+      }]
+    }, {
+      id: "i14_stod",
+      name: "Kompetens & kommunikation",
+      questions: [{
+        id: "i14_s_1",
+        text: "Har personalen som arbetar med miljöpåverkande aktiviteter dokumenterad kompetens — och finns bevis bevarade?",
+        help: "ISO 14001:2015 §7.2: organisationen ska fastställa nödvändig kompetens för de som arbetar under ledningens kontroll och som kan påverka miljöprestandan. Kompetens ska säkerställas och bevis bevaras. Kompetens kan bygga på utbildning, upplärning eller erfarenhet.",
+        action: "Identifiera vilka roller som kan påverka miljöprestanda. Dokumentera nödvändig kompetens per roll och bevara utbildningsbevis.",
+        actionPartial: "Kontrollera att kompetensbevis finns för alla med miljöpåverkande arbetsuppgifter — inkl. tekniker på fältet."
+      }, {
+        id: "i14_s_2",
+        text: "Är personalen medveten om miljöpolicyn, de betydande miljöaspekterna och konsekvenserna av att inte uppfylla systemets krav?",
+        help: "ISO 14001:2015 §7.3: de som arbetar under organisationens kontroll ska känna till: (a) miljöpolicyn, (b) de betydande miljöaspekterna och tillhörande påverkan kopplad till deras arbete, (c) deras bidrag till systemets effektivitet, (d) konsekvenserna av att inte uppfylla systemets krav.",
+        action: "Genomför miljömedvetenhetsutbildning för all berörd personal. Täck policyn, relevanta aspekter och vad som händer om kraven inte följs.",
+        actionPartial: "Kontrollera att medvetenheten täcker de aspekter som är relevanta för varje persons specifika arbetsuppgifter — generell hållbarhetsinformation räcker inte."
+      }, {
+        id: "i14_s_3",
+        text: "Finns rutiner för intern och extern kommunikation om miljöledningssystemet — inkl. kommunikation med myndigheter om bindande krav?",
+        help: "ISO 14001:2015 §7.4: organisationen ska fastställa vad, när, till vem och hur kommunikation ska ske — internt och externt. Extern kommunikation om bindande krav (t.ex. till tillsynsmyndigheter) är ett specifikt krav. Organisationen ska också dokumentera och svara på relevant kommunikation från intressenter.",
+        action: "Dokumentera kommunikationsrutiner: internt (vem informerar vem, om vad) och externt (vilka myndigheter, om vad, hur ofta).",
+        actionPartial: "Kontrollera specifikt att det finns en rutin för kommunikation med tillsynsmyndigheter — detta missas ofta."
+      }]
+    }, {
+      id: "i14_verksamhet",
+      name: "Verksamhetsstyrning & nödläge",
+      questions: [{
+        id: "i14_v_1",
+        text: "Finns dokumenterade rutiner för styrning av de processer som är kopplade till de betydande miljöaspekterna och bindande krav?",
+        help: "ISO 14001:2015 §8.1: organisationen ska planera, styra och kontrollera de processer som är kopplade till de betydande miljöaspekterna och bindande krav. Styrningen ska innefatta dokumenterade kriterier och kontroll av att processerna utförs enligt kriterierna — inkl. miljörelevanta inköp och utkontraktering.",
+        action: "Identifiera de processer som har störst miljöpåverkan och dokumentera hur de styrs — inkl. kriterier för acceptabel prestanda och hur avvikelser hanteras.",
+        actionPartial: "Kontrollera att styrningen täcker utkontrakterade processer och leverantörer — miljöpåverkan i värdekedjan är ett vanligt revisionsämne."
+      }, {
+        id: "i14_v_2",
+        text: "Finns beredskapsplan för nödlägen med miljöpåverkan — och testas den regelbundet?",
+        help: "ISO 14001:2015 §8.2: organisationen ska förbereda sig för och agera vid potentiella nödlägen med miljöpåverkan — spill av kemikalier, brand, utsläpp. Planen ska testas med planerade intervall och revideras efter inträffade nödlägen eller tester.",
+        action: "Upprätta en nödlägesplan med: identifierade nödlägen, åtgärder vid händelse, ansvariga och kommunikationsrutiner. Schemalägg testövningar.",
+        actionPartial: "Kontrollera att planen faktiskt testas — en plan som aldrig prövats är en vanlig revisionsanmärkning."
+      }]
+    }, {
+      id: "i14_uppfoljning",
+      name: "Utvärdering & förbättring",
+      questions: [{
+        id: "i14_u_1",
+        text: "Övervakas och mäts miljöprestandan regelbundet — inkl. utvärdering att bindande krav uppfylls?",
+        help: "ISO 14001:2015 §9.1.1–9.1.2: organisationen ska övervaka, mäta, analysera och utvärdera sin miljöprestanda. Vad som mäts, metod och frekvens ska definieras. Efterlevnad av bindande krav ska utvärderas med planerade intervall och dokumenteras. Revisorer kontrollerar att efterlevnadsutvärderingen faktiskt genomförs — inte bara att en laglista finns.",
+        action: "Definiera vad som mäts (t.ex. energiförbrukning, avfallsmängder) och hur ofta. Inför en rutin för lagefterlevnadskontroll med dokumenterade resultat.",
+        actionPartial: "Kontrollera specifikt att efterlevnadsutvärderingen genomförs och dokumenteras — det räcker inte att ha en laglista."
+      }, {
+        id: "i14_u_2",
+        text: "Genomförs interna revisioner med planerade intervall — med objektiv revisor och dokumenterade resultat?",
+        help: "ISO 14001:2015 §9.2: interna revisioner ska genomföras för att bedöma om miljöledningssystemet uppfyller kraven och är effektivt implementerat. Revisorn ska vara objektiv och opartisk — inte revidera sin egna verksamhet. Avvikelser ska leda till korrigerande åtgärder.",
+        action: "Upprätta ett revisionsprogram med: täckning av alla processer, datum, vem som reviderar och hur resultat rapporteras och bevaras.",
+        actionPartial: "Kontrollera att revisorns oberoende är säkerställt och att avvikelser faktiskt åtgärdas."
+      }, {
+        id: "i14_u_3",
+        text: "Genomför ledningen regelbundna genomgångar av miljöledningssystemet med §9.3:s obligatoriska underlag?",
+        help: "ISO 14001:2015 §9.3: ledningens genomgång ska täcka: (a) status på föregående åtgärder, (b) förändringar i externa/interna frågor inkl. intressenters krav, bindande krav, betydande miljöaspekter och risker, (c) uppfyllande av miljömål, (d) information om miljöprestanda inkl. avvikelser, mätresultat, lagefterlevnad och revisionsresultat, (e) resurser, (f) intressentkommunikation inkl. klagomål, (g) förbättringsmöjligheter.",
+        action: "Schemalägg ledningens genomgång med en fast agenda som täcker alla §9.3-punkter. Protokollför alltid med beslut om åtgärder och resurser.",
+        actionPartial: "Kontrollera att protokollet täcker alla §9.3-punkter — status på bindande krav och miljöaspekter missas ofta."
+      }, {
+        id: "i14_u_4",
+        text: "Finns ett system för avvikelse och korrigerande åtgärd — inkl. hantering av negativ miljöpåverkan och rotorsaksanalys?",
+        help: "ISO 14001:2015 §10.2: när en avvikelse inträffar ska organisationen: reagera och korrigera, hantera konsekvenser inkl. att mildra negativ miljöpåverkan, utreda grundorsaken, vidta korrigerande åtgärder och granska deras verkan. Dokumentation ska bevaras. Avvikelser som ger negativ miljöpåverkan kräver omedelbar hantering av konsekvenserna.",
+        action: "Inför ett avvikelsesystem som täcker: korrigering, konsekvenshantering inkl. miljöpåverkan, grundorsaksanalys, korrigerande åtgärd och verifiering.",
+        actionPartial: "Kontrollera att rutinen explicit täcker hantering av negativ miljöpåverkan — inte bara den interna systemavvikelsen."
+      }]
+    }]
+  },
+  iso45001: {
+    id: "iso45001",
+    name: "ISO 45001",
+    reg: "SS-ISO 45001:2018",
+    desc: "Ledningssystem för arbetsmiljö",
+    sections: [{
+      id: "i45_kontext",
+      name: "Kontext & systemomfattning",
+      questions: [{
+        id: "i45_k_1",
+        text: "Har ni kartlagt externa och interna faktorer som påverkar förmågan att uppnå avsedda resultat med arbetsmiljöledningssystemet?",
+        help: "ISO 45001:2018 §4.1: organisationen ska avgöra externa och interna frågor som är relevanta för syftet och som påverkar förmågan att uppnå avsedda resultat med ledningssystemet för arbetsmiljö. Externa faktorer kan vara lagstiftning, branschstandarder och avtalskrav. Interna faktorer inkluderar organisationskultur, arbetsprocesser och resurser.",
+        action: "Dokumentera externa faktorer (lagkrav, branschkrav, avtalsåtaganden) och interna faktorer (kultur, processer, resurser) som påverkar er arbetsmiljö.",
+        actionPartial: "Kontrollera att kontextanalysen är arbetsmiljöspecifik och uppdateras vid förändringar i verksamheten."
+      }, {
+        id: "i45_k_2",
+        text: "Är intressenter identifierade — inkl. arbetstagare och myndigheter — och är deras krav fastställda?",
+        help: "ISO 45001:2018 §4.2: organisationen ska fastställa vilka intressenter (utöver arbetstagarna) som är relevanta, deras krav och vilka som kan bli legala krav och andra krav. Arbetstagare är en central intressentgrupp med särskilda rättigheter till samråd och medverkan enligt §5.4.",
+        action: "Upprätta en intressentlista med arbetstagare, myndigheter (Arbetsmiljöverket), kunder och avtalsparter. Identifiera deras krav och hur ni hanterar dem.",
+        actionPartial: "Kontrollera att arbetstagares behov och förväntningar är identifierade och att det finns en kanal för dem att framföra synpunkter."
+      }, {
+        id: "i45_k_3",
+        text: "Är systemets omfattning definierad och dokumenterad — inkl. arbete på externa platser och utkontrakterat arbete?",
+        help: "ISO 45001:2018 §4.3: omfattningen ska innefatta aktiviteter, produkter och tjänster under organisationens kontroll eller påverkan som kan inverka på arbetsmiljöprestandan. Det inkluderar arbete på externa platser (hos kund), mobila arbetstagare och utkontrakterat arbete.",
+        action: "Dokumentera systemomfattningen med alla arbetsplatser och aktiviteter som ingår — inkl. arbete hos kund och utkontrakterat arbete.",
+        actionPartial: "Kontrollera att arbete hos kund och utkontrakterade aktiviteter ingår — dessa missas ofta i scopedefinitionen."
+      }]
+    }, {
+      id: "i45_ledarskap",
+      name: "Ledarskap & arbetstagares medverkan",
+      questions: [{
+        id: "i45_l_1",
+        text: "Finns en arbetsmiljöpolicy med åtaganden om säkra arbetsplatser, eliminering av faror, uppfyllande av legala krav och arbetstagares medverkan?",
+        help: "ISO 45001:2018 §5.2: arbetsmiljöpolicyn ska innehålla åtaganden om: (a) trygga och hälsosamma arbetsplatser, (b) eliminering av faror och minskning av OH&S-risker, (c) uppfyllande av legala och andra krav, (d) arbetstagares samråd och medverkan, (e) ständig förbättring. Policyn ska kommuniceras, vara tillgänglig och vara relevant för organisationens risker.",
+        action: "Upprätta en arbetsmiljöpolicy som uppfyller alla fem åtagandena i §5.2. Kommunicera den till all personal och gör den tillgänglig.",
+        actionPartial: "Kontrollera att åtagandet om arbetstagares medverkan finns explicit i policyn — det är specifikt för ISO 45001 och saknas ofta."
+      }, {
+        id: "i45_l_2",
+        text: "Finns processer för arbetstagares samråd och medverkan i alla relevanta delar av arbetsmiljöarbetet?",
+        help: "ISO 45001:2018 §5.4: arbetstagare som inte har en chefsposition ska konsulteras vid bl.a.: identifiering av faror, riskbedömningar, åtgärder för att eliminera faror, kompetenskrav och utredning av incidenter. Medverkan innebär reell möjlighet att påverka beslut — inte bara att bli informerad. Hinder för medverkan ska elimineras.",
+        action: "Upprätta en dokumenterad process för arbetstagares samråd och medverkan. Definiera hur och när arbetstagare konsulteras.",
+        actionPartial: "Kontrollera att samråd är reellt — fråga arbetstagare om de faktiskt kan påverka beslut om farliga situationer och åtgärder."
+      }]
+    }, {
+      id: "i45_planering",
+      name: "Faroidentifiering & riskbedömning",
+      questions: [{
+        id: "i45_p_1",
+        text: "Finns en process för fortlöpande identifiering av faror — täcker den alla arbetsmoment, platser, rutinmässiga och icke-rutinmässiga situationer?",
+        help: "ISO 45001:2018 §6.1.2.1: faroidentifieringen ska vara proaktiv och kontinuerlig. Den ska täcka: rutinmässiga och icke-rutinmässiga aktiviteter, nödsituationer, arbete av externa parter på organisationens platser, organisatoriska faktorer (arbetsbelastning, arbetstider) och förändringar i verksamheten. Typiska faror för ett installationsföretag: fall, elolyckor, tunga lyft, arbete i trånga utrymmen.",
+        action: "Upprätta en process för faroidentifiering som täcker alla arbetsmoment. Genomför en genomgång med arbetstagare — de känner ofta till faror ledningen inte känner till.",
+        actionPartial: "Kontrollera att faroidentifieringen täcker icke-rutinmässiga situationer (t.ex. akutuppdrag, ny kund) och externa platser (arbete hos kund)."
+      }, {
+        id: "i45_p_2",
+        text: "Bedöms OH&S-risker för identifierade faror — med dokumenterade kriterier och arbetstagares medverkan?",
+        help: "ISO 45001:2018 §6.1.2.2: organisationen ska bedöma OH&S-risker kopplade till identifierade faror, med hänsyn till befintliga åtgärder. Metod och kriterier ska fastställas. Arbetstagares medverkan i riskbedömningen är ett explicit krav. Dokumenterad information om riskerna ska bevaras.",
+        action: "Genomför riskbedömning för alla identifierade faror med arbetstagare involverade. Dokumentera: fara, bedömning, befintliga åtgärder och risknivå.",
+        actionPartial: "Kontrollera att arbetstagare faktiskt deltar i riskbedömningen — deras praktiska erfarenhet är ett normkrav, inte bara bra praxis."
+      }, {
+        id: "i45_p_3",
+        text: "Är legala krav och andra krav för arbetsmiljö identifierade och tillgängliga — och uppdateras de löpande?",
+        help: "ISO 45001:2018 §6.1.3: organisationen ska fastställa och ha tillgång till tillämpliga legala krav och andra krav för OH&S. Dessa ska beaktas vid upprättande och underhåll av systemet. Relevanta krav inkluderar: Arbetsmiljölagen, AFS-föreskrifter (t.ex. AFS 2001:1 om SAM) och branschavtal.",
+        action: "Upprätta en förteckning över tillämpliga legala krav med: lag/föreskrift, vad det kräver av er och hur ni säkerställer efterlevnad. Uppdatera vid nya AFS.",
+        actionPartial: "Kontrollera att AFS-föreskrifterna som är relevanta för er verksamhet finns med — elsäkerhet, arbete på hög höjd, kemikalier och SAM är vanliga."
+      }, {
+        id: "i45_p_4",
+        text: "Finns dokumenterade arbetsmiljömål kopplade till de identifierade riskerna — mätbara och med plan för hur de uppnås?",
+        help: "ISO 45001:2018 §6.2: arbetsmiljömål ska upprättas för relevanta funktioner och nivåer, med hänsyn till OH&S-risker och möjligheter, bindande krav och organisationens OH&S-prestanda. Mål ska vara mätbara (om möjligt), övervakas, kommuniceras och uppdateras. Arbetstagare ska konsulteras vid upprättandet.",
+        action: "Sätt 2–4 mätbara OH&S-mål kopplade till era viktigaste risker. Definiera mätvärde, ansvarig, tidplan och hur resultaten utvärderas.",
+        actionPartial: "Kontrollera att målen är kopplade till de identifierade riskerna — generella mål som 'noll olyckor' utan underliggande riskanalys uppfyller inte §6.2."
+      }]
+    }, {
+      id: "i45_verksamhet",
+      name: "Verksamhetsstyrning",
+      questions: [{
+        id: "i45_v_1",
+        text: "Finns rutiner för att eliminera faror och minska risker — tillämpas åtgärdshierarkin (eliminera, ersätta, tekniska åtgärder, administrativa, PPE)?",
+        help: "ISO 45001:2018 §8.1.2: åtgärder för att hantera OH&S-risker ska följa rangordningen: (1) eliminera faran, (2) ersätta med mindre farligt, (3) tekniska åtgärder, (4) administrativa åtgärder inkl. utbildning, (5) personlig skyddsutrustning. Personlig skyddsutrustning är sista utvägen — inte första.",
+        action: "Dokumentera hur åtgärder väljs och genomförs enligt åtgärdshierarkin. Säkerställ att tekniska och administrativa åtgärder prioriteras framför PPE.",
+        actionPartial: "Kontrollera att åtgärdshierarkin faktiskt tillämpas — PPE som enda åtgärd för identifierade risker uppfyller inte §8.1.2."
+      }, {
+        id: "i45_v_2",
+        text: "Hanteras förändringsledning med OH&S-perspektiv — bedöms risker vid ny utrustning, nya processer och organisationsförändringar?",
+        help: "ISO 45001:2018 §8.1.3: organisationen ska kontrollera planerade permanenta och tillfälliga förändringar som påverkar OH&S-prestandan. Riskbedömning ska genomföras innan förändringen genomförs — ny utrustning, nya kemikalier, ny organisation, nya arbetsplatser eller ändrade arbetsmetoder.",
+        action: "Inför en förändringshanteringsrutin med OH&S-riskcheck: innan varje ny utrustning, arbetsmetod eller organisation träder i kraft bedöms OH&S-påverkan.",
+        actionPartial: "Kontrollera att rutinen faktiskt tillämpas — välj ett par nyliga förändringar och verifiera att OH&S-risker bedömdes innan de genomfördes."
+      }, {
+        id: "i45_v_3",
+        text: "Finns rutiner för anskaffning och upphandling som säkerställer att varor och tjänster inte introducerar OH&S-risker?",
+        help: "ISO 45001:2018 §8.1.4: inköpsprocessen ska styras för att säkerställa att inköpta varor, material och tjänster uppfyller organisationens OH&S-krav. OH&S-krav ska kommuniceras till leverantörer och entreprenörer. Säkerhetsdatablad för kemikalier och krav på leverantörers säkerhetsrutiner är typiska exempel.",
+        action: "Lägg till OH&S-krav i upphandlingsrutinen: krav på leverantörers säkerhetsrutiner, säkerhetsdatablad för kemikalier och bedömning av leverantörers OH&S-prestanda.",
+        actionPartial: "Kontrollera att krav på säkerhetsdatablad (SDS) och leverantörers säkerhetsrutiner ingår i era inköpskrav."
+      }]
+    }, {
+      id: "i45_uppfoljning",
+      name: "Utvärdering & förbättring",
+      questions: [{
+        id: "i45_u_1",
+        text: "Övervakas OH&S-prestanda regelbundet — inkl. utvärdering att legala krav och andra krav uppfylls?",
+        help: "ISO 45001:2018 §9.1.1–9.1.2: organisationen ska övervaka och mäta OH&S-prestanda. Vad som mäts, metod och frekvens ska definieras. Efterlevnad av legala krav och andra krav ska utvärderas med planerade intervall och dokumenteras. Typiska mätpunkter: antal incidenter/nära-olyckor, sjukfrånvaro, genomförda riskbedömningar och antal slutförda åtgärder.",
+        action: "Definiera vad ni mäter för OH&S-prestanda och med vilken frekvens. Inför en rutin för lagefterlevnadskontroll med dokumenterade resultat.",
+        actionPartial: "Kontrollera att lagefterlevnadsutvärderingen faktiskt genomförs och dokumenteras — ej bara att en laglista finns."
+      }, {
+        id: "i45_u_2",
+        text: "Genomförs interna revisioner med planerade intervall — med arbetstagares medverkan och objektiv revisor?",
+        help: "ISO 45001:2018 §9.2: interna revisioner ska genomföras med planerade intervall. ISO 45001 tillägger specifikt att arbetstagares medverkan i revisionen ska säkerställas. Revisorn ska vara objektiv och opartisk. Revisionsresultat ska kommuniceras till arbetstagare och deras representanter.",
+        action: "Upprätta ett revisionsprogram som inkluderar arbetstagare i revisionsprocessen. Säkerställ revisorns oberoende och kommunicera resultaten till personalen.",
+        actionPartial: "Kontrollera att arbetstagare faktiskt involveras i revisionsprocessen — det är ett explicit krav i §9.2.2 d) som skiljer ISO 45001 från andra ledningssystemstandarder."
+      }, {
+        id: "i45_u_3",
+        text: "Genomför ledningen regelbundna genomgångar med §9.3:s underlag — och kommuniceras resultaten till arbetstagare?",
+        help: "ISO 45001:2018 §9.3: ledningens genomgång ska täcka: (a) status på föregående åtgärder, (b) förändringar i externa/interna frågor, intressenters behov, legala krav och risker, (c) OH&S-måls uppfyllande, (d) information om OH&S-prestanda inkl. incidenter, lagefterlevnad, revisioner och arbetstagares medverkan, (e) resurser, (f) kommunikation från intressenter inkl. klagomål, (g) förbättringsmöjligheter. Resultat ska kommuniceras till arbetstagare.",
+        action: "Schemalägg ledningens genomgång med en fast agenda baserad på §9.3. Kommunicera resultaten till arbetstagare och deras representanter.",
+        actionPartial: "Kontrollera att resultaten faktiskt kommuniceras till arbetstagare — ett specifikt krav i §9.3 som ofta förbises."
+      }, {
+        id: "i45_u_4",
+        text: "Finns en process för rapportering och utredning av incidenter och avvikelser — med grundorsaksanalys och arbetstagares medverkan?",
+        help: "ISO 45001:2018 §10.2: organisationen ska utreda incidenter och avvikelser med arbetstagares medverkan. Utredningen ska fastställa grundorsaker och korrigerande åtgärder ska vidtas i enlighet med åtgärdshierarkin. Befintliga riskbedömningar ska granskas och vid behov uppdateras. Dokumentation ska kommuniceras till relevanta arbetstagare.",
+        action: "Inför en incidentrapporteringsprocess: rapporteringskanal, utredning med grundorsaksanalys, korrigerande åtgärder enligt åtgärdshierarkin och kommunikation till personalen.",
+        actionPartial: "Kontrollera att incidentutredning faktiskt genomförs med grundorsaksanalys — att lösa symptomet utan att förstå varför uppfyller inte §10.2."
+      }, {
+        id: "i45_u_5",
+        text: "Rapporterar arbetstagare aktivt nära-olyckor och farliga situationer — och är de skyddade från repressalier?",
+        help: "ISO 45001:2018 §5.1 k) och §10.2: ledningen ska skydda arbetstagare från repressalier när de rapporterar incidenter, faror, risker och möjligheter. En rapporteringskultur där arbetstagare aktivt rapporterar nära-olyckor är central för ett effektivt OH&S-system. Ett ovanligt lågt antal nära-olyckor kan indikera underrapportering snarare än ett säkert system.",
+        action: "Kommunicera tydligt att rapportering välkomnas och skyddas. Uppmuntra rapportering av nära-olyckor. Följ upp med snabba återkopplingar.",
+        actionPartial: "Undersök om personalen faktiskt rapporterar nära-olyckor — om antalet är ovanligt lågt kan det indikera rädsla för konsekvenser snarare än ett säkert system."
+      }]
+    }]
+  },
+
   iso9001: {
     id: "iso9001",
     name: "ISO 9001",
@@ -1213,7 +1749,7 @@ const STANDARDS = {
       questions: [{
         id: "iso_k_1",
         text: "Har ni kartlagt externa och interna faktorer som påverkar er förmåga att leverera med rätt kvalitet?",
-        help: "ISO 9001:2015 §4.1: ni ska förstå er organisations kontext — externa faktorer (marknad, konkurrenter, lagar, teknikutveckling) och interna faktorer (kultur, resurser, kompetens). Analysen ska vara dokumenterad och uppdateras minst en gång per år. SWOT-analys är ett vanligt verktyg.",
+        help: "ISO 9001:2015 §4.1: ni ska förstå er organisations kontext — externa faktorer (marknad, konkurrenter, lagar, teknikutveckling) och interna faktorer (kultur, resurser, kompetens). Informationen om kontexten ska övervakas och granskas regelbundet — §4.1 ställer inget explicit krav på dokumenterad information eller årsintervall, men en SWOT-analys eller liknande är ett vanligt och praktiskt verktyg.",
         action: "Dokumentera de viktigaste externa och interna faktorerna i en SWOT- eller kontextanalys. Uppdatera minst en gång per år.",
         actionPartial: "Gå igenom om er nuvarande analys är aktuell och täcker båda dimensionerna."
       }, {
@@ -1353,7 +1889,7 @@ const STANDARDS = {
       }, {
         id: "iso_u_4",
         text: "Genomför ledningen regelbundna genomgångar med §9.3:s underlag och dokumenterar beslut om resurser och förbättringar?",
-        help: "ISO 9001:2015 §9.3: ledningens genomgång ska täcka: status på föregående åtgärder, förändringar i kontext och intressenter, kvalitetsmålsuppfyllelse, processprestanda, avvikelser, reklamationer, revisionsresultat, leverantörsprestanda och förbättringsmöjligheter. Beslut om resurser och förbättringar ska dokumenteras.",
+        help: "ISO 9001:2015 §9.3.2: ledningens genomgång ska täcka: (a) status på föregående åtgärder, (b) förändringar i kontext och intressenters krav, (c) kvalitetsprestanda inkl. kundtillfredsställelse, måluppfyllelse, processprestanda, avvikelser, revisionsresultat och leverantörsprestanda, (d) resursers tillräcklighet, (e) verkan av riskåtgärder, (f) förbättringsmöjligheter. Beslut om resurser och förbättringar ska dokumenteras.",
         action: "Schemalägg ledningens genomgång och förbered en fast agenda som täcker alla §9.3.2-punkter. Protokollför alltid med beslut om åtgärder.",
         actionPartial: "Gå igenom senaste protokollet mot §9.3.2-listan."
       }, {
@@ -1376,7 +1912,7 @@ const STANDARDS = {
       questions: [{
         id: "i27_k_1",
         text: "Har ni kartlagt externa och interna faktorer som påverkar er informationssäkerhet och identifierat relevanta intressenters krav?",
-        help: "ISO 27001:2022 §4.1–4.2: ni ska förstå er informationssäkerhetskontext — externa faktorer (lagar som GDPR och NIS2, cyberhot, kundkrav) och interna faktorer (IT-miljö, personal, processer). Kontextanalysen ska vara IS-specifik — en generell verksamhetsanalys täcker inte kravet. Intressenters krav på informationssäkerhet ska specifikt identifieras.",
+        help: "ISO 27001:2022 §4.1–4.2: ni ska förstå er informationssäkerhetskontext — externa faktorer (t.ex. GDPR, cyberhot, kundkrav och tillämplig lagstiftning som NIS2) och interna faktorer (IT-miljö, personal, processer). Kontextanalysen ska vara IS-specifik — en generell verksamhetsanalys täcker inte kravet. Intressenters krav på informationssäkerhet ska specifikt identifieras.",
         action: "Dokumentera IS-kontext med externa faktorer (GDPR, NIS2, cyberhot) och interna faktorer (IT-miljö, personal). Identifiera intressenters IS-krav.",
         actionPartial: "Kontrollera att kontextanalysen är IS-specifik — det räcker inte med en generell verksamhetsanalys."
       }, {
@@ -1398,13 +1934,13 @@ const STANDARDS = {
       }, {
         id: "i27_l_2",
         text: "Finns definierade roller och ansvar för informationssäkerhet — inkl. en utsedd person med ansvar för ISMS?",
-        help: "ISO 27001:2022 §5.3: roller och ansvar för informationssäkerhet ska definieras och kommuniceras. En utsedd IS-ansvarig (Information Security Officer) med rapporteringsväg till ledningen är vanligaste lösningen. IS-ansvarige ska ha befogenhet att kräva åtgärder — ett nominellt ansvar utan reellt mandat uppfyller inte kravet.",
+        help: "ISO 27001:2022 §5.3: roller och ansvar för informationssäkerhet ska definieras och kommuniceras inom organisationen. En utsedd person med tydligt IS-ansvar och rapporteringsväg till ledningen är vanligaste lösningen — rollen kan vara befintlig (t.ex. IT-chef) eller dedikerad. Det reella mandatet är avgörande: ett nominellt ansvar utan befogenheter och resurser uppfyller inte kravet.",
         action: "Utse en namngiven IS-ansvarig med tydliga befogenheter och rapporteringsväg till ledningen. Dokumentera rollen.",
         actionPartial: "Kontrollera att IS-ansvarige har tillräckliga resurser och reellt mandat — inte bara ett nominellt ansvar."
       }, {
         id: "i27_l_3",
         text: "Finns dokumenterade och mätbara informationssäkerhetsmål med plan — kopplat till riskbedömningsresultat?",
-        help: "ISO 27001:2022 §6.2: IS-mål ska vara mätbara, kopplade till IS-policyn och riskbedömningsresultat. Mål ska inkludera: vad som ska uppnås, mätvärde, vem som ansvarar, hur det genomförs och när det ska utvärderas. Typiska IS-mål: andel utbildad personal, tid för att stänga IS-incidenter, andel patchade system.",
+        help: "ISO 27001:2022 §6.2: IS-mål ska vara mätbara om det är praktiskt möjligt, kopplade till IS-policyn och riskbedömningsresultat. Mål ska inkludera: vad som ska uppnås, hur det mäts (om tillämpligt), vem som ansvarar, hur det genomförs och när det utvärderas. Typiska IS-mål: andel utbildad personal, tid för att stänga IS-incidenter, andel patchade system.",
         action: "Sätt 3–5 mätbara IS-mål kopplade till era identifierade risker. Definiera mätvärde, ansvarig, metod och uppföljningsdatum.",
         actionPartial: "Kontrollera att målen är mätbara och kopplade till specifika IS-risker — vaga mål som 'ökad säkerhet' uppfyller inte kravet."
       }]
@@ -1426,13 +1962,13 @@ const STANDARDS = {
       }, {
         id: "i27_r_3",
         text: "Finns ett Uttalande om tillämplighet (SoA) med Annex A-kontrollernas tillämplighet, motiveringar och implementeringsstatus?",
-        help: "ISO 27001:2022 §6.1.3d: Uttalandet om tillämplighet (SoA) är ett av ISO 27001:s mest formella krav. Det ska för varje av Annex A:s 93 kontroller ange: om kontrollen är tillämplig, motivering (varje exkludering ska motiveras) och implementeringsstatus. SoA är ett levande dokument som ska hållas aktuellt.",
+        help: "ISO 27001:2022 §6.1.3d: Uttalandet om tillämplighet (SoA) är ett av ISO 27001:s mest formella krav. Det ska för varje av Annex A:s 93 kontroller ange: om kontrollen är tillämplig, motivering (varje exkludering ska motiveras) och implementeringsstatus. SoA är ett levande dokument som ska hållas aktuellt. Notera: ISO 27002:2022 — en separat vägledningsstandard — förklarar hur Annex A:s kontroller implementeras i praktiken. Den är inte certifieringsbar men ett viktigt implementeringsstöd som många organisationer missar.",
         action: "Skapa ett SoA-dokument i tabellform med Annex A:s 93 kontroller. Ange: tillämplig/ej tillämplig, motivering och implementeringsstatus.",
         actionPartial: "Kontrollera att SoA speglar faktisk implementeringsstatus — inte bara planer — och är konsistent med riskbehandlingsplanen."
       }, {
         id: "i27_r_4a",
         text: "Genomförs riskbedömningar minst en gång per år — med dokumenterade resultat?",
-        help: "ISO 27001:2022 §8.2: riskbedömningar ska genomföras med planerade intervall — minst en gång per år. Resultaten av riskbedömningen ska dokumenteras. Revisorerna kontrollerar att en aktuell riskbedömning finns och att den följer er dokumenterade metodik från §6.1.2.",
+        help: "ISO 27001:2022 §8.2: riskbedömningar ska genomföras med planerade intervall — standarden specificerar inget fast intervall, men en gång per år är etablerad branschpraxis och vanlig revisorsförväntning. Resultaten av riskbedömningen ska dokumenteras. Revisorer kontrollerar att en aktuell riskbedömning finns och att den följer er dokumenterade metodik från §6.1.2.",
         action: "Inför en fast årsrutin för riskbedömning. Dokumentera resultat, riskägares godkännande och beslutade åtgärder.",
         actionPartial: "Kontrollera att en aktuell riskbedömning finns och att den är genomförd enligt er metodik från §6.1.2."
       }, {
@@ -1472,7 +2008,7 @@ const STANDARDS = {
       }, {
         id: "i27_a_4",
         text: "Finns ett incidenthanteringssystem med process för IS-incidenter — inkl. GDPR:s krav på anmälan till IMY inom 72 timmar?",
-        help: "ISO 27001:2022 Annex A 5.24–5.27: IS-incidenthanteringen ska täcka: (1) hur personal rapporterar misstänkta incidenter, (2) klassificering och eskalering, (3) hantering och återhämtning, (4) lärdom och förbättring. GDPR kräver anmälan till IMY inom 72 timmar vid personuppgiftsincidenter. Personalen måste veta vem de kontaktar vid en incident.",
+        help: "ISO 27001:2022 Annex A 5.24–5.27: IS-incidenthanteringen ska täcka: (1) hur personal rapporterar misstänkta incidenter, (2) klassificering och eskalering, (3) hantering och återhämtning, (4) lärdom och förbättring. Notera: GDPR Art. 33 — ett lagkrav utanför ISO 27001 — kräver dessutom anmälan till IMY inom 72 timmar vid personuppgiftsincidenter. Personalen måste veta vem de kontaktar vid en incident.",
         action: "Ta fram en IS-incidenthanteringsrutin med: rapporteringskanal för personal, eskalering, GDPR 72-timmarsrutin och rutin för lärdom.",
         actionPartial: "Kontrollera att all personal vet hur de rapporterar en IS-incident — fråga en slumpmässig medarbetare. Och att IMY-anmälningsrutinen är dokumenterad."
       }, {
@@ -1494,7 +2030,7 @@ const STANDARDS = {
       }, {
         id: "i27_s_1b",
         text: "Genomgår all personal grundläggande IS-utbildning vid anställning och regelbundna uppdateringar?",
-        help: "ISO 27001:2022 §7.3 och Annex A 6.3: all personal ska ha IS-medvetenhet anpassad till sin roll. Grundutbildning vid anställningsstart och regelbundna uppdateringar (minst annual) krävs. Vanliga ämnen: lösenordssäkerhet, phishing, incidentrapportering och GDPR-grunderna. Utbildningen ska dokumenteras med deltagarlista.",
+        help: "ISO 27001:2022 §7.3 och Annex A 6.3: all personal ska ha IS-medvetenhet anpassad till sin roll. Standarden kräver grundutbildning och regelbundna uppdateringar — specifikt intervall anges inte, men en gång per år är etablerad branschpraxis. Vanliga ämnen: lösenordssäkerhet, phishing, incidentrapportering och GDPR-grunderna. Utbildningen ska dokumenteras med deltagarlista.",
         action: "Inför ett IS-utbildningsprogram med grundutbildning vid onboarding och annual uppdatering. Dokumentera varje tillfälle med deltagarlista.",
         actionPartial: "Kontrollera att utbildningen faktiskt genomförs och dokumenteras — att alla medarbetare fått grundutbildning och uppdateringar."
       }, {
@@ -1506,13 +2042,13 @@ const STANDARDS = {
       }, {
         id: "i27_a_ropa",
         text: "Finns ett register över personuppgiftsbehandlingar (ROPA) enligt GDPR Artikel 30?",
-        help: "ISO 27001:2022 Annex A 5.34 och GDPR Art. 30: ett register över personuppgiftsbehandlingar (ROPA) är ett lagkrav under GDPR för de flesta organisationer. ROPA ska innehålla: behandlingens syfte, kategorier av registrerade och uppgifter, mottagare, överföringar till tredjeland och tekniska/organisatoriska säkerhetsåtgärder. IMY har en mall.",
+        help: "GDPR Art. 30 (lagkrav) och ISO 27001:2022 Annex A 5.34: ROPA är primärt ett lagkrav under GDPR — Annex A 5.34 om integritetsskydd gör det även relevant för ISMS:et. ROPA ska innehålla: behandlingens syfte, kategorier av registrerade och uppgifter, mottagare, överföringar till tredjeland och tekniska/organisatoriska säkerhetsåtgärder. IMY har en mall.",
         action: "Upprätta ett ROPA via IMY:s mall (imy.se). Täck alla behandlingar: kundregister, personaluppgifter, molntjänster och externa mottagare.",
         actionPartial: "Kontrollera att ROPA täcker alla behandlingar — molntjänster och leverantörssystem missas ofta. Och att det är aktuellt."
       }, {
         id: "i27_a_dpa",
         text: "Finns personuppgiftsbiträdesavtal (DPA) med alla leverantörer som behandlar personuppgifter för er räkning?",
-        help: "ISO 27001:2022 Annex A 5.34 och GDPR Art. 28: om en leverantör behandlar personuppgifter för er räkning (molnlagring, IT-support med systemåtkomst, e-postleverantör) är ni personuppgiftsansvarig och ett DPA är lagkrav. De flesta stora leverantörer (Microsoft, Google, etc.) har standardiserade DPA i sina kundportaler.",
+        help: "GDPR Art. 28 (lagkrav) och ISO 27001:2022 Annex A 5.34: DPA är primärt ett lagkrav under GDPR — om en leverantör behandlar personuppgifter för er räkning (molnlagring, IT-support med systemåtkomst, e-postleverantör) är ni personuppgiftsansvarig och ett DPA är obligatoriskt. Annex A 5.34 gör det även relevant för ISMS:et. De flesta stora leverantörer (Microsoft, Google, etc.) har standardiserade DPA i sina kundportaler.",
         action: "Inventera leverantörer som behandlar personuppgifter för er räkning. Teckna DPA — börja med Microsoft/Google-portaler för standardavtal.",
         actionPartial: "Identifiera vilka DPA som saknas. Prioritera leverantörer med mest känsliga uppgifter och de med faktisk systemåtkomst."
       }]
@@ -1534,7 +2070,7 @@ const STANDARDS = {
       }, {
         id: "i27_u_3",
         text: "Genomför ledningen regelbundna genomgångar av ISMS:et med §9.3.2:s underlag — inkl. riskbedömningsstatus?",
-        help: "ISO 27001:2022 §9.3.2: ledningens genomgång av ISMS ska täcka: status på föregående åtgärder, förändringar i kontext och intressenters krav, riskbedömningsstatus och behandlingsplan, IS-mål, revisionsresultat, incidenter, leverantörsprestanda och förbättringsmöjligheter. Beslut och resurstilldelning ska dokumenteras.",
+        help: "ISO 27001:2022 §9.3.2: ledningens genomgång av ISMS ska täcka: (a) status på föregående åtgärder, (b) förändringar i extern/intern kontext och intressenters krav, (c) information om IS-prestanda inkl. avvikelser, mätresultat, revisionsresultat och måluppfyllnad, (d) intressentåterkoppling, (e) riskbedömningsstatus och behandlingsplan, (f) förbättringsmöjligheter. Beslut och resurstilldelning ska dokumenteras.",
         action: "Schemalägg IS-ledningens genomgång med en fast agenda som täcker alla §9.3.2-punkter. Protokollför alltid med beslut om resurser och åtgärder.",
         actionPartial: "Kontrollera att protokollet täcker alla §9.3.2-punkter — riskbedömningsstatus och intressentförändringar missas ofta."
       }, {
@@ -1555,10 +2091,10 @@ const STANDARDS = {
 };
 const CERT_GROUPS = [{
   label: "Anläggarfirmor",
-  ids: ["brandlarm", "inbrottslarm", "kamerabevakning"]
+  ids: ["ssf1040", "brandlarm", "inbrottslarm", "kamerabevakning"]
 }, {
   label: "Ledningssystem",
-  ids: ["ssf1044", "fr2000", "iso9001", "iso27001"],
+  ids: ["ssf1044", "fr2000", "iso9001", "iso14001", "iso45001", "iso27001"],
   note: "SSF 1044 och FR 2000 krävs för anläggarfirmor inom inbrottslarm och kamerabevakning. Välj det alternativ som passar er verksamhet."
 }];
 const ANSWERS = [{
@@ -1583,6 +2119,7 @@ const ANSWERS = [{
   cls: "ans-blue"
 }];
 const LMS_WARNING = {
+  ssf1040: "SSF 1040:3 ställer egna krav på kvalitets- och miljöledningssystem (§4.4) i linje med ISO 9001:2015 och ISO 14001:2015. Har er firma redan ISO 9001, ISO 14001 eller FR 2000 uppfyller ni §4.4 automatiskt — komplettera gärna med dessa självdeklarationer för en fullständig bild.",
   inbrottslarm: "Ledningssystemet är den vanligaste bromsen för anläggarfirmor inom inbrottslarm. Erfarenhetsmässigt underskattar de flesta hur mycket ett implementerat system kräver i praktiken. Vi rekommenderar att du också gör självdeklarationen för SSF 1044 eller FR 2000 — lägg till dem i ditt val på startsidan.",
   kamerabevakning: "Ledningssystemet är den vanligaste bromsen för anläggarfirmor inom kamerabevakning. SSF 1061:3 kräver SSF 1044 SWE Q Nivå 2 som minimum. Vi rekommenderar att du också gör självdeklarationen för SSF 1044 eller FR 2000 — lägg till dem i ditt val på startsidan.",
   brandlarm: "Kvalitetssystemet är ett krav även för brandlarmscertifiering — och ett område många anläggarfirmor underskattar. Överväg att också göra självdeklarationen för SSF 1044 eller FR 2000 för att få en fullständig bild."
@@ -1984,6 +2521,17 @@ function SWEQValjare({
     className: "lk-opt-desc"
   }, n.desc))))));
 }
+function RevisorBlock({stdId}) {
+  const ref = React.useRef(null);
+  React.useEffect(() => {
+    const d = RP[stdId];
+    if (!d || !ref.current) return;
+    const rows = d.p.map(p => '<div class="revisor-item"><div class="revisor-item-icon">' + p[0] + '</div><div class="revisor-item-text"><strong>' + p[1] + '</strong> ' + p[2] + '</div></div>').join('');
+    ref.current.innerHTML = '<div class="revisor-header"><div class="revisor-icon">&#128270;</div><div><div class="revisor-title">' + d.t + '</div></div></div><div class="revisor-intro">' + d.i + '</div><div class="revisor-items">' + rows + '</div>';
+  }, [stdId]);
+  if (!RP[stdId]) return null;
+  return React.createElement('div', {className: 'revisor-block', ref: ref});
+}
 function CertSection({
   std,
   answers,
@@ -2089,7 +2637,7 @@ function CertSection({
     className: "gap-action"
   }, g.act)))))) : /*#__PURE__*/React.createElement("div", {
     className: "gap-none"
-  }, "✓ Inga identifierade gap för ", std.name))));
+  }, "✓ Inga identifierade gap för ", std.name)), React.createElement(RevisorBlock, {stdId: std.id})));
 }
 function GatePage({
   onSuccess
@@ -2145,9 +2693,9 @@ function GatePage({
     className: "gate-fact"
   }, /*#__PURE__*/React.createElement("div", {
     className: "gate-fact-n"
-  }, "~15 min"), /*#__PURE__*/React.createElement("div", {
+  }, "Kostnadsfri"), /*#__PURE__*/React.createElement("div", {
     className: "gate-fact-l"
-  }, "per certifiering")), /*#__PURE__*/React.createElement("div", {
+  }, "självutvärdering")), /*#__PURE__*/React.createElement("div", {
     className: "gate-fact"
   }, /*#__PURE__*/React.createElement("div", {
     className: "gate-fact-n"
@@ -2209,7 +2757,7 @@ function GatePage({
     onChange: e => setInterest(e.target.value)
   }, /*#__PURE__*/React.createElement("option", {
     value: ""
-  }, "Välj certifiering (valfritt)"), /*#__PURE__*/React.createElement("option", null, "Brandlarm (SBF 1008:3)"), /*#__PURE__*/React.createElement("option", null, "Inbrottslarm (SSF 1015:3)"), /*#__PURE__*/React.createElement("option", null, "Kamerabevakning (SSF 1061:3)"), /*#__PURE__*/React.createElement("option", null, "SSF 1044 SWE Q"), /*#__PURE__*/React.createElement("option", null, "FR 2000"), /*#__PURE__*/React.createElement("option", null, "ISO 9001"), /*#__PURE__*/React.createElement("option", null, "ISO 27001"), /*#__PURE__*/React.createElement("option", null, "Flera certifieringar"), /*#__PURE__*/React.createElement("option", null, "Vet ej ännu"))), /*#__PURE__*/React.createElement("button", {
+  }, "Välj certifiering (valfritt)"), /*#__PURE__*/React.createElement("option", null, "SSF 1040 Låsanläggningar"), /*#__PURE__*/React.createElement("option", null, "Brandlarm (SBF 1008:3)"), /*#__PURE__*/React.createElement("option", null, "Inbrottslarm (SSF 1015:3)"), /*#__PURE__*/React.createElement("option", null, "Kamerabevakning (SSF 1061:3)"), /*#__PURE__*/React.createElement("option", null, "SSF 1044 SWE Q"), /*#__PURE__*/React.createElement("option", null, "FR 2000"), /*#__PURE__*/React.createElement("option", null, "ISO 9001"), /*#__PURE__*/React.createElement("option", null, "ISO 14001"), /*#__PURE__*/React.createElement("option", null, "ISO 45001"), /*#__PURE__*/React.createElement("option", null, "ISO 27001"), /*#__PURE__*/React.createElement("option", null, "Flera certifieringar"), /*#__PURE__*/React.createElement("option", null, "Vet ej ännu"))), /*#__PURE__*/React.createElement("button", {
     className: "gate-btn",
     type: "submit",
     disabled: loading
