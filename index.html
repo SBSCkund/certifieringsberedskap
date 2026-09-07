@@ -155,7 +155,7 @@ button:disabled{opacity:.38;cursor:not-allowed;}
 .toc-item-name{font-weight:600;}
 .toc-item-pct{font-weight:800;font-size:13px;min-width:42px;text-align:right;}
 .toc-dots{flex:1;border-bottom:1.5px dotted var(--border);margin:0 10px;margin-bottom:2px;}
-.gate-wrap{min-height:100vh;background:var(--page);display:flex;align-items:center;justify-content:center;padding:32px 16px;}
+.gate-wrap{min-height:100%;background:var(--page);display:flex;align-items:center;justify-content:center;padding:32px 16px;}
 .gate-box{background:var(--white);border-radius:var(--r);border:1px solid var(--border);box-shadow:0 4px 24px rgba(0,0,0,.08);padding:40px 36px;max-width:480px;width:100%;}
 .gate-logo{height:52px;width:auto;margin-bottom:28px;}
 .gate-title{font-size:22px;font-weight:800;letter-spacing:-.3px;margin-bottom:8px;}
@@ -325,8 +325,8 @@ const RP = {
 const STANDARDS = {
   ssf1040: {
     id: "ssf1040",
-    name: "SSF 1040",
-    reg: "SSF 1040 utgåva 3",
+    name: "Låsanläggningar",
+    reg: "SSF 1040:3",
     desc: "Anläggarfirma låsanläggningar — mekaniska och elektromekaniska system",
     sections: [{
       id: "las_org",
@@ -2757,7 +2757,7 @@ function GatePage({
     onChange: e => setInterest(e.target.value)
   }, /*#__PURE__*/React.createElement("option", {
     value: ""
-  }, "Välj certifiering (valfritt)"), /*#__PURE__*/React.createElement("option", null, "SSF 1040 Låsanläggningar"), /*#__PURE__*/React.createElement("option", null, "Brandlarm (SBF 1008:3)"), /*#__PURE__*/React.createElement("option", null, "Inbrottslarm (SSF 1015:3)"), /*#__PURE__*/React.createElement("option", null, "Kamerabevakning (SSF 1061:3)"), /*#__PURE__*/React.createElement("option", null, "SSF 1044 SWE Q"), /*#__PURE__*/React.createElement("option", null, "FR 2000"), /*#__PURE__*/React.createElement("option", null, "ISO 9001"), /*#__PURE__*/React.createElement("option", null, "ISO 14001"), /*#__PURE__*/React.createElement("option", null, "ISO 45001"), /*#__PURE__*/React.createElement("option", null, "ISO 27001"), /*#__PURE__*/React.createElement("option", null, "Flera certifieringar"), /*#__PURE__*/React.createElement("option", null, "Vet ej ännu"))), /*#__PURE__*/React.createElement("button", {
+  }, "Välj certifiering (valfritt)"), /*#__PURE__*/React.createElement("option", null, "Låsanläggningar (SSF 1040:3)"), /*#__PURE__*/React.createElement("option", null, "Brandlarm (SBF 1008:3)"), /*#__PURE__*/React.createElement("option", null, "Inbrottslarm (SSF 1015:3)"), /*#__PURE__*/React.createElement("option", null, "Kamerabevakning (SSF 1061:3)"), /*#__PURE__*/React.createElement("option", null, "SSF 1044 SWE Q"), /*#__PURE__*/React.createElement("option", null, "FR 2000"), /*#__PURE__*/React.createElement("option", null, "ISO 9001"), /*#__PURE__*/React.createElement("option", null, "ISO 14001"), /*#__PURE__*/React.createElement("option", null, "ISO 45001"), /*#__PURE__*/React.createElement("option", null, "ISO 27001"), /*#__PURE__*/React.createElement("option", null, "Flera certifieringar"), /*#__PURE__*/React.createElement("option", null, "Vet ej ännu"))), /*#__PURE__*/React.createElement("button", {
     className: "gate-btn",
     type: "submit",
     disabled: loading
@@ -3418,6 +3418,16 @@ function App() {
   }, "Ja, börja om"))))));
 }
 ReactDOM.createRoot(document.getElementById("root")).render(/*#__PURE__*/React.createElement(App, null));
+(function() {
+  function sendHeight() {
+    var h = document.documentElement.scrollHeight || document.body.scrollHeight;
+    window.parent.postMessage({ type: "sbsc-resize", height: h }, "*");
+  }
+  // Skicka höjd vid load och vid varje DOM-förändring
+  sendHeight();
+  new MutationObserver(sendHeight).observe(document.body, { childList: true, subtree: true, attributes: true });
+  window.addEventListener("resize", sendHeight);
+})();
 </script>
 </body>
 </html>
