@@ -94,9 +94,9 @@ button:disabled{opacity:.38;cursor:not-allowed;}
 .ans-amber{background:var(--amber)!important;color:var(--black)!important;border-color:var(--amber)!important;}
 .ans-red{background:var(--red)!important;color:#fff!important;border-color:var(--red)!important;}
 .ans-blue{background:var(--blue)!important;color:#fff!important;border-color:var(--blue)!important;}
-.lms-warning{display:flex;align-items:flex-start;gap:10px;padding:14px 16px;margin:12px 0 4px;background:#FEF9EC;border:1.5px solid #FFD580;border-radius:6px;font-size:12px;color:#7A4800;line-height:1.6;}
+.lms-warning{display:flex;align-items:flex-start;gap:10px;padding:14px 16px;margin:12px 0 4px;background:#f0f4f8;border:1.5px solid #b0bec5;border-radius:6px;font-size:12px;color:#37474f;line-height:1.6;}
 .lms-warning-icon{flex-shrink:0;font-size:16px;margin-top:1px;}
-.lms-warning strong{display:block;font-size:12px;font-weight:800;color:#5A3200;margin-bottom:3px;}
+.lms-warning strong{display:block;font-size:12px;font-weight:800;color:#263238;margin-bottom:3px;}
 .cert-switcher{display:flex;gap:0;margin-bottom:16px;background:var(--faint);border:1px solid var(--border);border-radius:6px;padding:3px;}
 .cert-switch-btn{flex:1;padding:7px 12px;font-size:12px;font-weight:700;border-radius:4px;cursor:pointer;font-family:inherit;background:none;border:none;color:var(--muted);transition:all .15s;text-align:center;}
 .cert-switch-btn.active{background:var(--white);color:var(--black);box-shadow:0 1px 3px rgba(0,0,0,.1);}
@@ -2269,7 +2269,7 @@ const CERT_GROUPS = [{
 }, {
   label: "Ledningssystem",
   ids: ["ssf1044", "fr2000", "iso9001", "iso14001", "iso45001", "iso27001"],
-  note: "SSF 1044 och FR 2000 krävs för anläggarfirmor inom inbrottslarm och kamerabevakning. Välj det alternativ som passar er verksamhet."
+  note: "SSF 1044 eller FR 2000 (eller ISO 9001) krävs för anläggarfirmor inom inbrottslarm och kamerabevakning. Välj det alternativ som passar er verksamhet — eller hoppa över om ni söker certifiering inom brandlarm, låsanläggningar eller sprinklerkonsult."
 }];
 const ANSWERS = [{
   key: "pa_plats",
@@ -2294,9 +2294,9 @@ const ANSWERS = [{
 }];
 const LMS_WARNING = {
   ssf1040: "SSF 1040:3 ställer egna krav på kvalitets- och miljöledningssystem (§4.4) i linje med ISO 9001:2015 och ISO 14001:2015. Har er firma redan ISO 9001, ISO 14001 eller FR 2000 uppfyller ni §4.4 automatiskt — komplettera gärna med dessa självdeklarationer för en fullständig bild.",
-  inbrottslarm: "Ledningssystemet är den vanligaste bromsen för anläggarfirmor inom inbrottslarm. Erfarenhetsmässigt underskattar de flesta hur mycket ett implementerat system kräver i praktiken. Vi rekommenderar att du också gör självdeklarationen för SSF 1044 eller FR 2000 — lägg till dem i ditt val på startsidan.",
-  kamerabevakning: "Ledningssystemet är den vanligaste bromsen för anläggarfirmor inom kamerabevakning. SSF 1061:3 kräver SSF 1044 SWE Q Nivå 2 som minimum. Vi rekommenderar att du också gör självdeklarationen för SSF 1044 eller FR 2000 — lägg till dem i ditt val på startsidan.",
-  brandlarm: "Kvalitetssystemet är ett krav även för brandlarmscertifiering — och ett område många anläggarfirmor underskattar. Överväg att också göra självdeklarationen för SSF 1044 eller FR 2000 för att få en fullständig bild."
+  inbrottslarm: "SSF 1015:3 kräver ett kvalitetssystem — SSF 1044 SWE Q, FR 2000 eller ISO 9001 uppfyller alla kravet. Vill du se hur väl förberedd du är även på ledningssystemssidan? Lägg till det i ditt val på startsidan.",
+  kamerabevakning: "SSF 1061:3 kräver kvalitetssystem motsvarande SSF 1044 SWE Q Nivå 2 — FR 2000 och ISO 9001 uppfyller också kravet. Vill du se hur väl förberedd du är även på ledningssystemssidan? Lägg till det i ditt val på startsidan.",
+  brandlarm: "SBF 1008:3 kräver ett internt kvalitetssystem men inget certifierat ledningssystem. Vill du ändå se hur väl förberedd du är på ledningssystemssidan? Lägg till SSF 1044, FR 2000 eller ISO 9001 i ditt val på startsidan."
 };
 const LARMKLASSER = [{
   id: "lk1",
@@ -2641,7 +2641,7 @@ function QCard({
     className: "lms-warning"
   }, /*#__PURE__*/React.createElement("span", {
     className: "lms-warning-icon"
-  }, "⚠️"), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("strong", null, "Vanligaste bromsen — ledningssystemet"), LMS_WARNING[showLmsWarning])));
+  }, "💡"), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("strong", null, "Tips — ledningssystem"), LMS_WARNING[showLmsWarning])));
 }
 function LarmklassValjare({
   selected,
