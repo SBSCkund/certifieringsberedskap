@@ -998,13 +998,13 @@ const STANDARDS = {
       questions: [{
         id: "inb_verk_1",
         lkText: {
-          lk1: "Kan ni redovisa minst 5 installerade inbrottslarmanläggningar med anläggarintyg (SSF 1058) överlämnade vid avprovning under senaste 12 månader?",
-          lk2: "Kan ni redovisa minst 5 LK1-anläggningar och minst 2 LK2-anläggningar med anläggarintyg (SSF 1058) under senaste 12 månader?"
+          lk1: "Finns möjlighet att redovisa utfärdade anläggarintyg (SSF 1058) för LK1-anläggningar — eller pågår installationer som kommer att resultera i sådana intyg?",
+          lk2: "Finns möjlighet att redovisa utfärdade anläggarintyg (SSF 1058) för LK1 och LK2-anläggningar — eller pågår installationer som kommer att resultera i sådana intyg?"
         },
-        text: "Kan ni redovisa tillräckligt antal installerade anläggningar med anläggarintyg senaste 12 månader?",
-        help: "SSF 1015:3 §4.5.1: anläggarfirman ska kunna redovisa minst 5 utfärdade och till kund överlämnade anläggarintyg för LK1, och ytterligare minst 2 LK2-anläggningar för LK2. Anläggarintyget ska utfärdas på SSF 1058-mallen (krav enligt SSF 130 §8.2).",
-        action: "Gå igenom projekthistoriken senaste 12 månader och lista alla installationer med anläggarintyg på SSF 1058-mallen.",
-        actionPartial: "Kontrollera att ni använder senaste SSF 1058-utgåvan och att intyg överlämnas vid avprovning."
+        text: "Finns möjlighet att redovisa utfärdade anläggarintyg (SSF 1058) — eller pågår installationer som kommer att resultera i sådana intyg?",
+        help: "SSF 1015:3 §4.5.1: anläggarfirman ska kunna redovisa minst 5 utfärdade och till kund överlämnade anläggarintyg (SSF 1058) för LK1, och ytterligare minst 2 LK2-anläggningar för LK2. En osertifierad firma har ännu inga anläggarintyg att redovisa — frågan avser om förutsättningarna finns och om pågående uppdrag är på väg att resultera i intyg.",
+        action: "Identifiera pågående och kommande uppdrag där anläggarintyg kommer att utfärdas. Säkerställ att SSF 1058-mallen används konsekvent.",
+        actionPartial: "Kontrollera att SSF 1058-mallen används och att det finns dokumentation på hur anläggarintyg hanteras i er verksamhet."
       }, {
         id: "inb_verk_5a",
         text: "Finns rutiner för att ge kunden utbildning vid varje överlämning — täckande minimiinnehållet i SSF 130 Bilaga F?",
@@ -1067,7 +1067,7 @@ const STANDARDS = {
       }, {
         id: "inb_lok_2",
         text: "Förvaras anläggningsdokumentation i godkänt säkerhetsskåp (SS 3492) med punktskydd — förankrat om det väger under 150 kg?",
-        help: "SSF 1015:3 §4.9.1: anläggningsdokumentation ska förvaras i säkerhetsskåp klassificerat enligt SS 3492 med punktskydd. Skåp under 150 kg ska vara förankrat.",
+        help: "SSF 1015:3 §4.9.1: anläggningsdokumentation ska förvaras i säkerhetsskåp klassificerat enligt SS 3492 med punktskydd. Punktskydd innebär en seismisk/vibrationsdetektor anpassad för skåpet samt magnetkontakt — det är alltså ett inbyggt larm specifikt för skåpet, inte allmänt rumslarm. Skåp under 150 kg ska vara förankrat.",
         action: "Skaffa ett godkänt säkerhetsskåp som uppfyller SS 3492 med punktskydd. Förankra det om vikten understiger 150 kg.",
         actionPartial: "Kontrollera att befintligt skåp uppfyller SS 3492 med punktskydd — inte alla säkerhetsskåp gör det."
       }, {
@@ -1078,7 +1078,7 @@ const STANDARDS = {
         actionPartial: "Kontrollera att rutinen tillämpas konsekvent — även för städpersonal, hantverkare och externa IT-tekniker."
       }, {
         id: "inb_lok_3b",
-        text: "Är tillträdet till dokumentationsrummet tekniskt begränsat — t.ex. via kodlås, passerkort eller låst dörr med begränsad nyckeltillgång?",
+        text: "Är tillträdet till dokumentationsrummet tekniskt begränsat — t.ex. via passerkort eller låst dörr med begränsad nyckeltillgång?",
         help: "SSF 1015:3 §4.8.1: utöver besöksrutiner ska tillträdet vara tekniskt begränsat. En policy räcker inte — det krävs en teknisk mekanism.",
         action: "Inför teknisk tillträdeskontroll: kodlås, passersystem eller låst dörr med begränsad nyckeltillgång.",
         actionPartial: "Kontrollera att den tekniska lösningen faktiskt begränsar tillträdet. Hur många har tillgång och ses listan regelbundet?"
