@@ -95,7 +95,7 @@ button:disabled{opacity:.38;cursor:not-allowed;}
 .ans-red{background:var(--red)!important;color:#fff!important;border-color:var(--red)!important;}
 .ans-blue{background:var(--blue)!important;color:#fff!important;border-color:var(--blue)!important;}
 .lms-warning{display:flex;align-items:flex-start;gap:10px;padding:14px 16px;margin:12px 0 4px;background:#f0f4f8;border:1.5px solid #b0bec5;border-radius:6px;font-size:12px;color:#37474f;line-height:1.6;}
-.lms-warning-icon{flex-shrink:0;font-size:16px;margin-top:1px;}
+.lms-warning-icon{flex-shrink:0;font-size:16px;margin-top:1px;}.norm-link-btn{display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:7px 14px;background:#FFA300;color:#101820;border:none;border-radius:4px;font-size:12px;font-weight:700;cursor:pointer;text-decoration:none;letter-spacing:.3px;transition:opacity .15s;}.norm-link-btn:hover{opacity:.85;}.norm-info-block{background:#f8f9fa;border:1px solid #dee2e6;border-left:4px solid #101820;border-radius:4px;padding:16px 18px;margin-bottom:20px;}.norm-info-title{font-size:13px;font-weight:700;color:#101820;margin-bottom:6px;letter-spacing:.2px;}.norm-info-text{font-size:12px;color:#444;line-height:1.65;margin-bottom:12px;}
 .lms-warning strong{display:block;font-size:12px;font-weight:800;color:#263238;margin-bottom:3px;}
 .cert-switcher{display:flex;gap:0;margin-bottom:16px;background:var(--faint);border:1px solid var(--border);border-radius:6px;padding:3px;}
 .cert-switch-btn{flex:1;padding:7px 12px;font-size:12px;font-weight:700;border-radius:4px;cursor:pointer;font-family:inherit;background:none;border:none;color:var(--muted);transition:all .15s;text-align:center;}
@@ -2369,6 +2369,20 @@ const ANSWERS = [{
   score: null,
   cls: "ans-blue"
 }];
+const NORM_INFO = {
+  brandlarm:     { text: "För att självdeklarationen ska ge ett rättvisande resultat rekommenderar vi att du har SBF 1008:3 tillgänglig och har läst igenom den. Utan normen är det svårt att bedöma om era rutiner faktiskt uppfyller kraven.", url: "https://www.brandskyddsforeningen.se/webbutik/?c=nr", label: "Köp normen hos Brandskyddsföreningen" },
+  inbrottslarm:  { text: "För att självdeklarationen ska ge ett rättvisande resultat rekommenderar vi att du har SSF 1015:3 tillgänglig och har läst igenom den. Utan normen är det svårt att bedöma om era rutiner faktiskt uppfyller kraven.", url: "https://www.stoldskyddsforeningen.se/produkter/foretag/ssf-normer/", label: "Normer hos SSF" },
+  kamerabevakning: { text: "För att självdeklarationen ska ge ett rättvisande resultat rekommenderar vi att du har SSF 1061:3 tillgänglig och har läst igenom den. Utan normen är det svårt att bedöma om era rutiner faktiskt uppfyller kraven.", url: "https://www.stoldskyddsforeningen.se/produkter/foretag/ssf-normer/", label: "Normer hos SSF" },
+  ssf1040:       { text: "För att självdeklarationen ska ge ett rättvisande resultat rekommenderar vi att du har SSF 1040:3 tillgänglig och har läst igenom den. Utan normen är det svårt att bedöma om era rutiner faktiskt uppfyller kraven.", url: "https://www.stoldskyddsforeningen.se/produkter/foretag/ssf-normer/", label: "Normer hos SSF" },
+  ssf1044:       { text: "För att självdeklarationen ska ge ett rättvisande resultat rekommenderar vi att du har SSF 1044 tillgänglig och har läst igenom den. Utan normen är det svårt att bedöma om era rutiner faktiskt uppfyller kraven.", url: "https://www.stoldskyddsforeningen.se/produkter/foretag/ssf-normer/", label: "Normer hos SSF" },
+  fr2000:        { text: "För att självdeklarationen ska ge ett rättvisande resultat rekommenderar vi att du har FR 2000 tillgänglig och har läst igenom den. Utan regelverket är det svårt att bedöma om era rutiner faktiskt uppfyller kraven.", url: "https://www.fr2000.se/ledningssystem/regler/", label: "Regler hos FR 2000" },
+  iso9001:       { text: "För att självdeklarationen ska ge ett rättvisande resultat rekommenderar vi att du har SS-EN ISO 9001:2015 tillgänglig och har läst igenom den. Utan standarden är det svårt att bedöma om era rutiner faktiskt uppfyller kraven.", url: "https://www.sis.se/standarder/", label: "Köp standarden hos SIS" },
+  iso14001:      { text: "För att självdeklarationen ska ge ett rättvisande resultat rekommenderar vi att du har SS-EN ISO 14001:2015 tillgänglig och har läst igenom den. Utan standarden är det svårt att bedöma om era rutiner faktiskt uppfyller kraven.", url: "https://www.sis.se/standarder/", label: "Köp standarden hos SIS" },
+  iso45001:      { text: "För att självdeklarationen ska ge ett rättvisande resultat rekommenderar vi att du har SS-ISO 45001:2018 tillgänglig och har läst igenom den. Utan standarden är det svårt att bedöma om era rutiner faktiskt uppfyller kraven.", url: "https://www.sis.se/standarder/", label: "Köp standarden hos SIS" },
+  iso27001:      { text: "För att självdeklarationen ska ge ett rättvisande resultat rekommenderar vi att du har SS-EN ISO/IEC 27001:2022 tillgänglig och har läst igenom den. Utan standarden är det svårt att bedöma om era rutiner faktiskt uppfyller kraven.", url: "https://www.sis.se/standarder/", label: "Köp standarden hos SIS" },
+  sbf2016:       { text: "För att självdeklarationen ska ge ett rättvisande resultat rekommenderar vi att du har SBF 2016:3 tillgänglig och har läst igenom den. Utan normen är det svårt att bedöma om era rutiner faktiskt uppfyller kraven.", url: "https://www.brandskyddsforeningen.se/webbutik/?c=nr", label: "Köp normen hos Brandskyddsföreningen" }
+};
+
 const LMS_WARNING = {
   ssf1040: "SSF 1040:3 ställer egna krav på kvalitets- och miljöledningssystem (§4.4) i linje med ISO 9001:2015 och ISO 14001:2015. Har er firma redan ISO 9001, ISO 14001 eller FR 2000 uppfyller ni §4.4 automatiskt — komplettera gärna med dessa självdeklarationer för en fullständig bild.",
   inbrottslarm: "SSF 1015:3 kräver ett kvalitetssystem — SSF 1044 SWE Q, FR 2000 eller ISO 9001 uppfyller alla kravet. Vill du se hur väl förberedd du är även på ledningssystemssidan? Lägg till det i ditt val på startsidan.",
@@ -2708,7 +2722,12 @@ function QCard({
     className: "q-text"
   }, i + 1, ". ", qText), q.help && /*#__PURE__*/React.createElement("div", {
     className: "q-help-inline"
-  }, q.help), /*#__PURE__*/React.createElement("div", {
+  }, q.help), q.linkUrl && /*#__PURE__*/React.createElement("a", {
+    className: "norm-link-btn",
+    href: q.linkUrl,
+    target: "_blank",
+    rel: "noopener noreferrer"
+  }, "→ ", q.linkLabel || "Läs normen"), /*#__PURE__*/React.createElement("div", {
     className: "ans-grid"
   }, ANSWERS.map(a => /*#__PURE__*/React.createElement("button", {
     key: a.key,
@@ -2716,9 +2735,7 @@ function QCard({
     onClick: () => answer(q.id, a.key)
   }, a.label))), showLmsWarning && val === "ej" && /*#__PURE__*/React.createElement("div", {
     className: "lms-warning"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "lms-warning-icon"
-  }, "💡"), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("strong", null, "Tips — ledningssystem"), LMS_WARNING[showLmsWarning])));
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("strong", null, "Tips — ledningssystem"), LMS_WARNING[showLmsWarning])));
 }
 function LarmklassValjare({
   selected,
@@ -2783,6 +2800,15 @@ function RevisorBlock({stdId}) {
   if (!RP[stdId]) return null;
   return React.createElement('div', {className: 'revisor-block', ref: ref});
 }
+function NormInfoBlock({stdId}) {
+  const info = NORM_INFO[stdId];
+  if (!info) return null;
+  return React.createElement('div', {className: 'norm-info-block'},
+    React.createElement('div', {className: 'norm-info-title'}, 'Läs normen innan du svarar'),
+    React.createElement('div', {className: 'norm-info-text'}, info.text),
+    React.createElement('a', {className: 'norm-link-btn', href: info.url, target: '_blank', rel: 'noopener noreferrer'}, info.label)
+  );
+}
 function CertSection({
   std,
   answers,
@@ -2841,7 +2867,7 @@ function CertSection({
   }, std.reg, lkObj ? ` · ${lkObj.label}` : "")), /*#__PURE__*/React.createElement("div", {
     className: "cert-head-score"
   }, sc.pct != null ? `${sc.pct}%` : "—")), /*#__PURE__*/React.createElement("div", {
-    className: "cert-body"
+    className: "cert-body", ref: bodyRef
   }, /*#__PURE__*/React.createElement("div", {
     className: "spider-wrap"
   }, /*#__PURE__*/React.createElement(Spider, {
@@ -3142,23 +3168,23 @@ function QPage({
     className: "lk-warn-box"
   }, /*#__PURE__*/React.createElement("h4", null, "Larmklass 3–4 kräver ISO 9001"), /*#__PURE__*/React.createElement("p", null, "SSF 1015:3 larmklass 3 och 4 kräver ett fullständigt kvalitetsledningssystem enligt ISO 9001. Gör vår ", /*#__PURE__*/React.createElement("strong", null, "ISO 9001-självdeklaration"), " för att kartlägga er beredskap — lägg till den i ditt val på startsidan. Nedan visas de grundläggande organisationskraven som gäller för alla larmklasser.")), larmklass && larmklass !== "lk34" && /*#__PURE__*/React.createElement("div", {
     className: `lk-banner lk-banner-${larmklass === "lk1" ? "1" : "2"}`
-  }, /*#__PURE__*/React.createElement("span", null, "📋"), /*#__PURE__*/React.createElement("span", null, "Frågorna nedan är anpassade för ", /*#__PURE__*/React.createElement("strong", null, LARMKLASSER.find(l => l.id === larmklass)?.label)))), !showLkPicker && larmklass && curStd.id === "inbrottslarm" && /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("span", null, ""), /*#__PURE__*/React.createElement("span", null, "Frågorna nedan är anpassade för ", /*#__PURE__*/React.createElement("strong", null, LARMKLASSER.find(l => l.id === larmklass)?.label)))), !showLkPicker && larmklass && curStd.id === "inbrottslarm" && /*#__PURE__*/React.createElement("div", {
     className: `lk-banner lk-banner-${larmklass === "lk1" ? "1" : "2"} no-print`
-  }, /*#__PURE__*/React.createElement("span", null, "📋"), /*#__PURE__*/React.createElement("span", null, "Anpassat för ", /*#__PURE__*/React.createElement("strong", null, LARMKLASSER.find(l => l.id === larmklass)?.label))), showSwqPicker && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(SWEQValjare, {
+  }, /*#__PURE__*/React.createElement("span", null, ""), /*#__PURE__*/React.createElement("span", null, "Anpassat för ", /*#__PURE__*/React.createElement("strong", null, LARMKLASSER.find(l => l.id === larmklass)?.label))), showSwqPicker && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(SWEQValjare, {
     selected: swqNiva,
     onSelect: n => { setSwqNiva(n); }
   }), swqNiva === "lk34" && /*#__PURE__*/React.createElement("div", {
     className: "lk-warn-box"
   }, /*#__PURE__*/React.createElement("h4", null, "Larmklass 3–4 kräver ISO 9001"), /*#__PURE__*/React.createElement("p", null, "SSF 1015:3 larmklass 3 och 4 kräver fullt kvalitetsledningssystem enligt ISO 9001 — inte SSF 1044. Lägg till ", /*#__PURE__*/React.createElement("strong", null, "ISO 9001"), " i ditt val på startsidan och gör den självdeklarationen istället. Nedan visas Grund-kraven som gäller oavsett larmklass.")), swqNiva && swqNiva !== "lk34" && /*#__PURE__*/React.createElement("div", {
     className: "lk-banner lk-banner-2"
-  }, /*#__PURE__*/React.createElement("span", null, "📋"), /*#__PURE__*/React.createElement("span", null, "Visar krav för ", /*#__PURE__*/React.createElement("strong", null, SWQ_NIVAER.find(n => n.id === swqNiva)?.short), swqNiva !== "alla" && /*#__PURE__*/React.createElement("span", {
+  }, /*#__PURE__*/React.createElement("span", null, ""), /*#__PURE__*/React.createElement("span", null, "Visar krav för ", /*#__PURE__*/React.createElement("strong", null, SWQ_NIVAER.find(n => n.id === swqNiva)?.short), swqNiva !== "alla" && /*#__PURE__*/React.createElement("span", {
     style: {
       fontSize: 11,
       fontWeight: 400
     }
   }, " — kumulativt (inkl. lägre nivåer)")))), !showSwqPicker && swqNiva && curStd.id === "ssf1044" && swqNiva !== "lk34" && /*#__PURE__*/React.createElement("div", {
     className: "lk-banner lk-banner-2 no-print"
-  }, /*#__PURE__*/React.createElement("span", null, "📋"), /*#__PURE__*/React.createElement("span", null, "Anpassat för ", /*#__PURE__*/React.createElement("strong", null, SWQ_NIVAER.find(n => n.id === swqNiva)?.short))), visibleQs.map((q, i) => /*#__PURE__*/React.createElement(QCard, {
+  }, /*#__PURE__*/React.createElement("span", null, ""), /*#__PURE__*/React.createElement("span", null, "Anpassat för ", /*#__PURE__*/React.createElement("strong", null, SWQ_NIVAER.find(n => n.id === swqNiva)?.short))), secIdx === 0 && /*#__PURE__*/React.createElement(NormInfoBlock, {stdId: curStd.id}), visibleQs.map((q, i) => /*#__PURE__*/React.createElement(QCard, {
     key: q.id,
     q: q,
     i: i,
@@ -3291,7 +3317,7 @@ function ReportPage({
       borderRadius: 6,
       fontSize: 13
     }
-  }, /*#__PURE__*/React.createElement("span", null, "⚠"), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("strong", {
+  }, /*#__PURE__*/React.createElement("span", null, ""), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("strong", {
     style: {
       display: "block",
       marginBottom: 3,
@@ -3336,7 +3362,7 @@ function ReportPage({
   }, /*#__PURE__*/React.createElement("button", {
     className: "btn btn-secondary",
     onClick: () => window.print()
-  }, "🖨 Skriv ut / PDF"), /*#__PURE__*/React.createElement("button", {
+  }, "Skriv ut / PDF"), /*#__PURE__*/React.createElement("button", {
     className: "btn btn-secondary",
     onClick: restart
   }, "Börja om"))));
@@ -3418,7 +3444,7 @@ function StartPage({
       marginBottom: 10,
       lineHeight: 1.6
     }
-  }, "💡 ", group.note), /*#__PURE__*/React.createElement("div", {
+  }, group.note), /*#__PURE__*/React.createElement("div", {
     className: "cert-list"
   }, group.ids.map(id => {
     const s = STANDARDS[id];
